@@ -8,701 +8,152 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #080d14;
-    --bg2: #0d1520;
-    --bg3: #111c2a;
-    --border: rgba(0,200,200,0.12);
-    --border-bright: rgba(0,200,200,0.35);
-    --cyan: #00c8c8;
-    --cyan-dim: rgba(0,200,200,0.15);
-    --cyan-glow: rgba(0,200,200,0.06);
-    --white: #eef2f7;
-    --muted: #7a8fa6;
-    --text: #c8d8e8;
-    --accent2: #4fa3e0;
-    --red: #e06464;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.4;
-  }
-
-  /* SCANLINE */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-    pointer-events: none;
-    z-index: 999;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.2rem 4rem;
-    background: rgba(8,13,20,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--cyan);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.8rem;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--cyan); }
-
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 4rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-grid-bg {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,200,200,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,200,200,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 70% at 60% 40%, black 30%, transparent 80%);
-  }
-
-  .hero-glow {
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(0,200,200,0.07) 0%, transparent 70%);
-    top: 10%; right: 0;
-    pointer-events: none;
-  }
-
-  .hero-glow-2 {
-    position: absolute;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(79,163,224,0.05) 0%, transparent 70%);
-    bottom: 10%; left: 5%;
-    pointer-events: none;
-  }
-
-  .hero-content {
-    position: relative;
-    max-width: 780px;
-  }
-
-  .hero-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.25em;
-    color: var(--cyan);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-
-  .hero-tag::before {
-    content: '//';
-    margin-right: 0.5em;
-    opacity: 0.5;
-  }
-
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    line-height: 1.05;
-    color: var(--white);
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.35s forwards;
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--cyan);
-  }
-
-  .hero-sub {
-    font-size: 1.05rem;
-    color: var(--muted);
-    max-width: 540px;
-    margin-bottom: 2.5rem;
-    line-height: 1.8;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.5s forwards;
-  }
-
-  .hero-sub strong {
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.65s forwards;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
-    background: var(--cyan);
-    color: var(--bg);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.2s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-
-  .btn-primary:hover {
-    background: #00e5e5;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 30px rgba(0,200,200,0.3);
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
-    border: 1px solid var(--border-bright);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.2s;
-    background: transparent;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    background: var(--cyan-glow);
-  }
-
-  .hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-top: 4rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--border);
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.8s forwards;
-  }
-
-  .stat-item {}
-
-  .stat-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2rem;
-    color: var(--white);
-    line-height: 1;
-  }
-
-  .stat-num span {
-    color: var(--cyan);
-    font-size: 1.3rem;
-  }
-
-  .stat-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.3rem;
-  }
-
-  /* ── SECTION SHARED ── */
-  section {
-    padding: 6rem 4rem;
-  }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 0.75rem;
-  }
-
-  .section-label::before { content: '— '; opacity: 0.5; }
-
-  .section-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(1.8rem, 3vw, 2.8rem);
-    color: var(--white);
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-  }
-
-  .section-desc {
-    color: var(--muted);
-    max-width: 520px;
-    margin-bottom: 3.5rem;
-    font-size: 0.95rem;
-  }
-
-  /* ── ABOUT ── */
-  #about {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .about-text p {
-    color: var(--text);
-    margin-bottom: 1.2rem;
-    font-size: 0.97rem;
-    line-height: 1.85;
-  }
-
-  .about-text p strong {
-    color: var(--white);
-    font-weight: 500;
-  }
-
-  .about-text p em {
-    color: var(--cyan);
-    font-style: normal;
-  }
-
-  .about-right {}
-
-  .edu-block {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    border: 1px solid var(--border);
-    background: var(--bg3);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .edu-block::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--cyan);
-  }
-
-  .edu-degree {
-    font-weight: 600;
-    color: var(--white);
-    font-size: 0.92rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .edu-school {
-    color: var(--cyan);
-    font-size: 0.82rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .edu-detail {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-  }
-
-  .skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .skill-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    padding: 0.3rem 0.75rem;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    transition: all 0.2s;
-    background: var(--bg3);
-  }
-
-  .skill-tag:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    background: var(--cyan-glow);
-  }
-
-  .skill-tag.highlight {
-    border-color: rgba(0,200,200,0.4);
-    color: var(--cyan);
-    background: var(--cyan-dim);
-  }
-
-  /* ── PROJECTS ── */
-  #projects { max-width: 1200px; margin: 0 auto; }
-
-  .projects-wrapper { max-width: 1200px; margin: 0 auto; }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: block;
-    cursor: pointer;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--cyan-glow) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .project-card:hover {
-    border-color: var(--border-bright);
-    transform: translateY(-3px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,200,200,0.1);
-  }
-
-  .project-card:hover::before { opacity: 1; }
-
-  .project-card-corner {
-    position: absolute;
-    top: 0; right: 0;
-    width: 0; height: 0;
-    border-style: solid;
-    border-width: 0 24px 24px 0;
-    border-color: transparent var(--bg3) transparent transparent;
-    transition: border-color 0.3s;
-  }
-
-  .project-card:hover .project-card-corner {
-    border-color: transparent var(--cyan) transparent transparent;
-  }
-
-  .project-icon {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  .project-type {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 0.5rem;
-  }
-
-  .project-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.2rem;
-    color: var(--white);
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
-  }
-
-  .project-desc {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 1.25rem;
-  }
-
-  .project-result {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--cyan);
-    background: var(--cyan-dim);
-    padding: 0.3rem 0.75rem;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.25rem;
-  }
-
-  .project-result::before { content: '▸ '; }
-
-  .project-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .stack-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    padding: 0.2rem 0.5rem;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .project-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--muted);
-    margin-top: 1.25rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    text-decoration: none;
-  }
-
-  .project-card:hover .project-link { color: var(--cyan); }
-
-  /* ── RESEARCH INTERESTS ── */
-  #research {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .research-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .research-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .research-card {
-    padding: 1.75rem;
-    border: 1px solid var(--border);
-    background: var(--bg3);
-    position: relative;
-  }
-
-  .research-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.5rem;
-    color: var(--border-bright);
-    line-height: 1;
-    margin-bottom: 0.75rem;
-  }
-
-  .research-title {
-    font-weight: 600;
-    color: var(--white);
-    font-size: 0.92rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .research-desc {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* ── CONTACT ── */
-  #contact {
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .contact-glow {
-    position: absolute;
-    width: 500px; height: 300px;
-    background: radial-gradient(ellipse, rgba(0,200,200,0.06) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-
-  .contact-inner {
-    position: relative;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .contact-inner .section-label,
-  .contact-inner .section-title,
-  .contact-inner .section-desc { text-align: center; margin-left: auto; margin-right: auto; }
-
-  .contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-  }
-
-  .contact-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 1.5rem;
-    border: 1px solid var(--border);
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: all 0.2s;
-    background: var(--bg2);
-  }
-
-  .contact-item:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    background: var(--cyan-glow);
-    transform: translateY(-2px);
-  }
-
-  .contact-item svg { width: 16px; height: 16px; }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 2rem 4rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-left {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
-
-  .footer-right {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-  }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── KEYFRAMES ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    #hero { padding: 7rem 1.5rem 3rem; }
-    section { padding: 4rem 1.5rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
-  }
-
-  /* ── CURSOR DOT ── */
-  .cursor-dot {
-    width: 6px; height: 6px;
-    background: var(--cyan);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s;
-    mix-blend-mode: screen;
+    --bg:#080d14; --bg2:#0d1520; --bg3:#111c2a;
+    --border:rgba(0,200,200,0.12); --border-bright:rgba(0,200,200,0.35);
+    --cyan:#00c8c8; --cyan-dim:rgba(0,200,200,0.15); --cyan-glow:rgba(0,200,200,0.06);
+    --white:#eef2f7; --muted:#7a8fa6; --text:#c8d8e8; --red:#e06464;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.4;}
+  body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:999;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(8,13,20,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+  .nav-logo{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;}
+  .nav-links a{font-size:0.8rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--cyan);}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
+  .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 60% 40%,black 30%,transparent 80%);}
+  .hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,200,0.07) 0%,transparent 70%);top:10%;right:0;pointer-events:none;}
+  .hero-glow-2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(79,163,224,0.05) 0%,transparent 70%);bottom:10%;left:5%;pointer-events:none;}
+  .hero-content{position:relative;max-width:780px;}
+  .hero-tag{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+  .hero-tag::before{content:'//';margin-right:0.5em;opacity:0.5;}
+  h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,6vw,5.5rem);line-height:1.05;color:var(--white);letter-spacing:-0.02em;margin-bottom:1rem;opacity:0;animation:fadeUp 0.8s ease 0.35s forwards;}
+  h1 em{font-style:italic;color:var(--cyan);}
+  .hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;margin-bottom:2.5rem;line-height:1.8;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
+  .hero-sub strong{color:var(--text);font-weight:500;}
+  .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 0.65s forwards;}
+  .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;background:var(--cyan);color:var(--bg);font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+  .btn-primary:hover{background:#00e5e5;transform:translateY(-1px);box-shadow:0 8px 30px rgba(0,200,200,0.3);}
+  .btn-secondary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border:1px solid var(--border-bright);color:var(--text);font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;background:transparent;}
+  .btn-secondary:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);}
+  .hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border);opacity:0;animation:fadeUp 0.8s ease 0.8s forwards;}
+  .stat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--white);line-height:1;}
+  .stat-num span{color:var(--cyan);font-size:1.3rem;}
+  .stat-label{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
+
+  /* SECTIONS */
+  section{padding:6rem 4rem;}
+  .section-label{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.75rem;}
+  .section-label::before{content:'— ';opacity:0.5;}
+  .section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);color:var(--white);letter-spacing:-0.02em;margin-bottom:1rem;}
+  .section-desc{color:var(--muted);max-width:520px;margin-bottom:3.5rem;font-size:0.95rem;}
+
+  /* ABOUT */
+  #about{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;max-width:1100px;margin:0 auto;}
+  .about-text p{color:var(--text);margin-bottom:1.2rem;font-size:0.97rem;line-height:1.85;}
+  .about-text p strong{color:var(--white);font-weight:500;}
+  .about-text p em{color:var(--cyan);font-style:normal;}
+  .edu-block{margin-bottom:2rem;padding:1.5rem;border:1px solid var(--border);background:var(--bg3);position:relative;overflow:hidden;}
+  .edu-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);}
+  .edu-degree{font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.2rem;}
+  .edu-school{color:var(--cyan);font-size:0.82rem;margin-bottom:0.2rem;}
+  .edu-detail{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;}
+  .skills-grid{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
+  .skill-tag{font-family:'DM Mono',monospace;font-size:0.68rem;padding:0.3rem 0.75rem;border:1px solid var(--border);color:var(--muted);letter-spacing:0.08em;transition:all 0.2s;background:var(--bg3);}
+  .skill-tag:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);}
+  .skill-tag.highlight{border-color:rgba(0,200,200,0.4);color:var(--cyan);background:var(--cyan-dim);}
+
+  /* PROJECTS */
+  #projects{max-width:1200px;margin:0 auto;}
+  .projects-wrapper{max-width:1200px;margin:0 auto;}
+
+  .projects-sub-header{display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;}
+  .projects-sub-header h3{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--white);letter-spacing:-0.01em;white-space:nowrap;}
+  .projects-sub-header::after{content:'';flex:1;height:1px;background:var(--border);}
+  .projects-sub-desc{font-size:0.86rem;color:var(--muted);margin-bottom:2rem;max-width:640px;line-height:1.7;}
+  .projects-divider{border:none;border-top:1px solid var(--border);margin:3.5rem 0;}
+
+  /* Research grid — larger cards */
+  .projects-grid-research{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:1.5rem;}
+  /* Course grid — compact 3-col */
+  .projects-grid-course{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.25rem;}
+
+  /* Base card */
+  .project-card{background:var(--bg2);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all 0.3s;text-decoration:none;display:block;cursor:pointer;}
+  .project-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan-glow) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;}
+  .project-card:hover{border-color:var(--border-bright);transform:translateY(-3px);box-shadow:0 20px 50px rgba(0,0,0,0.4),0 0 0 1px rgba(0,200,200,0.1);}
+  .project-card:hover::before{opacity:1;}
+
+  /* Compact card variant */
+  .project-card.compact{background:var(--bg3);border-color:rgba(0,200,200,0.08);padding:1.5rem;}
+  .project-card.compact:hover{border-color:var(--border);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,0.35);}
+  .project-card.compact .project-title{font-size:1rem;}
+  .project-card.compact .project-desc{font-size:0.82rem;margin-bottom:1rem;}
+
+  .project-card-corner{position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 24px 24px 0;border-color:transparent var(--bg3) transparent transparent;transition:border-color 0.3s;}
+  .project-card:hover .project-card-corner{border-color:transparent var(--cyan) transparent transparent;}
+
+  /* Research badge */
+  .research-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.18rem 0.6rem;border:1px solid rgba(0,200,200,0.35);color:var(--cyan);background:var(--cyan-dim);margin-bottom:0.85rem;}
+
+  .project-icon{font-size:1.5rem;margin-bottom:1rem;display:block;}
+  .project-icon.sm{font-size:1.2rem;margin-bottom:0.75rem;}
+  .project-type{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.5rem;}
+  .project-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--white);margin-bottom:0.75rem;line-height:1.3;}
+  .project-desc{font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;}
+  .project-result{display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--cyan);background:var(--cyan-dim);padding:0.3rem 0.75rem;letter-spacing:0.05em;margin-bottom:1.25rem;}
+  .project-result::before{content:'▸ ';}
+  .project-stack{display:flex;flex-wrap:wrap;gap:0.4rem;}
+  .stack-tag{font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.2rem 0.5rem;border:1px solid var(--border);color:var(--muted);letter-spacing:0.05em;}
+  .project-link{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:500;color:var(--muted);margin-top:1.25rem;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s;text-decoration:none;}
+  .project-card:hover .project-link{color:var(--cyan);}
+
+  /* RESEARCH INTERESTS */
+  #research{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .research-inner{max-width:1100px;margin:0 auto;}
+  .research-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+  .research-card{padding:1.75rem;border:1px solid var(--border);background:var(--bg3);position:relative;}
+  .research-num{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--border-bright);line-height:1;margin-bottom:0.75rem;}
+  .research-title{font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.5rem;}
+  .research-desc{font-size:0.82rem;color:var(--muted);line-height:1.7;}
+
+  /* CONTACT */
+  #contact{text-align:center;position:relative;overflow:hidden;}
+  .contact-glow{position:absolute;width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,200,200,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+  .contact-inner{position:relative;max-width:600px;margin:0 auto;}
+  .contact-inner .section-label,.contact-inner .section-title,.contact-inner .section-desc{text-align:center;margin-left:auto;margin-right:auto;}
+  .contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:2rem;}
+  .contact-item{display:inline-flex;align-items:center;gap:0.6rem;padding:0.85rem 1.5rem;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.2s;background:var(--bg2);}
+  .contact-item:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);transform:translateY(-2px);}
+  .contact-item svg{width:16px;height:16px;}
+
+  /* FOOTER */
+  footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .footer-left,.footer-right{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+  /* CURSOR */
+  .cursor-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:screen;}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem;} .nav-links{display:none;}
+    #hero{padding:7rem 1.5rem 3rem;} section{padding:4rem 1.5rem;}
+    .about-grid{grid-template-columns:1fr;gap:2.5rem;}
+    .hero-stats{gap:1.5rem;flex-wrap:wrap;}
+    footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem;}
   }
 </style>
 </head>
@@ -726,7 +177,6 @@
   <div class="hero-grid-bg"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
-
   <div class="hero-content">
     <p class="hero-tag">Medical Imaging AI · Deep Learning · Healthcare</p>
     <h1>Building AI that<br><em>sees</em> what matters<br>clinically.</h1>
@@ -743,7 +193,7 @@
         <div class="stat-label">MS GPA · UNT</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">6<span>+</span></div>
+        <div class="stat-num">3<span>+</span></div>
         <div class="stat-label">Research Projects</div>
       </div>
       <div class="stat-item">
@@ -799,9 +249,9 @@
         <div class="edu-school">Manipal Institute of Technology, India</div>
         <div class="edu-detail">Minor: Data Analytics · Dec 2023</div>
       </div>
-      <div style="margin-top:2rem; padding:1.5rem; border:1px solid var(--border); background:var(--bg3);">
+      <div style="margin-top:2rem;padding:1.5rem;border:1px solid var(--border);background:var(--bg3);">
         <p class="section-label" style="margin-bottom:0.75rem;">Currently</p>
-        <p style="font-size:0.85rem; color:var(--text); line-height:1.7;">
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.7;">
           Open to full-time opportunities in <span style="color:var(--cyan)">healthcare AI</span>, <span style="color:var(--cyan)">medical image analysis</span>, and <span style="color:var(--cyan)">applied ML in clinical settings</span>. Also open to research collaborations and conversations with people working on serious problems in radiology AI, pathology, and clinical deployment.
         </p>
       </div>
@@ -812,56 +262,47 @@
 <!-- PROJECTS -->
 <section id="projects">
   <div class="projects-wrapper">
+
     <div class="reveal">
       <p class="section-label">Projects</p>
       <h2 class="section-title">Research & Engineering Work</h2>
-      <p class="section-desc">Each project addresses a real clinical imaging problem. Results, code, and methodology documented on GitHub.</p>
+      <p class="section-desc">All projects were completed as part of my MS. The first group involved original research — independent methodology, substantial experimentation, and documented findings. The second group are course and learning projects that built foundational skills across the field.</p>
     </div>
 
-    <div class="projects-grid">
+    <!-- RESEARCH PROJECTS -->
+    <div class="projects-sub-header reveal">
+      <h3>Research Projects</h3>
+    </div>
+    <p class="projects-sub-desc reveal">Original methodology, heavy implementation, and real results. Each involved independent literature review, design decisions, and findings that go beyond coursework.</p>
 
-      <!-- Fetal Head -->
-      <a href="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation" target="_blank" class="project-card reveal">
+    <div class="projects-grid-research">
+
+      <a href="fetal-head.html" class="project-card reveal">
         <div class="project-card-corner"></div>
+        <span class="research-badge">★ Deep Dive Available</span>
         <span class="project-icon">🤰</span>
-        <p class="project-type">Segmentation · Ultrasound</p>
-        <h3 class="project-title">Fetal Head Circumference Measurement</h3>
-        <p class="project-desc">Automated HC estimation from cine-loop ultrasound sequences using a Residual U-Net. Addresses temporal consistency across frames, a key challenge in clinical ultrasound workflows.</p>
-        <div class="project-result">Residual U-Net · HC18 Dataset · Temporal Analysis</div>
+        <p class="project-type">Segmentation · Ultrasound · Temporal AI</p>
+        <h3 class="project-title">Fetal Head Circumference Estimation via Cine-Loop Analysis</h3>
+        <p class="project-desc">Extended static-frame segmentation to temporally-aware video analysis for automated HC measurement. Built Pseudo-LDDM — a physics-inspired simulation framework to generate realistic cine-loop training data from still images, solving the absence of real video datasets. Baseline Residual U-Net + 3D U-Net with frame-level reliability scoring.</p>
+        <div class="project-result">86.2% Dice · ≈0mm Temporal Std · Reliability 1.0</div>
         <div class="project-stack">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">U-Net</span>
+          <span class="stack-tag">TensorFlow</span>
+          <span class="stack-tag">3D U-Net</span>
           <span class="stack-tag">Ultrasound</span>
-          <span class="stack-tag">Segmentation</span>
+          <span class="stack-tag">Cine-Loop</span>
+          <span class="stack-tag">HC18</span>
         </div>
-        <span class="project-link">View on GitHub →</span>
+        <span class="project-link">Full Deep Dive →</span>
       </a>
 
-      <!-- Histopathology -->
-      <a href="https://github.com/TarunSadarla2606/histopathology-cancer-detection" target="_blank" class="project-card reveal">
-        <div class="project-card-corner"></div>
-        <span class="project-icon">🔬</span>
-        <p class="project-type">Classification · Histopathology</p>
-        <h3 class="project-title">Histopathologic Cancer Detection</h3>
-        <p class="project-desc">Binary cancer detection on PCam histopathology patches. Systematically studied the impact of training data volume across four stratified subsets (20/40/60/100%), yielding insights for data-constrained clinical settings.</p>
-        <div class="project-result">ROC-AUC 0.81 · Deployable System · Team of 5</div>
-        <div class="project-stack">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">Flask</span>
-          <span class="stack-tag">Docker</span>
-          <span class="stack-tag">Pathology</span>
-        </div>
-        <span class="project-link">View on GitHub →</span>
-      </a>
-
-      <!-- ASD Detection -->
       <a href="https://github.com/TarunSadarla2606/asd-detection-neuroimaging" target="_blank" class="project-card reveal">
         <div class="project-card-corner"></div>
+        <span class="research-badge">Research Project</span>
         <span class="project-icon">🧠</span>
-        <p class="project-type">Classification · Neuroimaging</p>
+        <p class="project-type">Classification · Neuroimaging · Architecture Study</p>
         <h3 class="project-title">ASD Detection via Neuroimaging</h3>
-        <p class="project-desc">Comparative study of CNN versus Vision Transformer architectures for Autism Spectrum Disorder detection from neuroimaging data. Explores the tradeoff between local feature extraction and global attention in medical image classification.</p>
-        <div class="project-result">93–97% Accuracy · CNN vs ViT Comparison</div>
+        <p class="project-desc">Systematic comparison of CNN versus Vision Transformer architectures for Autism Spectrum Disorder detection from neuroimaging data. Investigates the fundamental tradeoff between local feature extraction and global attention in clinical brain image classification — with implications for explainability in psychiatric AI.</p>
+        <div class="project-result">93–97% Accuracy · CNN vs ViT Comparative Study</div>
         <div class="project-stack">
           <span class="stack-tag">PyTorch</span>
           <span class="stack-tag">Vision Transformer</span>
@@ -871,14 +312,58 @@
         <span class="project-link">View on GitHub →</span>
       </a>
 
-      <!-- WECARE -->
-      <a href="https://github.com/TarunSadarla2606/wecare-cardiac-fall-detection" target="_blank" class="project-card reveal">
+      <a href="https://github.com/TarunSadarla2606/cnn-structured-pruning-vgg16" target="_blank" class="project-card reveal">
         <div class="project-card-corner"></div>
-        <span class="project-icon">❤️</span>
-        <p class="project-type">Edge AI · Wearable · Signal</p>
+        <span class="research-badge">Research Project</span>
+        <span class="project-icon">✂️</span>
+        <p class="project-type">Model Compression · Efficiency · Clinical Deployment</p>
+        <h3 class="project-title">CNN Structured Pruning — VGG-16</h3>
+        <p class="project-desc">Structured pruning of VGG-16 to reduce model complexity while maintaining accuracy. Directly relevant to clinical deployment where model size and inference speed are hard constraints — a hospital workstation is not a data centre. Achieved 2× compression with a measurable accuracy improvement.</p>
+        <div class="project-result">2× Compression · +0.37% Top-1 Accuracy</div>
+        <div class="project-stack">
+          <span class="stack-tag">PyTorch</span>
+          <span class="stack-tag">VGG-16</span>
+          <span class="stack-tag">Model Compression</span>
+          <span class="stack-tag">CelebA</span>
+        </div>
+        <span class="project-link">View on GitHub →</span>
+      </a>
+
+    </div>
+
+    <hr class="projects-divider">
+
+    <!-- COURSE & LEARNING PROJECTS -->
+    <div class="projects-sub-header reveal">
+      <h3>Course & Learning Projects</h3>
+    </div>
+    <p class="projects-sub-desc reveal">Built to develop and demonstrate skills across medical imaging, multimodal AI, edge deployment, and big data. Each one chosen to push a specific technical capability.</p>
+
+    <div class="projects-grid-course">
+
+      <a href="https://github.com/TarunSadarla2606/histopathology-cancer-detection" target="_blank" class="project-card compact reveal">
+        <div class="project-card-corner"></div>
+        <span class="project-icon sm">🔬</span>
+        <p class="project-type">Classification · Histopathology</p>
+        <h3 class="project-title">Histopathologic Cancer Detection</h3>
+        <p class="project-desc">Binary cancer detection on PCam patches. Studied how training data volume affects performance across four stratified subsets — practical insight for data-constrained clinical settings. Team of 5, led DL design.</p>
+        <div class="project-result">ROC-AUC 0.81 · Deployable · Team of 5</div>
+        <div class="project-stack">
+          <span class="stack-tag">PyTorch</span>
+          <span class="stack-tag">Flask</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Pathology</span>
+        </div>
+        <span class="project-link">View on GitHub →</span>
+      </a>
+
+      <a href="https://github.com/TarunSadarla2606/wecare-cardiac-fall-detection" target="_blank" class="project-card compact reveal">
+        <div class="project-card-corner"></div>
+        <span class="project-icon sm">❤️</span>
+        <p class="project-type">Edge AI · Wearable · Signal Processing</p>
         <h3 class="project-title">WECARE — Cardiac & Fall Detection</h3>
-        <p class="project-desc">On-device arrhythmia and fall detection from ECG and IMU signals. Achieved near-perfect F1 score with sub-40ms inference latency — deployable on resource-constrained wearable hardware without cloud dependency.</p>
-        <div class="project-result">F1 = 0.99 · &lt;40ms Latency · Edge Deployment</div>
+        <p class="project-desc">On-device arrhythmia and fall detection from ECG and IMU signals. Near-perfect F1 with sub-40ms latency — no cloud dependency, deployable on resource-constrained wearable hardware.</p>
+        <div class="project-result">F1 = 0.99 · &lt;40ms Latency · Edge Deploy</div>
         <div class="project-stack">
           <span class="stack-tag">1D CNN</span>
           <span class="stack-tag">ECG</span>
@@ -888,36 +373,34 @@
         <span class="project-link">View on GitHub →</span>
       </a>
 
-      <!-- CNN Pruning -->
-      <a href="https://github.com/TarunSadarla2606/cnn-structured-pruning-vgg16" target="_blank" class="project-card reveal">
+      <a href="https://github.com/TarunSadarla2606/multimodal-emotion-recognition" target="_blank" class="project-card compact reveal">
         <div class="project-card-corner"></div>
-        <span class="project-icon">✂️</span>
-        <p class="project-type">Model Compression · Efficiency</p>
-        <h3 class="project-title">CNN Structured Pruning</h3>
-        <p class="project-desc">Structured pruning of VGG-16 to reduce model complexity without accuracy loss. Relevant to clinical deployment where model size and inference speed are critical constraints for real-time imaging systems.</p>
-        <div class="project-result">2× Compression · +0.37% Top-1 Accuracy</div>
-        <div class="project-stack">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">VGG-16</span>
-          <span class="stack-tag">CelebA</span>
-          <span class="stack-tag">Model Compression</span>
-        </div>
-        <span class="project-link">View on GitHub →</span>
-      </a>
-
-      <!-- Multimodal Emotion -->
-      <a href="https://github.com/TarunSadarla2606/multimodal-emotion-recognition" target="_blank" class="project-card reveal">
-        <div class="project-card-corner"></div>
-        <span class="project-icon">🎭</span>
-        <p class="project-type">Multimodal · Classification</p>
+        <span class="project-icon sm">🎭</span>
+        <p class="project-type">Multimodal · Classification · Project Lead</p>
         <h3 class="project-title">Multimodal Emotion Recognition</h3>
-        <p class="project-desc">Led the visual stream in a multimodal system fusing video and audio for emotion/sentiment classification. Designed custom CNN baseline and fine-tuned VGG-16, then fused with BiLSTM audio features across the MELD dataset.</p>
-        <div class="project-result">CNN + BiLSTM Fusion · MELD Dataset · Project Lead</div>
+        <p class="project-desc">Led visual stream in a multimodal fusion system combining video and audio for emotion classification. Custom CNN baseline + VGG-16 fine-tuning fused with BiLSTM audio features on the MELD dataset.</p>
+        <div class="project-result">CNN + BiLSTM Fusion · MELD Dataset</div>
         <div class="project-stack">
           <span class="stack-tag">PyTorch</span>
           <span class="stack-tag">VGG-16</span>
           <span class="stack-tag">BiLSTM</span>
           <span class="stack-tag">Multimodal</span>
+        </div>
+        <span class="project-link">View on GitHub →</span>
+      </a>
+
+      <a href="https://github.com/TarunSadarla2606/bigdata-customer-segmentation" target="_blank" class="project-card compact reveal">
+        <div class="project-card-corner"></div>
+        <span class="project-icon sm">🛒</span>
+        <p class="project-type">Big Data · Clustering · Cloud Pipeline</p>
+        <h3 class="project-title">Big Data Customer Segmentation</h3>
+        <p class="project-desc">End-to-end segmentation pipeline on AWS using PySpark, Hive, and EMR. K-Means + GMM clustering on large-scale retail data — built to demonstrate distributed ML at scale.</p>
+        <div class="project-result">K-Means + GMM · AWS EMR · PySpark</div>
+        <div class="project-stack">
+          <span class="stack-tag">PySpark</span>
+          <span class="stack-tag">AWS EMR</span>
+          <span class="stack-tag">Hive</span>
+          <span class="stack-tag">Hadoop</span>
         </div>
         <span class="project-link">View on GitHub →</span>
       </a>
