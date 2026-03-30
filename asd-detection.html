@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASD Detection — Tarun Sadarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;
+    --border:rgba(0,200,200,0.12);--border-bright:rgba(0,200,200,0.35);
+    --cyan:#00c8c8;--cyan-dim:rgba(0,200,200,0.15);--cyan-glow:rgba(0,200,200,0.06);
+    --white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;
+    --green:#4ec994;--yellow:#e0b84e;--red:#e06464;--purple:#9d7fe8;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(8,13,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-back{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-back:hover{color:var(--cyan);}
+  .nav-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(0,200,200,0.45);letter-spacing:0.12em;}
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--cyan);}
+
+  /* HERO — special treatment for the origin project */
+  #hero{min-height:100vh;display:flex;align-items:center;padding:10rem 4rem 6rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(157,127,232,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(157,127,232,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 60% 40%,black 20%,transparent 75%);}
+  .hero-glow{position:absolute;width:700px;height:700px;background:radial-gradient(ellipse,rgba(157,127,232,0.08) 0%,transparent 65%);top:-10%;right:-5%;pointer-events:none;}
+  .hero-glow2{position:absolute;width:400px;height:400px;background:radial-gradient(ellipse,rgba(0,200,200,0.05) 0%,transparent 65%);bottom:5%;left:5%;pointer-events:none;}
+  .hero-content{position:relative;max-width:860px;}
+
+  .origin-tag{display:inline-flex;align-items:center;gap:0.6rem;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.4rem 1rem;border:1px solid rgba(157,127,232,0.45);color:var(--purple);background:rgba(157,127,232,0.1);margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;}
+  .origin-tag::before{content:'★';opacity:0.8;}
+
+  .breadcrumb{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;opacity:0;animation:fadeUp 0.7s ease 0.15s forwards;}
+  .breadcrumb span{color:var(--purple);}
+
+  .proj-cat{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;color:var(--purple);text-transform:uppercase;margin-bottom:1rem;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;}
+
+  h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,5vw,4.5rem);line-height:1.05;color:var(--white);letter-spacing:-0.025em;margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease 0.3s forwards;}
+  h1 em{font-style:italic;color:var(--purple);}
+
+  .hero-origin{font-size:1.08rem;color:var(--text);max-width:620px;line-height:1.9;margin-bottom:1rem;opacity:0;animation:fadeUp 0.7s ease 0.42s forwards;}
+  .hero-origin strong{color:var(--white);font-weight:500;}
+  .hero-tech{font-size:0.86rem;color:rgba(122,143,166,0.7);max-width:600px;line-height:1.75;margin-bottom:2rem;font-family:'DM Mono',monospace;letter-spacing:0.02em;opacity:0;animation:fadeUp 0.7s ease 0.52s forwards;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:0.75rem;opacity:0;animation:fadeUp 0.7s ease 0.62s forwards;}
+  .meta-tag{display:inline-flex;align-items:center;font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.32rem 0.8rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);}
+  .meta-tag.hi{border-color:rgba(157,127,232,0.4);color:var(--purple);background:rgba(157,127,232,0.12);}
+  .meta-tag.cyan{border-color:rgba(0,200,200,0.38);color:var(--cyan);background:var(--cyan-dim);}
+
+  /* LAYOUT */
+  .page-content{max-width:1060px;margin:0 auto;padding:5rem 4rem;}
+  .sec-label{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--purple);margin-bottom:0.5rem;}
+  .sec-label::before{content:'// ';opacity:0.45;}
+  .sec-label.cyan-l{color:var(--cyan);}
+  h2{font-family:'DM Serif Display',serif;font-size:clamp(1.55rem,2.6vw,2.2rem);color:var(--white);letter-spacing:-0.02em;margin-bottom:0.5rem;line-height:1.2;}
+  .h2-sub{font-size:0.92rem;color:var(--muted);margin-bottom:1.75rem;max-width:640px;line-height:1.7;}
+  h3{font-family:'Outfit',sans-serif;font-size:0.97rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;margin-top:2.25rem;}
+  p{color:var(--text);font-size:0.93rem;line-height:1.85;margin-bottom:1rem;}
+  p strong{color:var(--white);font-weight:500;}
+  p em{color:var(--purple);font-style:normal;}
+  abbr{text-decoration:underline dotted rgba(157,127,232,0.4);cursor:help;color:inherit;}
+  .divider{border:none;border-top:1px solid var(--border);margin:4.5rem 0;}
+
+  /* EMOTIONAL PULL QUOTE */
+  .pull-quote{padding:2.5rem 3rem;border-left:4px solid var(--purple);background:var(--bg2);margin:2.5rem 0;position:relative;}
+  .pull-quote::before{content:'"';font-family:'DM Serif Display',serif;font-size:6rem;color:rgba(157,127,232,0.15);position:absolute;top:-0.5rem;left:1rem;line-height:1;}
+  .pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--white);line-height:1.7;font-style:italic;margin:0;position:relative;}
+  .pull-quote .attribution{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;color:var(--muted);margin-top:1rem;text-transform:uppercase;}
+
+  /* AUDIENCE LABELS */
+  .al{display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.61rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.2rem 0.58rem;border-radius:2px;margin-bottom:0.5rem;margin-top:0.75rem;}
+  .al-all{background:rgba(78,201,148,0.1);color:var(--green);border:1px solid rgba(78,201,148,0.25);}
+  .al-tech{background:rgba(157,127,232,0.1);color:var(--purple);border:1px solid rgba(157,127,232,0.25);}
+
+  /* METRICS */
+  .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0;}
+  .metric-cell{background:var(--bg2);padding:1.5rem;text-align:center;}
+  .metric-val{font-family:'DM Serif Display',serif;font-size:1.85rem;color:var(--purple);line-height:1;margin-bottom:0.3rem;}
+  .metric-val.cyan{color:var(--cyan);}
+  .metric-label{font-family:'DM Mono',monospace;font-size:0.61rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+  .metric-sub{font-size:0.68rem;color:rgba(122,143,166,0.6);margin-top:0.2rem;}
+
+  /* CALLOUT */
+  .callout{padding:1.25rem 1.75rem;border-left:3px solid var(--purple);background:var(--bg2);margin:1.75rem 0;}
+  .callout p{margin:0;font-size:0.9rem;}
+  .callout strong{color:var(--purple);}
+  .callout.cyan-c{border-color:var(--cyan);}
+  .callout.cyan-c strong{color:var(--cyan);}
+  .callout.red-c{border-color:var(--red);}
+  .callout.red-c strong{color:var(--red);}
+
+  /* TWO COL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.25rem;margin:1.5rem 0;}
+
+  /* FIGURES */
+  .fig{margin:2rem 0;}
+  .fig img{width:100%;display:block;border:1px solid var(--border);background:#050a10;transition:border-color 0.25s;}
+  .fig img:hover{border-color:rgba(157,127,232,0.4);}
+  .fig-cap{font-family:'DM Mono',monospace;font-size:0.64rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-top:0.6rem;text-align:center;padding:0 0.5rem;}
+  .fig-cap strong{color:var(--text);font-weight:400;}
+  .fig-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:2rem 0;}
+  .fig-2 .fig{margin:0;}
+
+  /* RESULTS TABLE */
+  .rtable{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.83rem;}
+  .rtable th{font-family:'DM Mono',monospace;font-size:0.61rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0.7rem 0.9rem;border-bottom:1px solid rgba(157,127,232,0.3);background:var(--bg3);}
+  .rtable td{padding:0.8rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text);}
+  .rtable tr:hover td{background:var(--bg2);}
+  .best{color:var(--purple);font-weight:500;}
+  .lbl{color:var(--white);font-weight:500;}
+  .good{color:var(--green);}
+  .bad{color:var(--red);}
+  .warn{color:var(--yellow);}
+
+  /* MODEL ARCHITECTURE CARDS */
+  .model-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin:2rem 0;}
+  .model-card{padding:1.5rem;border:1px solid var(--border);background:var(--bg2);position:relative;overflow:hidden;transition:border-color 0.2s;}
+  .model-card:hover{border-color:rgba(157,127,232,0.35);}
+  .model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),transparent);}
+  .model-card.vit-fail::before{background:linear-gradient(90deg,var(--red),transparent);}
+  .mc-num{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.22em;color:var(--purple);text-transform:uppercase;margin-bottom:0.4rem;}
+  .mc-num.red{color:var(--red);}
+  .mc-title{font-size:0.92rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;}
+  .mc-desc{font-size:0.8rem;color:var(--muted);line-height:1.65;margin-bottom:0.75rem;}
+  .mc-result{font-family:'DM Mono',monospace;font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:2px;display:inline-block;}
+  .mc-result.good{background:rgba(78,201,148,0.12);color:var(--green);border:1px solid rgba(78,201,148,0.2);}
+  .mc-result.bad{background:rgba(224,100,100,0.1);color:var(--red);border:1px solid rgba(224,100,100,0.2);}
+
+  /* JOURNEY CARDS */
+  .journey-grid{display:grid;grid-template-columns:1fr;gap:0;}
+  .journey-item{display:flex;gap:1.75rem;padding:1.5rem 0;border-bottom:1px solid var(--border);}
+  .journey-item:last-child{border-bottom:none;}
+  .journey-year{font-family:'DM Serif Display',serif;font-size:1.6rem;color:rgba(157,127,232,0.5);line-height:1;min-width:60px;padding-top:0.1rem;}
+  .journey-content h4{font-size:0.92rem;font-weight:600;color:var(--white);margin-bottom:0.3rem;}
+  .journey-content p{font-size:0.84rem;color:var(--muted);line-height:1.7;margin:0;}
+
+  /* FINDING GRID */
+  .finding-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin:2rem 0;}
+  .finding{padding:1.4rem;border:1px solid var(--border);background:var(--bg3);}
+  .finding-icon{font-size:1.2rem;margin-bottom:0.65rem;}
+  .finding-title{font-size:0.85rem;font-weight:600;color:var(--white);margin-bottom:0.4rem;}
+  .finding-body{font-size:0.79rem;color:var(--muted);line-height:1.65;}
+
+  /* BOTTOM CTA */
+  .bottom-cta{background:var(--bg2);border-top:1px solid var(--border);padding:4rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .cta-left h3{font-family:'DM Serif Display',serif;font-size:1.45rem;color:var(--white);margin-bottom:0.4rem;}
+  .cta-left p{font-size:0.85rem;color:var(--muted);margin:0;}
+  .cta-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+  .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;background:var(--purple);color:#fff;font-size:0.79rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+  .btn-p:hover{background:#b393f5;box-shadow:0 6px 20px rgba(157,127,232,0.35);}
+  .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border:1px solid rgba(157,127,232,0.35);color:var(--text);font-size:0.79rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+  .btn-s:hover{border-color:var(--purple);color:var(--purple);}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+  @media(max-width:800px){
+    nav{padding:1rem 1.5rem;} .nav-title,.nav-links{display:none;}
+    #hero{padding:8rem 1.5rem 4rem;} .page-content{padding:3rem 1.5rem;}
+    .two-col,.fig-2,.finding-grid{grid-template-columns:1fr;}
+    .metrics-row{grid-template-columns:repeat(2,1fr);}
+    .bottom-cta{padding:2.5rem 1.5rem;}
+    .pull-quote{padding:1.75rem;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+  <span class="nav-title">ASD Detection — Origin Project</span>
+  <ul class="nav-links">
+    <li><a href="#origin">Origin</a></li>
+    <li><a href="#dataset">Dataset</a></li>
+    <li><a href="#models">Models</a></li>
+    <li><a href="#results">Results</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <span class="origin-tag">The Project That Started Everything</span>
+    <div class="breadcrumb">Portfolio <span>/</span> Research Projects <span>/</span> ASD Detection</div>
+    <p class="proj-cat">Classification · Neuroimaging · Explainability</p>
+    <h1>Detecting <em>Autism</em> from<br>Brain Scans with<br>Deep Learning</h1>
+
+    <p class="hero-origin">
+      This was my final year B.Tech project — and the moment I found out what I wanted to do with my life. I sat in front of an MRI scan of a child's brain, wrote code that could tell whether the scan showed signs of Autism Spectrum Disorder, and thought: <strong>this is what AI should be used for.</strong> Not as an abstraction, but as something that could change a child's life.
+    </p>
+    <p class="hero-tech">
+      <abbr title="Autism Spectrum Disorder">ASD</abbr> classification from <abbr title="structural Magnetic Resonance Imaging: high-resolution anatomical brain scans">sMRI</abbr> brain scans · Custom 5-layer <abbr title="Convolutional Neural Network">CNN</abbr> + Skip-Connected CNN + Vision Transformer · <abbr title="Autism Brain Imaging Data Exchange: a multi-site neuroimaging dataset">ABIDE-I</abbr> dataset (1,067 subjects, 17 research centres) · <abbr title="Local Interpretable Model-Agnostic Explanations">LIME</abbr> explainability · B.Tech Final Year Project, MIT Manipal 2023 · Guide: Dr. J. Andrew
+    </p>
+    <div class="hero-meta">
+      <span class="meta-tag hi">★ Origin Project</span>
+      <span class="meta-tag hi">91% Test Accuracy</span>
+      <span class="meta-tag hi">AUC 0.98</span>
+      <span class="meta-tag cyan">LIME Explainability</span>
+      <span class="meta-tag cyan">CNN vs ViT Comparison</span>
+      <span class="meta-tag">ABIDE-I · 1,067 subjects</span>
+      <span class="meta-tag">PyTorch · TensorFlow</span>
+      <span class="meta-tag">MIT Manipal · Nov 2023</span>
+    </div>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <!-- HEADLINE NUMBERS -->
+  <div class="metrics-row reveal">
+    <div class="metric-cell">
+      <div class="metric-val">91%</div>
+      <div class="metric-label">Test Accuracy</div>
+      <div class="metric-sub">CNN models, all 3 optimizers</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-val">0.98</div>
+      <div class="metric-label">AUC</div>
+      <div class="metric-sub">Skip-CNN with NAdam</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-val">1,067</div>
+      <div class="metric-label">Subjects</div>
+      <div class="metric-sub">17 international research centres</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-val cyan">100K+</div>
+      <div class="metric-label">MRI Slices</div>
+      <div class="metric-sub">Processed from NIfTI → DICOM → PNG</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ORIGIN STORY -->
+  <div id="origin" class="reveal">
+    <p class="sec-label">Origin</p>
+    <h2>The project that made me decide</h2>
+    <p class="h2-sub">Why this one is different from everything else in this portfolio.</p>
+
+    <p>Every other project in this portfolio was built during my MS — deliberate, structured, informed by two years of deep learning knowledge I'd accumulated with a specific goal in mind. This one is different. This project came first. I built it before I knew what I was doing, before I had the vocabulary to describe what I was learning, and precisely because of that, it changed everything.</p>
+
+    <div class="pull-quote">
+      <p>I remember loading my first MRI scan, converting it to something a neural network could look at, and watching the model predict whether the brain belonged to a child with Autism — and getting it right. In that moment, I didn't think about the architecture or the loss function. I thought: here is a real child, and here is a piece of code that might one day help a clinician see something that would otherwise take years to diagnose.</p>
+      <div class="attribution">— On discovering medical imaging AI, November 2022</div>
+    </div>
+
+    <span class="al al-all">🌐 For everyone</span>
+    <p><strong>Autism Spectrum Disorder (<abbr title="Autism Spectrum Disorder">ASD</abbr>)</strong> is a neurological condition affecting how people communicate, interact, and perceive the world around them. Diagnosis today is done through behavioural assessments — observing a child over time, which is slow, subjective, and often delayed by years. The earlier it's detected, the earlier support can begin. That matters enormously.</p>
+    <p>My project was built on a simple question: can a deep learning model look at an MRI scan of a brain and detect structural differences that correlate with ASD — differences that exist in the brain's anatomy but are invisible to the naked eye?</p>
+
+    <span class="al al-tech">⚙️ Technical context</span>
+    <p>Current diagnostic gold standard — the <abbr title="Autism Diagnostic Observation Schedule">ADOS</abbr> and <abbr title="Autism Diagnostic Interview-Revised">ADI-R</abbr> behavioural assessments — require experienced clinicians, take hours, and introduce significant inter-rater variability. Neuroimaging-based approaches offer a path toward objective, reproducible classification grounded in biological structure. The <abbr title="Autism Brain Imaging Data Exchange">ABIDE-I</abbr> dataset, released by the ABIDE Consortium, made this research possible by aggregating sMRI and phenotypic data from 17 sites worldwide.</p>
+
+    <h3>Why this project became my career</h3>
+    <p>The result wasn't a fluke — the model worked, and worked consistently across multiple architectures and optimizers. But more than the numbers, it was the nature of the problem that stayed with me. Medical imaging AI sits at the intersection of everything that makes deep learning hard and everything that makes it matter. Small datasets, high stakes, interpretability requirements, deployment constraints. When I applied for my MS immediately after graduation, I already knew this was the field I wanted to spend it on.</p>
+
+    <div class="journey-grid reveal">
+      <div class="journey-item">
+        <div class="journey-year">2022</div>
+        <div class="journey-content">
+          <h4>First encounter with medical imaging</h4>
+          <p>B.Tech final year project begins. First time loading NIfTI MRI files, converting to DICOM, extracting slices, and building a preprocessing pipeline from scratch with no prior experience in medical data.</p>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-year">2023</div>
+        <div class="journey-content">
+          <h4>Results that felt like proof</h4>
+          <p>CNN models converge to 91% test accuracy and AUC 0.98. Vision Transformer experiments begin — and hit a hard wall, teaching a lesson about data scale that I still carry into every project. LIME explainability attempted. Report submitted November 2023.</p>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-year">2024</div>
+        <div class="journey-content">
+          <h4>MS at UNT begins</h4>
+          <p>Enrolled in MS AI with Biomedical Concentration. Every course taken, every project built, with the explicit goal of returning to medical imaging with the depth to do it properly. GPA 4.00 maintained throughout.</p>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-year">2026</div>
+        <div class="journey-content">
+          <h4>Graduating with a portfolio built around the same goal</h4>
+          <p>Fetal head segmentation, histopathology detection, model compression for clinical deployment — every research direction traces back to the question this project first asked: can AI help clinicians see what the eye cannot?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- DATASET -->
+  <div id="dataset" class="reveal">
+    <p class="sec-label">Dataset</p>
+    <h2>ABIDE-I: a multi-site neuroimaging dataset</h2>
+    <p class="h2-sub">1,112 subjects. 17 research centres. One shared goal.</p>
+
+    <span class="al al-all">🌐 For everyone</span>
+    <p>The <abbr title="Autism Brain Imaging Data Exchange">ABIDE</abbr> dataset is a landmark example of open science in neuroscience. Researchers from 17 universities and hospitals across the world — each using their own MRI machines and protocols — agreed to pool their brain scan data into a single shared resource. Without this kind of collaboration, no single site would have enough data to train a reliable model. I accessed the dataset through <abbr title="Collaborative Informatics and Neuroimaging Suite">COINS</abbr> and processed it from scratch.</p>
+
+    <span class="al al-tech">⚙️ Technical detail</span>
+    <p>Starting from 1,112 subjects (564 <abbr title="Autism Spectrum Disorder">ASD</abbr>, 548 <abbr title="Typical Control: neurologically typical subjects used as the comparison group">TC</abbr>), I removed subjects with missing sMRI data or "Unknown" diagnostic labels — leaving 1,067 usable subjects. Brain volumes arrived as <abbr title="Neuroimaging Informatics Technology Initiative format: a common file format for brain imaging data that stores 3D volumes">NIfTI (.nii.gz)</abbr> files, which I converted to <abbr title="Digital Imaging and Communications in Medicine: the standard file format used in clinical medical imaging">DICOM</abbr> and then extracted as <abbr title="Portable Network Graphics image format">PNG</abbr> slices. After removing empty and malformed slices, 100,510 usable slices remained for training.</p>
+
+    <div class="two-col reveal">
+      <div>
+        <h3>Dataset composition</h3>
+        <table class="rtable">
+          <thead><tr><th>Property</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td class="lbl">Total subjects</td><td>1,067 (after cleaning)</td></tr>
+            <tr><td class="lbl">ASD subjects</td><td>~533</td></tr>
+            <tr><td class="lbl">Typical controls</td><td>~534</td></tr>
+            <tr><td class="lbl">Research sites</td><td>17 international</td></tr>
+            <tr><td class="lbl">Median age</td><td>14.7 years (range 7–64)</td></tr>
+            <tr><td class="lbl">Image format</td><td>NIfTI → DICOM → PNG</td></tr>
+            <tr><td class="lbl">Usable slices</td><td>100,510</td></tr>
+            <tr><td class="lbl">Image resolution</td><td>224×224 (resized)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Training splits used</h3>
+        <table class="rtable">
+          <thead><tr><th>Split</th><th>Slices</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td class="lbl">Train</td><td>2,400</td><td>Model training</td></tr>
+            <tr><td class="lbl">Validation</td><td>300</td><td>Hyperparameter tuning</td></tr>
+            <tr><td class="lbl">Test</td><td>300</td><td>Final evaluation</td></tr>
+          </tbody>
+        </table>
+        <div class="callout" style="margin-top:1.25rem;">
+          <p><strong>Note on slice-level splits:</strong> Splits are at the slice level, not the subject level — an important distinction that affects how generalization should be interpreted. Subject-level splitting would be the more rigorous approach and is a known limitation.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Preprocessing pipelines</h3>
+    <span class="al al-all">🌐 For everyone</span>
+    <p>Brain MRI scans are not just images — they're 3D volumes of brain tissue, stored in a specialized scientific format. Before any neural network can see them, they need to be converted into regular 2D images, cleaned, and standardized. I built two separate preprocessing pipelines: one for the CNN models, and a more complex one for the Vision Transformer experiments.</p>
+
+    <div class="two-col reveal">
+      <div style="padding:1.5rem;border:1px solid var(--border);background:var(--bg2);">
+        <p style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;color:var(--purple);text-transform:uppercase;margin-bottom:1rem;">CNN Pipeline</p>
+        <div style="font-size:0.83rem;color:var(--text);line-height:2;">
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(157,127,232,0.4);margin-bottom:0.4rem;background:var(--bg3);">NIfTI (.nii.gz) → DICOM</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(157,127,232,0.4);margin-bottom:0.4rem;background:var(--bg3);">DICOM → PNG slices</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(157,127,232,0.4);margin-bottom:0.4rem;background:var(--bg3);">Resize to 224×224</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(157,127,232,0.4);margin-bottom:0.4rem;background:var(--bg3);">1-channel → 3-channel</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(157,127,232,0.5);background:var(--bg3);">Mean/Std normalization</div>
+        </div>
+      </div>
+      <div style="padding:1.5rem;border:1px solid var(--border);background:var(--bg2);">
+        <p style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem;">ViT Pipeline (Extended)</p>
+        <div style="font-size:0.83rem;color:var(--text);line-height:2;">
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(0,200,200,0.4);margin-bottom:0.4rem;background:var(--bg3);">NIfTI → DICOM → PNG</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(0,200,200,0.4);margin-bottom:0.4rem;background:var(--bg3);">Canny edge detection</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(0,200,200,0.4);margin-bottom:0.4rem;background:var(--bg3);">Edge-based crop (removes empty background)</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(0,200,200,0.4);margin-bottom:0.4rem;background:var(--bg3);">Resize → 3-channel → Min-Max norm</div>
+          <div style="padding:0.35rem 0.75rem;border-left:2px solid rgba(0,200,200,0.5);background:var(--bg3);">Patchify: 16×16 patches → 196 patches/image</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- MODELS -->
+  <div id="models" class="reveal">
+    <p class="sec-label">Models</p>
+    <h2>Five architectures, two frameworks, one lesson</h2>
+    <p class="h2-sub">What I built, what worked, and what the ViT failure taught me about data scale.</p>
+
+    <div class="model-grid">
+
+      <div class="model-card">
+        <p class="mc-num">Model 01</p>
+        <p class="mc-title">Custom 5-Layer CNN</p>
+        <p class="mc-desc">Purpose-built convolutional network for binary ASD/TC classification. Each block: Conv → LeakyReLU → MaxPool(2×2) → Dropout(20%). Channels scale 16→32→64→128→256. Flatten → FC(100) → Output(2). Trained with Adam, NAdam, and RMSprop.</p>
+        <span class="mc-result good">91% Test Acc · AUC 0.97</span>
+      </div>
+
+      <div class="model-card">
+        <p class="mc-num">Model 02</p>
+        <p class="mc-title">Skip-Connected CNN</p>
+        <p class="mc-desc">Same 5-layer architecture with a residual skip connection from layer 1 to layer 3. Addresses vanishing gradients and encourages feature reuse across depth. Marginal but consistent improvement over the plain CNN — particularly with NAdam optimizer.</p>
+        <span class="mc-result good">91% Test Acc · AUC 0.98 (NAdam)</span>
+      </div>
+
+      <div class="model-card">
+        <p class="mc-num">Model 03</p>
+        <p class="mc-title">Vision Transformer (Keras)</p>
+        <p class="mc-desc">Custom ViT in TensorFlow/Keras from scratch. 6 Transformer blocks, 4 attention heads, 128 projection dimensions. MLP: 512→256 with GELU activation. 196 patches (16×16) per image. 100 epochs due to GPU constraints.</p>
+        <span class="mc-result bad">~60% Acc · Near Random</span>
+      </div>
+
+      <div class="model-card">
+        <p class="mc-num">Model 04</p>
+        <p class="mc-title">Vision Transformer (PyTorch)</p>
+        <p class="mc-desc">Fully custom ViT from scratch in PyTorch — no pretrained weights. PatchEncoder with Conv2d projection + learnable positional embeddings + CLS token. Multiple hyperparameter configurations explored across dedicated search notebooks.</p>
+        <span class="mc-result bad">Underperformed · Data insufficient</span>
+      </div>
+
+      <div class="model-card">
+        <p class="mc-num">Model 05</p>
+        <p class="mc-title">Pretrained ViT (Post-submission)</p>
+        <p class="mc-desc">After formal submission, fine-tuned vit_base_patch16_224 and vit_small_patch16_224 via timm, plus google/vit-base-patch16-224 via HuggingFace on paid GPU sessions. Trained weights not retained — setup and training loop documented in notebooks.</p>
+        <span class="mc-result warn">Exploratory · Weights not saved</span>
+      </div>
+
+    </div>
+
+    <h3>How the architectures were trained</h3>
+    <span class="al al-tech">⚙️ Technical detail</span>
+
+    <div class="two-col reveal">
+      <div>
+        <p style="font-size:0.85rem;">CNN models were trained with three optimizers — <abbr title="Adaptive Moment Estimation: gradient descent with adaptive learning rates">Adam</abbr>, <abbr title="Nesterov-accelerated Adaptive Moment Estimation">NAdam</abbr>, and <abbr title="Root Mean Square Propagation">RMSprop</abbr> — each with LR=0.001, 50 epochs, batch size 64. Cross-entropy loss. Dropout at 20% per block for regularization. The optimizer comparison was deliberately systematic: all other hyperparameters held constant.</p>
+        <p style="font-size:0.85rem;">The custom ViT was trained with RMSprop at LR=0.001 for 100 epochs — twice as long as the CNNs — reflecting the known requirement of Vision Transformers for more training steps to converge. It wasn't enough.</p>
+      </div>
+      <div>
+        <p style="font-size:0.85rem;"><strong style="color:var(--white)">The ViT lesson:</strong> Vision Transformers have no inductive biases — they don't assume that nearby pixels are related, unlike CNNs. They learn everything from data. That makes them powerful on massive datasets but completely data-hungry at this scale. 100,510 slices from 1,067 subjects is nowhere near enough for a ViT trained from scratch.</p>
+        <p style="font-size:0.85rem;">The pretrained ViT experiments (post-submission, on Paperspace GPU) were designed to test this directly — pretrained weights give the model the structural priors it needs. Consistent with expectations, fine-tuning outperformed training from scratch substantially.</p>
+      </div>
+    </div>
+
+    <h3>Explainability — LIME (post-submission exploration)</h3>
+    <span class="al al-all">🌐 For everyone</span>
+    <p>Knowing a model is accurate is not the same as knowing it's right for the right reasons. A model could theoretically learn to classify MRI scans by detecting scanner noise patterns rather than brain structure — and be accurate while being completely useless clinically. This is why explainability matters deeply in medical AI.</p>
+
+    <span class="al al-tech">⚙️ Technical detail</span>
+    <p>After submission, I built a <abbr title="Local Interpretable Model-Agnostic Explanations: a post-hoc explainability method that approximates complex model decisions with locally interpretable linear models">LIME</abbr> explainability notebook. The approach: load a trained CNN from saved weights, pass an MRI slice through <code>LimeImageExplainer.explain_instance()</code>, and visualize which superpixel regions of the brain contributed most to the ASD/TC classification decision via <code>mark_boundaries()</code>. The setup and explainer invocation ran successfully — visualization results were incomplete due to an error before the final annotated image output. <abbr title="Gradient-weighted Class Activation Mapping: a technique that uses gradient information to produce visual explanations of CNN decisions">GradCAM</abbr> was also explored but notebooks were not retained. Both remain open threads for future work.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- RESULTS -->
+  <div id="results" class="reveal">
+    <p class="sec-label cyan-l">Results</p>
+    <h2>91% accuracy, AUC 0.98 — and what the ViT couldn't do</h2>
+    <p class="h2-sub">Full metrics across all 6 CNN experiments and the ViT comparison.</p>
+
+    <div class="fig-2 reveal">
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/asd-detection-neuroimaging/main/results/figures/accuracy_comparison.png" alt="Train vs test accuracy across all CNN variants" loading="lazy">
+        <p class="fig-cap"><strong>Figure 1</strong> — Train vs test accuracy across all 6 CNN experiments (plain CNN + skip-connected, all 3 optimizers)</p>
+      </div>
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/asd-detection-neuroimaging/main/results/figures/metrics_all_models.png" alt="AUC, Precision, Recall, F1 across all models" loading="lazy">
+        <p class="fig-cap"><strong>Figure 2</strong> — AUC, Precision, Recall, and F1 across all 6 CNN experimental runs</p>
+      </div>
+    </div>
+
+    <div class="fig-2 reveal">
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/asd-detection-neuroimaging/main/results/figures/cnn_vs_vit.png" alt="CNN vs ViT performance comparison" loading="lazy">
+        <p class="fig-cap"><strong>Figure 3</strong> — Direct CNN vs ViT performance comparison — the gap is stark and expected</p>
+      </div>
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/asd-detection-neuroimaging/main/results/figures/radar_cnn_optimizers.png" alt="Radar chart all metrics all optimizers" loading="lazy">
+        <p class="fig-cap"><strong>Figure 4</strong> — Radar chart: all metrics across all optimizer configurations for both CNN variants</p>
+      </div>
+    </div>
+
+    <div class="fig reveal">
+      <img src="https://raw.githubusercontent.com/TarunSadarla2606/asd-detection-neuroimaging/main/results/figures/dataset_size_comparison.png" alt="533 vs 1067 subject comparison" loading="lazy">
+      <p class="fig-cap"><strong>Figure 5</strong> — Accuracy and AUC comparison: 533-subject vs 1,067-subject training — doubling the data produced consistent improvement across all models</p>
+    </div>
+
+    <h3>CNN results — full metrics table</h3>
+    <table class="rtable reveal">
+      <thead>
+        <tr><th>Model</th><th>Optimizer</th><th>Train Acc</th><th>Test Acc</th><th>AUC</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="lbl">Plain CNN</td><td>Adam</td><td>0.92</td><td>0.90</td><td>0.97</td><td>0.87</td><td>0.93</td><td>0.90</td></tr>
+        <tr><td class="lbl">Plain CNN</td><td>NAdam</td><td>0.93</td><td>0.91</td><td>0.97</td><td>0.90</td><td>0.90</td><td>0.90</td></tr>
+        <tr><td class="lbl">Plain CNN</td><td>RMSprop</td><td>0.94</td><td>0.91</td><td>0.97</td><td>0.90</td><td>0.90</td><td>0.90</td></tr>
+        <tr><td class="lbl">Skip CNN</td><td>Adam</td><td>0.91</td><td>0.90</td><td>0.97</td><td>0.90</td><td>0.88</td><td>0.89</td></tr>
+        <tr><td class="lbl">Skip CNN</td><td>NAdam</td><td>0.93</td><td class="best">0.91</td><td class="best">0.98</td><td class="best">0.93</td><td>0.88</td><td>0.90</td></tr>
+        <tr><td class="lbl">Skip CNN</td><td>RMSprop</td><td>0.93</td><td class="best">0.91</td><td>0.97</td><td class="best">0.93</td><td>0.87</td><td>0.90</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Vision Transformer results</h3>
+    <table class="rtable reveal">
+      <thead>
+        <tr><th>Model</th><th>Train Acc</th><th>Test Acc</th><th>AUC</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="lbl">ViT (Keras, from scratch)</td>
+          <td class="bad">0.5973</td><td class="bad">0.5975</td><td class="bad">0.5757</td>
+          <td class="bad">0.5810</td><td class="bad">0.4652</td><td class="bad">0.5167</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem;color:var(--muted);">ViT result is near-random classification (~60%). This is consistent with the known data hunger of Vision Transformers trained from scratch — not a model failure, but a dataset scale problem.</p>
+
+    <div class="callout red-c reveal">
+      <p><strong>Why the ViT failed — and why that's an important finding:</strong> Vision Transformers have no inductive biases. CNNs assume local spatial structure — nearby pixels are related — which maps well onto brain anatomy. ViTs make no such assumption and must learn spatial relationships entirely from data. At this dataset scale (~100K slices from ~1,000 subjects), there simply isn't enough signal. The pretrained ViT experiments run after submission directly tested this hypothesis. This finding directly informed my research direction in subsequent projects.</p>
+    </div>
+
+    <div class="finding-grid reveal">
+      <div class="finding">
+        <div class="finding-icon">🧠</div>
+        <div class="finding-title">CNNs dominate at this data scale</div>
+        <div class="finding-body">91% test accuracy and AUC 0.97–0.98 across all 6 CNN runs, with stable training curves and no overfitting. The inductive biases of convolution align naturally with neuroimaging structure.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-icon">🔗</div>
+        <div class="finding-title">Skip connections help — selectively</div>
+        <div class="finding-body">Skip connections improved AUC from 0.97 → 0.98 with NAdam and raised specificity across all optimizers. Marginal but consistent — gradient flow matters even for 5-layer networks.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-icon">📊</div>
+        <div class="finding-title">Optimizer choice matters less than architecture</div>
+        <div class="finding-body">Within each architecture, all three optimizers (Adam, NAdam, RMSprop) produced comparable results. Architecture selection has far larger impact on final performance than optimizer tuning at this scale.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-icon">🔬</div>
+        <div class="finding-title">Data volume compounds</div>
+        <div class="finding-body">Doubling training subjects (533 → 1,067) produced consistent improvement across all models. More data matters more than architecture refinements at this stage — a finding that generalises widely.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-icon">👁️</div>
+        <div class="finding-title">Explainability remains open</div>
+        <div class="finding-body">LIME setup ran but visualization was incomplete. GradCAM explored but not retained. Knowing a model is accurate is necessary but not sufficient — what it's actually looking at in the brain scan is the next question.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-icon">🔭</div>
+        <div class="finding-title">ViTs need pretraining on medical data</div>
+        <div class="finding-body">From-scratch ViT performance near random is not surprising — it's a data requirement problem. Pretrained ViTs (post-submission) demonstrated the gap can be closed substantially with the right initialization.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- FUTURE / REFLECTION -->
+  <div class="reveal">
+    <p class="sec-label">Reflection & Future Work</p>
+    <h2>What I'd do differently — and what I'd do next</h2>
+
+    <div class="two-col">
+      <div>
+        <h3>Known limitations</h3>
+        <p style="font-size:0.86rem;">Slice-level train/test splits rather than subject-level — the more rigorous approach to avoid potential data leakage between slices from the same subject.</p>
+        <p style="font-size:0.86rem;">100,510 slices from 1,067 subjects is a reasonable scale for CNNs but insufficient for from-scratch Transformer models. Subject-level data is the true bottleneck, not slice count.</p>
+        <p style="font-size:0.86rem;">LIME and GradCAM explainability remain incomplete — accuracy without interpretability is not enough for clinical deployment. This is the most important open thread.</p>
+      </div>
+      <div>
+        <h3>What comes next</h3>
+        <p style="font-size:0.86rem;"><strong style="color:var(--white)">GradCAM implementation</strong> — visualizing which brain regions activate for ASD classification is the natural next step. Identifying consistent activation patterns across subjects would be a meaningful clinical contribution.</p>
+        <p style="font-size:0.86rem;"><strong style="color:var(--white)">Subject-level splits + cross-site validation</strong> — testing whether a model trained on data from one MRI scanner generalizes to scans from different machines is a critical practical requirement.</p>
+        <p style="font-size:0.86rem;"><strong style="color:var(--white)">Multimodal fusion</strong> — combining sMRI (structural) with fMRI (functional connectivity) data, which the ABIDE dataset also provides. The combination may reveal patterns invisible in either modality alone.</p>
+        <p style="font-size:0.86rem;"><strong style="color:var(--white)">3D convolutions</strong> — treating the full MRI volume as a 3D input rather than extracting 2D slices, preserving spatial relationships across the entire brain structure.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote reveal" style="margin-top:3rem;">
+      <p>This project taught me something that no course ever could: that the gap between a model that works in a notebook and a system that a clinician would trust is enormous — and that closing that gap is exactly the kind of hard problem worth spending a career on.</p>
+      <div class="attribution">— Reflecting on the B.Tech project, 2026</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-cta">
+  <div class="cta-left">
+    <h3>This is where it started. Happy to talk about where it goes next.</h3>
+    <p>The full B.Tech report, model architecture diagrams, and all notebooks are available in the GitHub repository.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://github.com/TarunSadarla2606/asd-detection-neuroimaging" target="_blank" class="btn-p">View on GitHub →</a>
+    <a href="index.html#contact" class="btn-s">Get in Touch</a>
+  </div>
+</div>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.dataset.delay = (i % 3) * 90;
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
