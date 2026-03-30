@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(0,200,200,0.12);--border-bright:rgba(0,200,200,0.35);--cyan:#00c8c8;--cyan-dim:rgba(0,200,200,0.15);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;--yellow:#e0b84e;--red:#e06464;}
+  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(45,212,160,0.12);--border-bright:rgba(45,212,160,0.35);--cyan:#2dd4a0;--cyan-dim:rgba(45,212,160,0.13);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;--yellow:#e0b84e;--red:#e06464;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
@@ -15,11 +15,11 @@
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(8,13,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
   .nav-back{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
   .nav-back:hover{color:var(--cyan);}
-  .nav-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(0,200,200,0.45);letter-spacing:0.12em;}
+  .nav-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(45,212,160,0.45);letter-spacing:0.12em;}
 
   #hero{min-height:60vh;display:flex;align-items:flex-end;padding:9rem 4rem 4rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
-  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 65% 35%,black 20%,transparent 72%);}
-  .hero-glow{position:absolute;width:600px;height:500px;background:radial-gradient(ellipse,rgba(0,200,200,0.07) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(45,212,160,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,160,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 65% 35%,black 20%,transparent 72%);}
+  .hero-glow{position:absolute;width:600px;height:500px;background:radial-gradient(ellipse,rgba(45,212,160,0.07) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
   .hero-content{position:relative;max-width:820px;}
   .breadcrumb{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;}
   .breadcrumb span{color:var(--cyan);}
@@ -29,7 +29,7 @@
   .hero-sub{font-size:0.98rem;color:var(--muted);max-width:600px;line-height:1.82;margin-bottom:1.75rem;opacity:0;animation:fadeUp 0.7s ease 0.42s forwards;}
   .hero-meta{display:flex;flex-wrap:wrap;gap:0.7rem;opacity:0;animation:fadeUp 0.7s ease 0.52s forwards;}
   .meta-tag{display:inline-flex;align-items:center;font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);}
-  .meta-tag.hi{border-color:rgba(0,200,200,0.38);color:var(--cyan);background:var(--cyan-dim);}
+  .meta-tag.hi{border-color:rgba(45,212,160,0.38);color:var(--cyan);background:var(--cyan-dim);}
 
   .page-content{max-width:980px;margin:0 auto;padding:4rem 4rem;}
   .sec-label{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.45rem;}
@@ -39,7 +39,7 @@
   h3{font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:0.45rem;margin-top:2rem;}
   p{color:var(--text);font-size:0.92rem;line-height:1.82;margin-bottom:0.95rem;}
   p strong{color:var(--white);font-weight:500;}
-  abbr{text-decoration:underline dotted rgba(0,200,200,0.4);cursor:help;color:inherit;}
+  abbr{text-decoration:underline dotted rgba(45,212,160,0.4);cursor:help;color:inherit;}
   .divider{border:none;border-top:1px solid var(--border);margin:3.5rem 0;}
 
   .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:2.25rem 0;}
@@ -94,7 +94,7 @@
   .cta-left p{font-size:0.83rem;color:var(--muted);margin:0;}
   .cta-btns{display:flex;gap:1rem;flex-wrap:wrap;}
   .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;background:var(--cyan);color:var(--bg);font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
-  .btn-p:hover{background:#00e5e5;box-shadow:0 5px 18px rgba(0,200,200,0.3);}
+  .btn-p:hover{background:#3df5bc;box-shadow:0 5px 18px rgba(45,212,160,0.3);}
   .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;border:1px solid var(--border-bright);color:var(--text);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
   .btn-s:hover{border-color:var(--cyan);color:var(--cyan);}
 
@@ -102,6 +102,11 @@
   .reveal.visible{opacity:1;transform:translateY(0);}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
   @media(max-width:800px){nav{padding:1rem 1.5rem;}.nav-title{display:none;}#hero{padding:8rem 1.5rem 3rem;}.page-content{padding:3rem 1.5rem;}.two-col{grid-template-columns:1fr;}.metrics-row,.subset-grid,.system-row{grid-template-columns:repeat(2,1fr);}.bottom-cta{padding:2rem 1.5rem;}}
+
+  .learned-box{padding:1.5rem 1.75rem;border:1px solid rgba(45,212,160,0.3);background:rgba(45,212,160,0.04);margin:2.5rem 0;}
+  .learned-box h3{color:var(--cyan);margin-top:0;margin-bottom:0.75rem;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;}
+  .learned-box p{font-size:0.87rem;margin-bottom:0.65rem;}
+  .learned-box p:last-child{margin-bottom:0;}
 </style>
 </head>
 <body>
@@ -125,7 +130,7 @@
       <span class="meta-tag hi">Deployable Web App</span>
       <span class="meta-tag">PyTorch · Django · React</span>
       <span class="meta-tag">PCam Dataset · 220K Patches</span>
-      <span class="meta-tag">Software Dev for AI · UNT · Fall 2024 · 5-person team</span>
+      <span class="meta-tag">Software Development for AI · Fall 2024 · UNT · Prof. Xiaohui Yuan · 5-person team</span>
     </div>
   </div>
 </section>
@@ -293,7 +298,7 @@
 </div>
 
 
-  <div class="learned-box reveal" style="margin:3rem 2rem 0;">
+  <div class="learned-box reveal">
     <h3>★ What this project taught — uniquely</h3>
     <p><strong>Data volume as an empirical question, not an assumption.</strong> The non-monotonic improvement in ROC-AUC (0.81 → 0.79 → 0.81 → 0.82 across subsets) challenged the assumption that "more data always helps linearly." S2 showed surprisingly high specificity (0.931) but lower sensitivity (0.647) — the model became conservative with 40% of the data. This result illustrates that data volume interacts with model behavior in non-obvious ways, and systematic subset experiments like this are the only way to map that relationship empirically. This thinking applies directly to any clinical dataset where annotation is expensive.</p>
     <p><strong>Noise filtering as a prerequisite step — not an afterthought.</strong> Scanning 220,025 raw image patches with PIL image verification found 29 corrupted files. Removing them before any training — and tracking this explicitly as a pipeline step — reflects production-grade data hygiene that most academic projects skip. In clinical imaging, corrupted or mislabeled training data has patient-safety implications, making this seemingly minor step meaningfully important.</p>

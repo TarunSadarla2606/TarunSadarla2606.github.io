@@ -83,7 +83,7 @@
   <ul class="nav-links">
     <li><a href="#p1">Tableau</a></li>
     <li><a href="#p2">D3.js + Power BI</a></li>
-    <li><a href="#p3">Final Project</a></li>
+    
   </ul>
 </nav>
 
@@ -94,12 +94,12 @@
     <div class="breadcrumb">Portfolio <span>/</span> Course Collections <span>/</span> Data Visualization</div>
     <p class="proj-cat">Scientific Data Visualization · Summer 2025 · UNT · Prof. Dr. Zeenat Tariq</p>
     <h1>Scientific Data<br><em>Visualization</em></h1>
-    <p class="hero-sub">Visualization principles and tools across three platforms — Tableau, D3.js via Observable, and Power BI. Assignments progressing from basic dashboards to programmatic interactive charts. Final project combining Tableau advanced analytics, DAX custom measures, and Figma SVG custom icon design.</p>
+    <p class="hero-sub">Visualization principles and tools across three platforms — Tableau, D3.js via Observable, and Power BI. Assignments progressing from basic dashboards to programmatic interactive charts — covering Tableau (Global Superstore), D3.js via Observable (Iris dataset), and Power BI (tech layoffs data).</p>
     <div class="hero-meta">
       <span class="meta-tag hi">Tableau · D3.js · Power BI</span>
-      <span class="meta-tag hi">DAX Custom Measures</span>
-      <span class="meta-tag hi">Figma SVG Integration</span>
-      <span class="meta-tag">AWS · S3 · EC2 · Observable</span>
+      <span class="meta-tag hi">D3.js / Observable</span>
+      <span class="meta-tag hi">Power BI Dashboards</span>
+      <span class="meta-tag">Observable · Iris Dataset · Tech Layoffs</span>
     </div>
   </div>
 </section>
@@ -121,9 +121,7 @@
     </div>
   </div>
 
-  <div class="callout reveal">
-    <p><strong>Note on AWS:</strong> This course was conducted entirely on AWS (S3 for data storage, EC2 for compute). Hands-on AWS practice assignments were completed but deleted before archiving. Only graded deliverables are preserved in this repository.</p>
-  </div>
+
 
   <!-- Assignment 1 -->
   <div id="p1" class="proj-section reveal">
@@ -175,32 +173,6 @@
     <div class="learned-box">
       <h4>★ What this assignment taught — uniquely</h4>
       <p><strong>D3.js — from declarative to programmatic visualization.</strong> Tableau and Power BI abstract the chart into drag-and-drop operations. D3.js requires you to write the mapping from data to visual encoding in JavaScript — specifying exactly how data values translate to pixel positions, colors, and shapes. Working through Observable made the underlying structure of every chart visible: scales, axes, selections, and data binding. This gave me a fundamentally different mental model of what a visualization is — a function from data to visual marks — which transfers directly to designing custom clinical data visualizations that standard tools can't produce.</p>
-    </div>
-  </div>
-
-  <!-- Final Project -->
-  <div id="p3" class="proj-section reveal">
-    <div class="proj-header">
-      <span class="proj-num">Final</span>
-      <div class="proj-title-area">
-        <h2>Tableau Advanced Analytics + DAX + Figma SVG</h2>
-        <span class="ptag">Tableau · DAX Formula · Standard Deviation · Figma Vector Design</span>
-      </div>
-    </div>
-
-    <p>Advanced Tableau analytics combining computed statistical measures, custom DAX formulas, and Figma-designed SVG icons integrated into a dashboard. Demonstrates the full pipeline from data computation to visual presentation design.</p>
-
-    <h3>Key components</h3>
-    <ul class="contrib-list">
-      <li><span class="ci">▸</span>Sum and Standard Deviation of Sales Amount — aggregate statistics with std dev breakdown by Country</li>
-      <li><span class="ci">▸</span>Custom Quick Measure via DAX: Standard Deviation of Sales by Country using <code style="font-family:'DM Mono',monospace;font-size:0.8em;background:var(--bg3);padding:0.1em 0.35em;border:1px solid var(--border);">CALCULATE(STDEV.P([Sales Amount]), ALLEXCEPT(Table, Table[Country]))</code></li>
-      <li><span class="ci">▸</span>Figma SVG design: custom vector icons designed, exported as SVG, code cleaned, and integrated into Tableau dashboard</li>
-    </ul>
-
-    <div class="learned-box">
-      <h4>★ What this assignment taught — uniquely</h4>
-      <p><strong>DAX as a semantic layer for computed metrics.</strong> DAX (Data Analysis Expressions) is a formula language that operates on column-level calculations with context awareness — ALLEXCEPT filters work differently from what you'd expect from SQL or Python. Writing a formula that computes standard deviation per country while respecting other filter contexts made the difference between row-context and filter-context calculation concrete, which is a concept that appears in any database-backed dashboard system.</p>
-      <p><strong>Design integration — SVG from Figma to dashboard.</strong> Designing custom icons in Figma, exporting clean SVG, and integrating them into a Tableau dashboard was the only project-adjacent experience in this portfolio involving vector design tools. Understanding SVG as a code format (not just an image format) — and being able to clean the exported code — is a transferable skill for any web-based portfolio or visualization work.</p>
     </div>
   </div>
 

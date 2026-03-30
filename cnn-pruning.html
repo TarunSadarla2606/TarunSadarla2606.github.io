@@ -160,6 +160,11 @@
     .metrics-row,.pipeline-steps,.signal-grid{grid-template-columns:repeat(2,1fr);}
     .bottom-cta{padding:2.5rem 1.5rem;}
   }
+
+  .learned-box{padding:1.5rem 1.75rem;border:1px solid rgba(0,200,200,0.28);background:rgba(0,200,200,0.04);margin:2.5rem 0;}
+  .learned-box h3{color:var(--cyan);margin-top:0;margin-bottom:0.75rem;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;}
+  .learned-box p{font-size:0.87rem;margin-bottom:0.65rem;}
+  .learned-box p:last-child{margin-bottom:0;}
 </style>
 </head>
 <body>
@@ -525,6 +530,15 @@
     </div>
   </div>
 
+</div>
+
+
+<div class="learned-box reveal" style="max-width:1060px;margin:2.5rem auto;">
+  <h3>★ What this project taught — uniquely</h3>
+  <p><strong>Synthesis over deletion as a compression philosophy.</strong> Every other model compression paper in the literature treats structured pruning as removal: find a redundant filter, remove it, accept the information loss. The Hybrid Crossover inverts this: when two filters are redundant, synthesize a new one that preserves both their salient activations. This reframing — from a removal problem to a synthesis problem — is the conceptual novelty of this work, and it produced empirically better results. It directly applies to any compression task where information retention matters more than maximum removal.</p>
+  <p><strong>Guard-rail engineering as responsible compression.</strong> Most pruning papers report accuracy after pruning but say nothing about what accuracy drop was permissible during the process. The hard guard rails (≤2pp overall, ≤6pp per-class on CelebA) enforced clinical-grade reliability constraints during compression — every structural change was validated before being committed, with rollback if violated. This is the kind of engineering discipline that separates research-grade from deployment-grade work.</p>
+  <p><strong>Why the faster method is also the better method.</strong> The Hybrid Crossover is 2× faster than Standard Drop not despite being better, but because of it. Regression-synthesized filters satisfy accuracy constraints on the first or second attempt; Standard Drop under aggressive compression triggers expensive rollback loops. Understanding that accuracy-preserving design choices can also reduce compute cost — that quality and efficiency are not always in tension — is a useful heuristic for any optimization problem.</p>
+  <p><strong>ILR over Taylor saliency for production stability.</strong> Taylor-based saliency requires gradient computation through the model, which is sensitive to training mode, mixed-precision settings, and compiler behavior. ILR uses only forward-pass statistics (activation RMS, BN-γ, HRank) — cheaper, reproducible, and stable across long runs with many architectural changes. Learning to choose a simpler, more stable signal over a theoretically richer but practically fragile one is a production engineering skill.</p>
 </div>
 
 <div class="bottom-cta">

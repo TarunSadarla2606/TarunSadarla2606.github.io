@@ -52,7 +52,7 @@ h1 em{font-style:italic;color:var(--cyan);}
 .stat-num{font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--white);line-height:1;}
 .stat-num span{color:var(--cyan);font-size:1.2rem;}
 .stat-label{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
-.stat-dropdown{position:absolute;top:calc(100% + 12px);left:0;background:var(--bg2);border:1px solid var(--border);padding:0.75rem 1rem;min-width:200px;z-index:50;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity 0.2s,transform 0.2s;}
+.stat-dropdown{position:fixed;top:auto;left:auto;background:var(--bg2);border:1px solid var(--border);padding:0.75rem 1rem;min-width:200px;z-index:300;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity 0.2s,transform 0.2s;max-height:280px;overflow-y:auto;}
 .stat-item:hover .stat-dropdown{opacity:1;transform:translateY(0);pointer-events:auto;}
 .stat-dropdown::before{content:'';position:absolute;top:-5px;left:16px;width:8px;height:8px;background:var(--bg2);border-left:1px solid var(--border);border-top:1px solid var(--border);transform:rotate(45deg);}
 .sd-item{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;color:var(--text);padding:0.25rem 0;border-bottom:1px solid rgba(0,200,200,0.08);}
@@ -382,7 +382,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
   <div class="journey-inner">
     <div class="reveal">
       <p class="sl">MS Journey</p>
-      <h2 class="st">A planned path — not random projects</h2>
+      <h2 class="st">Every project built on the one before —<br><em style="font-style:italic;color:var(--cyan);">here's the thread that connects them all.</em></h2>
       <p class="sd">Every course and project in my MS was chosen to build toward a specific goal. Here's how each one contributed a skill that the next one needed — and where all of it is heading.</p>
     </div>
 
@@ -390,7 +390,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
 
       <div class="jf-item jf-purple reveal">
         <div class="jf-content">
-          <div class="jf-tag">B.Tech — Origin · 2023</div>
+          <div class="jf-tag">B.Tech — Origin · 2023 · MIT Manipal · Prof. J. Andrew</div>
           <div class="jf-title">ASD Detection via Neuroimaging</div>
           <div class="jf-body">First encounter with medical imaging AI — NIfTI brain MRI, CNN vs ViT comparison on ABIDE-I. 91% accuracy with CNN; ViT failed at ~60%. The ViT failure was <strong>the most important finding</strong>: data scale determines architecture viability.</div>
           <div class="jf-learning">Medical imaging pipelines · NIfTI/DICOM · Architecture trade-offs at data scale</div>
@@ -402,7 +402,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
       <div class="jf-item right jf-cyan reveal">
         <div class="jf-dot-col"><div class="jf-dot"></div></div>
         <div class="jf-content">
-          <div class="jf-tag">MS Research · CSCE 6260 · Fall 2025</div>
+          <div class="jf-tag">MS Research · CSCE 6260 · Fall 2025 · Prof. Xiaohui Yuan</div>
           <div class="jf-title">Fetal Head Segmentation — Cine-Loop</div>
           <div class="jf-body">Addressed the limitations from ASD: real clinical dataset (HC18 ultrasound), proper segmentation (Residual U-Net), and temporal modeling (3D U-Net). Built Pseudo-LDDM to generate training data when none exists — <strong>synthetic data generation as a research skill</strong>.</div>
           <div class="jf-learning">U-Net segmentation · 3D convolution · Synthetic data generation · Clinical measurement pipelines</div>
@@ -412,7 +412,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
 
       <div class="jf-item jf-cyan reveal">
         <div class="jf-content">
-          <div class="jf-tag">MS Research · CSCE 5934 Directed Study · Fall 2025</div>
+          <div class="jf-tag">MS Research · CSCE 5934 Directed Study · Fall 2025 · Prof. Russel Pears</div>
           <div class="jf-title">CNN Filter Pruning — Hybrid Crossover</div>
           <div class="jf-body">Directly addressed the deployment gap: how do you get a large model to run on hospital hardware? Introduced Hybrid Crossover merging — synthesize rather than discard redundant filters. 2× compression, +0.37% accuracy, 2× faster runtime. Supervised by Prof. Russel Pears.</div>
           <div class="jf-learning">Model compression · Regression-based synthesis · Guard-rail engineering · Production-aware pruning</div>
@@ -446,9 +446,9 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
     </div>
 
     <div class="future-box reveal">
-      <h3>Where this is all heading — ClinicalCXR-AI</h3>
+      <h3>Where this is all heading — one possible project as an example</h3>
       <p>Every project in this MS taught one piece: ASD taught imaging pipelines. Fetal Head taught segmentation and temporal modeling. CNN Pruning taught compression for deployment. WECARE taught edge constraints. Big Data taught cloud-scale pipelines. BirdCLEF taught feature engineering. The SDAI course taught full-stack deployment. AIWH taught clinical data structure (MIMIC-IV).</p>
-      <p><strong>The end-to-end project that ties all of this together:</strong> A chest X-ray AI system (ClinicalCXR-AI) using the MIMIC-CXR + MIMIC-IV datasets — combining a DenseNet-121 visual backbone with a clinical metadata MLP in a late-fusion architecture, deployed via FastAPI. This would use: DICOM-native image loading (from ASD + Fetal Head), late fusion architecture (from Multimodal Emotion), deployment pipeline (from WECARE + BirdCLEF), clinical data schema knowledge (from AIWH), and model compression awareness (from CNN Pruning). Each piece came from somewhere in this portfolio.</p>
+      <p><strong>One example of a project that could tie all of this together</strong> — not yet committed to, but illustrative of the kind of work this portfolio leads toward: a chest X-ray AI system (ClinicalCXR-AI) using the MIMIC-CXR + MIMIC-IV datasets — combining a DenseNet-121 visual backbone with a clinical metadata MLP in a late-fusion architecture, deployed via FastAPI. This would use: DICOM-native image loading (from ASD + Fetal Head), late fusion architecture (from Multimodal Emotion), deployment pipeline (from WECARE + BirdCLEF), clinical data schema knowledge (from AIWH), and model compression awareness (from CNN Pruning). Each piece came from somewhere in this portfolio.</p>
       <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">This is the kind of work I want to do full-time — and I'm available to start from June 2026.</p>
     </div>
   </div>
@@ -623,7 +623,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
         <div class="crn"></div>
         <p class="pt">Scientific Data Visualization · Summer 2025</p>
         <h3 class="pttl">Data Visualization — 3 Assignments</h3>
-        <p class="pdesc">Tableau (Global Superstore), D3.js via Observable (Iris), Power BI (tech layoffs). Final project: DAX custom measures + Figma SVG icons. Prof. Dr. Zeenat Tariq.</p>
+        <p class="pdesc">Tableau (Global Superstore), D3.js via Observable (Iris), Power BI (tech layoffs). Final project: DAX custom measures + Figma SVG icons. Prof. Zeenat Tariq.</p>
         <div class="pstk"><span class="stk">Tableau</span><span class="stk">D3.js</span><span class="stk">Power BI</span><span class="stk">Figma</span></div>
         <span class="pl">View Collection →</span>
       </a>
@@ -632,10 +632,19 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
         <div class="crn"></div>
         <p class="pt">AI in Wearables &amp; Healthcare · Fall 2025</p>
         <h3 class="pttl">AI in Wearables — 15 Activities</h3>
-        <p class="pdesc">FDA regulation, Seeed XIAO nRF52840 hardware, accelerometer + PPG data collection, YOLOv8 food detection (mAP@50=0.913), MIT App Inventor, MIMIC-IV ICU analysis. Prof. Dr. Mahdi Pedram.</p>
+        <p class="pdesc">FDA regulation, Seeed XIAO nRF52840 hardware, accelerometer + PPG data collection, YOLOv8 food detection (mAP@50=0.913), MIT App Inventor, MIMIC-IV ICU analysis. Prof. Mahdi Pedram.</p>
         <div class="pstk"><span class="stk">YOLOv8</span><span class="stk">MIMIC-IV</span><span class="stk">PPG</span><span class="stk">TinyML</span></div>
         <span class="pl">View Collection →</span>
       </a>
+
+      <div class="pc sm ca reveal" style="opacity:0.7;cursor:default;">
+        <div class="crn"></div>
+        <p class="pt">AI in Health · Spring 2026</p>
+        <h3 class="pttl">HINF 5506: Applications of AI in Health</h3>
+        <p class="pdesc">AI applications in healthcare — currently in progress. Topics include clinical decision support, health informatics, and AI-driven healthcare workflows. Prof. Haihua Chen.</p>
+        <div class="pstk"><span class="stk">In Progress</span><span class="stk">Spring 2026</span></div>
+        <span class="pl" style="color:var(--muted);">In Progress — Updated April 2026</span>
+      </div>
 
     </div>
   </div>
@@ -671,7 +680,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
         <div class="emeta"><div class="ename">[Professor Name]</div><div class="etitle">[Title · Department]</div><div class="euni">[University]</div><div class="ectx">Context: [Course / research context]</div></div>
       </div>
     </div>
-    <p class="reveal" style="font-size:0.77rem;color:var(--muted);margin-top:1.75rem;">All endorsements voluntary and shared with explicit permission — <a href="mailto:tarunsadarla26@gmail.com" style="color:var(--cyan);text-decoration:none;">tarunsadarla26@gmail.com</a></p>
+    <p class="reveal" style="font-size:0.77rem;color:var(--muted);margin-top:1.75rem;">All endorsements voluntary and shared with explicit permission — <a href="/cdn-cgi/l/email-protection#99edf8ebecf7eaf8fdf8ebf5f8abafd9fef4f8f0f5b7faf6f4" style="color:var(--cyan);text-decoration:none;"><span class="__cf_email__" data-cfemail="d2a6b3a0a7bca1b3b6b3a0beb3e0e492b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></a></p>
   </div>
 </section>
 
@@ -696,8 +705,8 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
       </div>
       <div class="rc reveal">
         <div class="rn">03</div>
+        <div class="rt">Clinical Deployment Constraints</div>
         <div class="rd">Model compression, quantization, and real-time inference for imaging pipelines — from laptop GPU to hospital workstation. WECARE's 0.033ms result and the CNN pruning 2× speedup showed this is achievable without sacrificing clinical utility.</div>
-        <div class="rt" style="margin-top:0.4rem;">Clinical Deployment Constraints</div>
       </div>
       <div class="rc reveal">
         <div class="rn">04</div>
@@ -726,7 +735,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
     <h2 class="st reveal">Let's talk about hard problems<br>in medical imaging.</h2>
     <p class="sd reveal">Graduating May 2026, available for full-time roles from June 2026. Open to opportunities in healthcare AI, medical image analysis, and applied ML in clinical or research settings.</p>
     <div class="cl reveal">
-      <a href="mailto:tarunsadarla26@gmail.com" class="cit">
+      <a href="/cdn-cgi/l/email-protection#8ffbeefdfae1fceeebeefde3eebdb9cfe8e2eee6e3a1ece0e2" class="cit">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email
       </a>
       <a href="https://linkedin.com/in/tarun-sadarla-715026231" target="_blank" class="cit">
@@ -747,7 +756,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
   <div class="fr">MS AI · University of North Texas · Graduating May 2026 · Available June 2026</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX - 3 + 'px';
@@ -764,6 +773,17 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.reveal').forEach((el, i) => {
   el.dataset.delay = (i % 4) * 80;
   obs.observe(el);
+});
+
+// Fix dropdown positioning to follow cursor/stat item
+document.querySelectorAll('.stat-item').forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    const dropdown = item.querySelector('.stat-dropdown');
+    if (!dropdown) return;
+    const rect = item.getBoundingClientRect();
+    dropdown.style.top = (rect.bottom + 8) + 'px';
+    dropdown.style.left = rect.left + 'px';
+  });
 });
 </script>
 </body>
