@@ -7,239 +7,210 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#080d14; --bg2:#0d1520; --bg3:#111c2a;
-    --border:rgba(0,200,200,0.12); --border-bright:rgba(0,200,200,0.35);
-    --cyan:#00c8c8; --cyan-dim:rgba(0,200,200,0.15); --cyan-glow:rgba(0,200,200,0.06);
-    --white:#eef2f7; --muted:#7a8fa6; --text:#c8d8e8; --red:#e06464;
-  }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;}
-  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.4;}
-  body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:999;}
-
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(8,13,20,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
-  .nav-logo{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;}
-  .nav-links{display:flex;gap:2.5rem;list-style:none;}
-  .nav-links a{font-size:0.8rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-  .nav-links a:hover{color:var(--cyan);}
-
-  /* HERO */
-  #hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
-  .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 60% 40%,black 30%,transparent 80%);}
-  .hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,200,0.07) 0%,transparent 70%);top:10%;right:0;pointer-events:none;}
-  .hero-glow-2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(79,163,224,0.05) 0%,transparent 70%);bottom:10%;left:5%;pointer-events:none;}
-  .hero-content{position:relative;max-width:780px;}
-  .hero-tag{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
-  .hero-tag::before{content:'//';margin-right:0.5em;opacity:0.5;}
-  h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,6vw,5.5rem);line-height:1.05;color:var(--white);letter-spacing:-0.02em;margin-bottom:1rem;opacity:0;animation:fadeUp 0.8s ease 0.35s forwards;}
-  h1 em{font-style:italic;color:var(--cyan);}
-  .hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;margin-bottom:2.5rem;line-height:1.8;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
-  .hero-sub strong{color:var(--text);font-weight:500;}
-  .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 0.65s forwards;}
-  .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;background:var(--cyan);color:var(--bg);font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
-  .btn-primary:hover{background:#00e5e5;transform:translateY(-1px);box-shadow:0 8px 30px rgba(0,200,200,0.3);}
-  .btn-secondary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border:1px solid var(--border-bright);color:var(--text);font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;background:transparent;}
-  .btn-secondary:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);}
-  .hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border);opacity:0;animation:fadeUp 0.8s ease 0.8s forwards;}
-  .stat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--white);line-height:1;}
-  .stat-num span{color:var(--cyan);font-size:1.3rem;}
-  .stat-label{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
-
-  /* SECTIONS */
-  section{padding:6rem 4rem;}
-  .section-label{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.75rem;}
-  .section-label::before{content:'— ';opacity:0.5;}
-  .section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);color:var(--white);letter-spacing:-0.02em;margin-bottom:1rem;}
-  .section-desc{color:var(--muted);max-width:520px;margin-bottom:3.5rem;font-size:0.95rem;}
-
-  /* ABOUT */
-  #about{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;max-width:1100px;margin:0 auto;}
-  .about-text p{color:var(--text);margin-bottom:1.2rem;font-size:0.97rem;line-height:1.85;}
-  .about-text p strong{color:var(--white);font-weight:500;}
-  .about-text p em{color:var(--cyan);font-style:normal;}
-  .edu-block{margin-bottom:2rem;padding:1.5rem;border:1px solid var(--border);background:var(--bg3);position:relative;overflow:hidden;}
-  .edu-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);}
-  .edu-degree{font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.2rem;}
-  .edu-school{color:var(--cyan);font-size:0.82rem;margin-bottom:0.2rem;}
-  .edu-detail{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;}
-  .skills-grid{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
-  .skill-tag{font-family:'DM Mono',monospace;font-size:0.68rem;padding:0.3rem 0.75rem;border:1px solid var(--border);color:var(--muted);letter-spacing:0.08em;transition:all 0.2s;background:var(--bg3);}
-  .skill-tag:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);}
-  .skill-tag.highlight{border-color:rgba(0,200,200,0.4);color:var(--cyan);background:var(--cyan-dim);}
-
-  /* PROJECTS */
-  #projects{max-width:1200px;margin:0 auto;}
-  .projects-wrapper{max-width:1200px;margin:0 auto;}
-
-  .projects-sub-header{display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;}
-  .projects-sub-header h3{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--white);letter-spacing:-0.01em;white-space:nowrap;}
-  .projects-sub-header::after{content:'';flex:1;height:1px;background:var(--border);}
-  .projects-sub-desc{font-size:0.86rem;color:var(--muted);margin-bottom:2rem;max-width:640px;line-height:1.7;}
-  .projects-divider{border:none;border-top:1px solid var(--border);margin:3.5rem 0;}
-
-  /* Research grid — larger cards */
-  .projects-grid-research{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:1.5rem;}
-  /* Course grid — compact 3-col */
-  .projects-grid-course{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.25rem;}
-
-  /* Base card */
-  .project-card{background:var(--bg2);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all 0.3s;text-decoration:none;display:block;cursor:pointer;}
-  .project-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan-glow) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;}
-  .project-card:hover{border-color:var(--border-bright);transform:translateY(-3px);box-shadow:0 20px 50px rgba(0,0,0,0.4),0 0 0 1px rgba(0,200,200,0.1);}
-  .project-card:hover::before{opacity:1;}
-
-  /* Compact card variant */
-  .project-card.compact{background:var(--bg3);border-color:rgba(0,200,200,0.08);padding:1.5rem;}
-  .project-card.compact:hover{border-color:var(--border);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,0.35);}
-  .project-card.compact .project-title{font-size:1rem;}
-  .project-card.compact .project-desc{font-size:0.82rem;margin-bottom:1rem;}
-
-  .project-card-corner{position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 24px 24px 0;border-color:transparent var(--bg3) transparent transparent;transition:border-color 0.3s;}
-  .project-card:hover .project-card-corner{border-color:transparent var(--cyan) transparent transparent;}
-
-  /* Research badge */
-  .research-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.18rem 0.6rem;border:1px solid rgba(0,200,200,0.35);color:var(--cyan);background:var(--cyan-dim);margin-bottom:0.85rem;}
-
-  .project-icon{font-size:1.5rem;margin-bottom:1rem;display:block;}
-  .project-icon.sm{font-size:1.2rem;margin-bottom:0.75rem;}
-  .project-type{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.5rem;}
-  .project-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--white);margin-bottom:0.75rem;line-height:1.3;}
-  .project-desc{font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;}
-  .project-result{display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--cyan);background:var(--cyan-dim);padding:0.3rem 0.75rem;letter-spacing:0.05em;margin-bottom:1.25rem;}
-  .project-result::before{content:'▸ ';}
-  .project-stack{display:flex;flex-wrap:wrap;gap:0.4rem;}
-  .stack-tag{font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.2rem 0.5rem;border:1px solid var(--border);color:var(--muted);letter-spacing:0.05em;}
-  .project-link{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:500;color:var(--muted);margin-top:1.25rem;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s;text-decoration:none;}
-  .project-card:hover .project-link{color:var(--cyan);}
-
-  /* RESEARCH INTERESTS */
-  #research{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-  .research-inner{max-width:1100px;margin:0 auto;}
-  .research-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
-  .research-card{padding:1.75rem;border:1px solid var(--border);background:var(--bg3);position:relative;}
-  .research-num{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--border-bright);line-height:1;margin-bottom:0.75rem;}
-  .research-title{font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.5rem;}
-  .research-desc{font-size:0.82rem;color:var(--muted);line-height:1.7;}
-
-  /* CONTACT */
-  #contact{text-align:center;position:relative;overflow:hidden;}
-  .contact-glow{position:absolute;width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,200,200,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-  .contact-inner{position:relative;max-width:600px;margin:0 auto;}
-  .contact-inner .section-label,.contact-inner .section-title,.contact-inner .section-desc{text-align:center;margin-left:auto;margin-right:auto;}
-  .contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:2rem;}
-  .contact-item{display:inline-flex;align-items:center;gap:0.6rem;padding:0.85rem 1.5rem;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.2s;background:var(--bg2);}
-  .contact-item:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);transform:translateY(-2px);}
-  .contact-item svg{width:16px;height:16px;}
-
-  /* FOOTER */
-  footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-  .footer-left,.footer-right{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;}
-
-  /* REVEAL */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
-  .reveal.visible{opacity:1;transform:translateY(0);}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-
-  /* CURSOR */
-  .cursor-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:screen;}
-
-  /* RESPONSIVE */
-  @media(max-width:768px){
-    nav{padding:1rem 1.5rem;} .nav-links{display:none;}
-    #hero{padding:7rem 1.5rem 3rem;} section{padding:4rem 1.5rem;}
-    .about-grid{grid-template-columns:1fr;gap:2.5rem;}
-    .hero-stats{gap:1.5rem;flex-wrap:wrap;}
-    footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem;}
-  }
+:root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--cyan:#00c8c8;--cyan-dim:rgba(0,200,200,0.15);--cyan-glow:rgba(0,200,200,0.06);--cyan-b:rgba(0,200,200,0.12);--cyan-bb:rgba(0,200,200,0.35);--purple:#9d7fe8;--purple-dim:rgba(157,127,232,0.15);--purple-b:rgba(157,127,232,0.35);--teal:#2dd4a0;--teal-dim:rgba(45,212,160,0.13);--teal-b:rgba(45,212,160,0.32);--border:rgba(0,200,200,0.10);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.4;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(8,13,20,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:1.8rem;list-style:none;}
+.nav-links a{font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--cyan);}
+#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 60% 40%,black 30%,transparent 80%);}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,200,0.07) 0%,transparent 70%);top:10%;right:0;pointer-events:none;}
+.hero-content{position:relative;max-width:780px;}
+.hero-tag{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
+.hero-tag::before{content:'//';margin-right:0.5em;opacity:0.5;}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,6vw,5.5rem);line-height:1.05;color:var(--white);letter-spacing:-0.02em;margin-bottom:1rem;opacity:0;animation:fadeUp 0.8s ease 0.35s forwards;}
+h1 em{font-style:italic;color:var(--cyan);}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;margin-bottom:2.5rem;line-height:1.8;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
+.hero-sub strong{color:var(--text);font-weight:500;}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 0.65s forwards;}
+.btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;background:var(--cyan);color:var(--bg);font-size:0.82rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-p:hover{background:#00e5e5;transform:translateY(-1px);box-shadow:0 8px 30px rgba(0,200,200,0.3);}
+.btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border:1px solid var(--cyan-bb);color:var(--text);font-size:0.82rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+.btn-s:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border);opacity:0;animation:fadeUp 0.8s ease 0.8s forwards;}
+.stat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--white);line-height:1;}
+.stat-num span{color:var(--cyan);font-size:1.3rem;}
+.stat-label{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
+section{padding:6rem 4rem;}
+.section-label{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.75rem;}
+.section-label::before{content:'— ';opacity:0.5;}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);color:var(--white);letter-spacing:-0.02em;margin-bottom:1rem;}
+.section-desc{color:var(--muted);max-width:560px;margin-bottom:3.5rem;font-size:0.95rem;}
+#about{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;max-width:1100px;margin:0 auto;}
+.about-text p{color:var(--text);margin-bottom:1.2rem;font-size:0.97rem;line-height:1.85;}
+.about-text p strong{color:var(--white);font-weight:500;}
+.about-text p em{color:var(--cyan);font-style:normal;}
+.edu-block{margin-bottom:2rem;padding:1.5rem;border:1px solid var(--border);background:var(--bg3);position:relative;}
+.edu-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);}
+.edu-degree{font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.2rem;}
+.edu-school{color:var(--cyan);font-size:0.82rem;margin-bottom:0.2rem;}
+.edu-detail{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;}
+.skills-grid{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
+.skill-tag{font-family:'DM Mono',monospace;font-size:0.68rem;padding:0.3rem 0.75rem;border:1px solid var(--border);color:var(--muted);letter-spacing:0.08em;transition:all 0.2s;background:var(--bg3);}
+.skill-tag.highlight{border-color:rgba(0,200,200,0.4);color:var(--cyan);background:var(--cyan-dim);}
+/* PROJECTS */
+#projects{max-width:1200px;margin:0 auto;}
+.pw{max-width:1200px;margin:0 auto;}
+.psh{display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;}
+.psh h3{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--white);letter-spacing:-0.01em;white-space:nowrap;}
+.psh::after{content:'';flex:1;height:1px;background:var(--border);}
+.psd{font-size:0.85rem;color:var(--muted);margin-bottom:1.75rem;max-width:620px;line-height:1.7;}
+.pdiv{border:none;border-top:1px solid var(--border);margin:2.75rem 0 2.25rem;}
+.g-research{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.4rem;}
+.g-mid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;}
+.g-small{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem;}
+/* BASE CARD */
+.pc{background:var(--bg2);border:1px solid var(--border);padding:1.85rem;position:relative;overflow:hidden;transition:all 0.3s;text-decoration:none;display:block;}
+.pc::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s;}
+.pc:hover{transform:translateY(-3px);}
+.pc:hover::before{opacity:1;}
+.pc.sm{background:var(--bg3);padding:1.35rem;}
+/* CYAN */
+.cc{border-color:rgba(0,200,200,0.15);}
+.cc::before{background:linear-gradient(135deg,rgba(0,200,200,0.06) 0%,transparent 60%);}
+.cc:hover{border-color:rgba(0,200,200,0.4);box-shadow:0 18px 45px rgba(0,0,0,0.4);}
+.cc .pt{color:var(--cyan);}
+.cc .pr{color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,200,200,0.2);}
+.cc .pl,.cc:hover .pl{color:var(--cyan);}
+.cc .bge{border-color:rgba(0,200,200,0.4);color:var(--cyan);background:var(--cyan-dim);}
+.cc .crn{border-color:transparent var(--bg3) transparent transparent;}
+.cc:hover .crn{border-color:transparent var(--cyan) transparent transparent;}
+/* PURPLE */
+.cp{border-color:rgba(157,127,232,0.22);}
+.cp::before{background:linear-gradient(135deg,rgba(157,127,232,0.08) 0%,transparent 60%);}
+.cp:hover{border-color:var(--purple-b);box-shadow:0 18px 45px rgba(0,0,0,0.4);}
+.cp .pt{color:var(--purple);}
+.cp .pr{color:var(--purple);background:var(--purple-dim);border:1px solid rgba(157,127,232,0.2);}
+.cp .pl,.cp:hover .pl{color:var(--purple);}
+.cp .bge{border-color:rgba(157,127,232,0.45);color:var(--purple);background:var(--purple-dim);}
+.cp .crn{border-color:transparent var(--bg3) transparent transparent;}
+.cp:hover .crn{border-color:transparent var(--purple) transparent transparent;}
+/* TEAL */
+.ct{border-color:rgba(45,212,160,0.13);}
+.ct::before{background:linear-gradient(135deg,rgba(45,212,160,0.05) 0%,transparent 60%);}
+.ct:hover{border-color:var(--teal-b);box-shadow:0 16px 40px rgba(0,0,0,0.38);}
+.ct .pt{color:var(--teal);}
+.ct .pr{color:var(--teal);background:var(--teal-dim);border:1px solid rgba(45,212,160,0.18);}
+.ct .pl,.ct:hover .pl{color:var(--teal);}
+.ct .bge{border-color:rgba(45,212,160,0.32);color:var(--teal);background:var(--teal-dim);}
+.ct .crn{border-color:transparent var(--bg3) transparent transparent;}
+.ct:hover .crn{border-color:transparent var(--teal) transparent transparent;}
+.crn{position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 20px 20px 0;transition:border-color 0.3s;}
+.bge{display:inline-block;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.16rem 0.52rem;margin-bottom:0.75rem;}
+.pi{font-size:1.35rem;margin-bottom:0.85rem;display:block;}
+.pt{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.42rem;}
+.pttl{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--white);margin-bottom:0.65rem;line-height:1.3;}
+.pc.sm .pttl{font-size:0.95rem;}
+.pdesc{font-size:0.83rem;color:var(--muted);line-height:1.68;margin-bottom:1rem;}
+.pc.sm .pdesc{font-size:0.79rem;margin-bottom:0.75rem;}
+.pr{display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.69rem;padding:0.26rem 0.68rem;letter-spacing:0.05em;margin-bottom:1rem;}
+.pr::before{content:'▸ ';}
+.pstk{display:flex;flex-wrap:wrap;gap:0.32rem;}
+.stk{font-family:'DM Mono',monospace;font-size:0.6rem;padding:0.17rem 0.45rem;border:1px solid var(--border);color:var(--muted);letter-spacing:0.05em;}
+.pl{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.72rem;font-weight:500;margin-top:1rem;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s;text-decoration:none;}
+/* ENDORSEMENTS */
+#endorsements{background:var(--bg2);border-top:1px solid var(--border);}
+.end-inner{max-width:1100px;margin:0 auto;}
+.end-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:1.5rem;}
+.end-card{padding:2rem;border:1px solid var(--border);background:var(--bg3);position:relative;display:flex;flex-direction:column;}
+.end-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);}
+.eq{font-family:'DM Serif Display',serif;font-size:3.5rem;color:rgba(0,200,200,0.12);line-height:0.8;margin-bottom:1rem;flex-shrink:0;}
+.etxt{font-size:0.92rem;color:var(--text);line-height:1.82;font-style:italic;margin-bottom:1.75rem;flex:1;}
+.emeta{border-top:1px solid var(--border);padding-top:1.2rem;}
+.ename{font-weight:600;color:var(--white);font-size:0.9rem;margin-bottom:0.2rem;}
+.etitle{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--cyan);letter-spacing:0.08em;margin-bottom:0.2rem;}
+.euni{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.2rem;}
+.ectx{font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(122,143,166,0.7);letter-spacing:0.05em;}
+/* RESEARCH */
+#research{background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.ri{max-width:1100px;margin:0 auto;}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+.rc{padding:1.75rem;border:1px solid var(--border);background:var(--bg2);}
+.rn{font-family:'DM Serif Display',serif;font-size:2.5rem;color:rgba(0,200,200,0.22);line-height:1;margin-bottom:0.75rem;}
+.rt{font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.5rem;}
+.rd{font-size:0.82rem;color:var(--muted);line-height:1.7;}
+/* CONTACT */
+#contact{text-align:center;position:relative;overflow:hidden;}
+.cg{position:absolute;width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,200,200,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.ci{position:relative;max-width:600px;margin:0 auto;}
+.ci .section-label,.ci .section-title,.ci .section-desc{text-align:center;margin-left:auto;margin-right:auto;}
+.cl{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:2rem;}
+.cit{display:inline-flex;align-items:center;gap:0.6rem;padding:0.85rem 1.5rem;border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.2s;background:var(--bg2);}
+.cit:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);transform:translateY(-2px);}
+.cit svg{width:16px;height:16px;}
+footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.fl,.fr{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.cursor-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:screen;}
+@media(max-width:768px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}#hero{padding:7rem 1.5rem 3rem;}section{padding:4rem 1.5rem;}.about-grid{grid-template-columns:1fr;gap:2.5rem;}.hero-stats{gap:1.5rem;flex-wrap:wrap;}footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem;}.end-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-
 <div class="cursor-dot" id="cursor"></div>
 
-<!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">Tarun Sadarla</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#research">Research</a></li>
     <li><a href="#endorsements">Endorsements</a></li>
+    <li><a href="#research">Research</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-glow"></div>
-  <div class="hero-glow-2"></div>
   <div class="hero-content">
     <p class="hero-tag">Medical Imaging AI · Deep Learning · Healthcare</p>
     <h1>Building AI that<br><em>sees</em> what matters<br>clinically.</h1>
-    <p class="hero-sub">
-      I design and train deep learning systems for clinical imaging problems — <strong>segmentation, classification, and edge deployment</strong> — with a focus on models that are accurate, interpretable, and deployable in real-world healthcare settings.
-    </p>
+    <p class="hero-sub">I design and train deep learning systems for clinical imaging problems — <strong>segmentation, classification, and edge deployment</strong> — with a focus on models that are accurate, interpretable, and deployable in real-world healthcare settings.</p>
     <div class="hero-cta">
-      <a href="#projects" class="btn-primary">View Projects ↓</a>
-      <a href="#contact" class="btn-secondary">Get in Touch</a>
+      <a href="#projects" class="btn-p">View Projects ↓</a>
+      <a href="#contact" class="btn-s">Get in Touch</a>
     </div>
     <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num">4.00<span>/4</span></div>
-        <div class="stat-label">MS GPA · UNT</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">3<span>+</span></div>
-        <div class="stat-label">Research Projects</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">5<span>+</span></div>
-        <div class="stat-label">Imaging Modalities</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">Jun<span>'26</span></div>
-        <div class="stat-label">Available For Hire</div>
-      </div>
+      <div><div class="stat-num">4.00<span>/4</span></div><div class="stat-label">MS GPA · UNT</div></div>
+      <div><div class="stat-num">3<span>+</span></div><div class="stat-label">Research Projects</div></div>
+      <div><div class="stat-num">10<span>+</span></div><div class="stat-label">Total Projects</div></div>
+      <div><div class="stat-num">Jun<span>'26</span></div><div class="stat-label">Available For Hire</div></div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
     <div class="about-text reveal">
       <p class="section-label">About</p>
       <h2 class="section-title">From a capstone discovery<br>to a research career.</h2>
-      <p>
-        During my final year B.Tech project, I first encountered the problem of applying AI to medical images — and realized this was exactly where I wanted to spend my career. Not as a trend to follow, but as a genuine technical problem with real clinical consequences.
-      </p>
-      <p>
-        I pursued my MS at the University of North Texas specifically to build the depth needed to do this work properly. My research spans <em>radiology</em>, <em>ultrasound</em>, <em>histopathology</em>, and <em>neuroimaging</em> — with consistent attention to model interpretability, because in clinical settings, a black box is not enough.
-      </p>
-      <p>
-        I'm actively seeking <strong>full-time roles in healthcare AI, medical image analysis, and applied ML in clinical or research settings</strong>, available from June 2026.
-      </p>
+      <p>During my final year B.Tech project, I first encountered the problem of applying AI to medical images — and realized this was exactly where I wanted to spend my career. Not as a trend to follow, but as a genuine technical problem with real clinical consequences.</p>
+      <p>I pursued my MS at the University of North Texas specifically to build the depth needed to do this work properly. My research spans <em>radiology</em>, <em>ultrasound</em>, <em>histopathology</em>, and <em>neuroimaging</em> — with consistent attention to model interpretability.</p>
+      <p>I'm actively seeking <strong>full-time roles in healthcare AI, medical image analysis, and applied ML</strong> in clinical or research settings, available from June 2026.</p>
       <div class="skills-grid">
         <span class="skill-tag highlight">Medical Image Analysis</span>
         <span class="skill-tag highlight">U-Net / Segmentation</span>
         <span class="skill-tag highlight">CNN · Vision Transformers</span>
         <span class="skill-tag highlight">DICOM · MRI · Ultrasound</span>
         <span class="skill-tag highlight">Explainable AI</span>
-        <span class="skill-tag">PyTorch</span>
-        <span class="skill-tag">TensorFlow</span>
-        <span class="skill-tag">Docker · Flask</span>
-        <span class="skill-tag">AWS · PySpark</span>
+        <span class="skill-tag">PyTorch · TensorFlow</span>
+        <span class="skill-tag">Docker · Flask · AWS</span>
         <span class="skill-tag">Edge AI Deployment</span>
-        <span class="skill-tag">OpenCV</span>
+        <span class="skill-tag">XGBoost · scikit-learn</span>
+        <span class="skill-tag">librosa · OpenCV</span>
+        <span class="skill-tag">PySpark · Hadoop</span>
         <span class="skill-tag">Python · MATLAB</span>
       </div>
     </div>
-    <div class="about-right reveal">
+    <div class="reveal">
       <div class="edu-block">
         <div class="edu-degree">MS Artificial Intelligence — Biomedical Concentration</div>
         <div class="edu-school">University of North Texas, Denton TX</div>
@@ -250,347 +221,285 @@
         <div class="edu-school">Manipal Institute of Technology, India</div>
         <div class="edu-detail">Minor: Data Analytics · Dec 2023</div>
       </div>
-      <div style="margin-top:2rem;padding:1.5rem;border:1px solid var(--border);background:var(--bg3);">
+      <div style="padding:1.5rem;border:1px solid var(--border);background:var(--bg3);">
         <p class="section-label" style="margin-bottom:0.75rem;">Currently</p>
-        <p style="font-size:0.85rem;color:var(--text);line-height:1.7;">
-          Open to full-time opportunities in <span style="color:var(--cyan)">healthcare AI</span>, <span style="color:var(--cyan)">medical image analysis</span>, and <span style="color:var(--cyan)">applied ML in clinical settings</span>. Graduating May 2026, available from June 2026. Also open to research collaborations and conversations with people working on serious problems in radiology AI, pathology, and clinical deployment.
-        </p>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.7;">Open to full-time opportunities in <span style="color:var(--cyan)">healthcare AI</span>, <span style="color:var(--cyan)">medical image analysis</span>, and <span style="color:var(--cyan)">applied ML in clinical settings</span>. Graduating May 2026, available from June 2026.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
-  <div class="projects-wrapper">
-
+  <div class="pw">
     <div class="reveal">
       <p class="section-label">Projects</p>
       <h2 class="section-title">Research & Engineering Work</h2>
-      <p class="section-desc">All projects were completed as part of my MS. The first group involved original research — independent methodology, substantial experimentation, and documented findings. The second group are course and learning projects that built foundational skills across the field.</p>
+      <p class="section-desc">Everything I built during my MS — organized by depth of contribution. Three colors signal three tiers: the origin project in <span style="color:var(--purple)">purple</span>, research-level work in <span style="color:var(--cyan)">cyan</span>, and course projects in <span style="color:var(--teal)">teal</span>.</p>
     </div>
 
-    <!-- RESEARCH PROJECTS -->
-    <div class="projects-sub-header reveal">
-      <h3>Research Projects</h3>
-    </div>
-    <p class="projects-sub-desc reveal">Original methodology, heavy implementation, and real results. Each involved independent literature review, design decisions, and findings that go beyond coursework.</p>
+    <!-- RESEARCH -->
+    <div class="psh reveal"><h3>Research Projects</h3></div>
+    <p class="psd reveal">Original methodology, independent literature review, and substantial experimentation. Each produced findings beyond coursework scope.</p>
+    <div class="g-research">
 
-    <div class="projects-grid-research">
-
-      <a href="fetal-head.html" class="project-card reveal">
-        <div class="project-card-corner"></div>
-        <span class="research-badge">★ Deep Dive Available</span>
-        <span class="project-icon">🤰</span>
-        <p class="project-type">Segmentation · Ultrasound · Temporal AI</p>
-        <h3 class="project-title">Fetal Head Circumference Estimation via Cine-Loop Analysis</h3>
-        <p class="project-desc">Extended static-frame segmentation to temporally-aware video analysis for automated HC measurement. Built Pseudo-LDDM — a physics-inspired simulation framework to generate realistic cine-loop training data from still images, solving the absence of real video datasets. Baseline Residual U-Net + 3D U-Net with frame-level reliability scoring.</p>
-        <div class="project-result">86.2% Dice · ≈0mm Temporal Std · Reliability 1.0</div>
-        <div class="project-stack">
-          <span class="stack-tag">TensorFlow</span>
-          <span class="stack-tag">3D U-Net</span>
-          <span class="stack-tag">Ultrasound</span>
-          <span class="stack-tag">Cine-Loop</span>
-          <span class="stack-tag">HC18</span>
-        </div>
-        <span class="project-link">Full Deep Dive →</span>
+      <a href="asd-detection.html" class="pc cp reveal">
+        <div class="crn"></div>
+        <span class="bge">★ Origin Project · Deep Dive</span>
+        <span class="pi">🧠</span>
+        <p class="pt">Classification · Neuroimaging · Explainability</p>
+        <h3 class="pttl">ASD Detection via Neuroimaging</h3>
+        <p class="pdesc">My B.Tech final year project — the one that decided my career. ASD detection from structural MRI brain scans using CNNs and Vision Transformers on ABIDE-I (1,067 subjects, 17 centres). The ViT failure shaped every research decision that followed.</p>
+        <div class="pr">91% Accuracy · AUC 0.98 · 1,067 Subjects</div>
+        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">TensorFlow</span><span class="stk">ViT</span><span class="stk">LIME XAI</span><span class="stk">ABIDE-I</span></div>
+        <span class="pl">Full Deep Dive →</span>
       </a>
 
-      <a href="asd-detection.html" class="project-card reveal">
-        <div class="project-card-corner"></div>
-        <span class="research-badge">★ Deep Dive Available</span>
-        <span class="project-icon">🧠</span>
-        <p class="project-type">Classification · Neuroimaging · Explainability</p>
-        <h3 class="project-title">ASD Detection via Neuroimaging — Origin Project</h3>
-        <p class="project-desc">My B.Tech final year project — and the project that made me decide to pursue a career in medical imaging AI. Detecting Autism Spectrum Disorder from structural MRI brain scans using CNNs and Vision Transformers on the ABIDE-I dataset. The ViT failure here directly informed every research direction I pursued in my MS.</p>
-        <div class="project-result">91% Accuracy · AUC 0.98 · 1,067 Subjects · 17 Sites</div>
-        <div class="project-stack">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">TensorFlow</span>
-          <span class="stack-tag">Vision Transformer</span>
-          <span class="stack-tag">LIME XAI</span>
-          <span class="stack-tag">ABIDE-I</span>
-        </div>
-        <span class="project-link">Full Deep Dive →</span>
+      <a href="fetal-head.html" class="pc cc reveal">
+        <div class="crn"></div>
+        <span class="bge">★ Deep Dive Available</span>
+        <span class="pi">🤰</span>
+        <p class="pt">Segmentation · Ultrasound · Temporal AI</p>
+        <h3 class="pttl">Fetal Head Circumference via Cine-Loop</h3>
+        <p class="pdesc">Extended static-frame segmentation to temporally-aware video analysis for automated HC measurement. Built Pseudo-LDDM — physics-inspired simulation generating realistic cine-loop data from still images. Residual U-Net + 3D U-Net with reliability scoring.</p>
+        <div class="pr">86.2% Dice · ≈0mm Temporal Std · Reliability 1.0</div>
+        <div class="pstk"><span class="stk">TensorFlow</span><span class="stk">3D U-Net</span><span class="stk">Ultrasound</span><span class="stk">HC18</span></div>
+        <span class="pl">Full Deep Dive →</span>
       </a>
 
-      <a href="cnn-pruning.html" class="project-card reveal">
-        <div class="project-card-corner"></div>
-        <span class="research-badge">★ Deep Dive Available</span>
-        <span class="project-icon">✂️</span>
-        <p class="project-type">Model Compression · Efficiency · Clinical Deployment</p>
-        <h3 class="project-title">CNN Filter Pruning — Hybrid Crossover Merging</h3>
-        <p class="project-desc">Introduced the Hybrid Crossover: instead of discarding redundant CNN filters, synthesize a new filter via regression that captures the best of both. Compared against Standard Drop across two architectures (VGG-16, 5-CNN) and two datasets under hard accuracy guard rails. Supervised directed study with Prof. Russel Pears.</p>
-        <div class="project-result">2× Compression · +0.37% Accuracy · 2× Faster Runtime</div>
-        <div class="project-stack">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">VGG-16</span>
-          <span class="stack-tag">Model Compression</span>
-          <span class="stack-tag">Regression Synthesis</span>
-        </div>
-        <span class="project-link">Full Deep Dive →</span>
+      <a href="cnn-pruning.html" class="pc cc reveal">
+        <div class="crn"></div>
+        <span class="bge">★ Deep Dive Available</span>
+        <span class="pi">✂️</span>
+        <p class="pt">Model Compression · Efficiency · Deployment</p>
+        <h3 class="pttl">CNN Filter Pruning — Hybrid Crossover</h3>
+        <p class="pdesc">Introduced Hybrid Crossover: instead of discarding redundant CNN filters, synthesize a new filter via regression capturing the best of both. Compared against Standard Drop across VGG-16 and 5-CNN under hard accuracy guard rails. CSCE 5934 Directed Study, Prof. Russel Pears.</p>
+        <div class="pr">2× Compression · +0.37% Accuracy · 2× Faster</div>
+        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">Model Compression</span></div>
+        <span class="pl">Full Deep Dive →</span>
       </a>
 
     </div>
 
-    <hr class="projects-divider">
+    <hr class="pdiv">
 
-    <!-- COURSE & LEARNING PROJECTS -->
-    <div class="projects-sub-header reveal">
-      <h3>Course & Learning Projects</h3>
+    <!-- STANDALONE COURSE PROJECTS -->
+    <div class="psh reveal"><h3>Standalone Course Projects</h3></div>
+    <p class="psd reveal">Substantial course projects — each with real datasets, meaningful scope, and individual contribution clearly documented.</p>
+    <div class="g-mid">
+
+      <a href="histopathology.html" class="pc ct reveal">
+        <div class="crn"></div>
+        <span class="bge">SDAI Fall 2024 · UNT</span>
+        <span class="pi">🔬</span>
+        <p class="pt">Histopathology · Classification · Scaling</p>
+        <h3 class="pttl">Histopathologic Cancer Detection</h3>
+        <p class="pdesc">Binary cancer detection on PCam patches. Systematic study of how training data volume affects CNN performance across 4 stratified subsets (20/40/60/100%). Full-stack web app with Django + React. Team of 5.</p>
+        <div class="pr">ROC-AUC 0.82 · 187K patches · Deployed</div>
+        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">Django</span><span class="stk">React</span><span class="stk">PCam</span></div>
+        <span class="pl">View Project →</span>
+      </a>
+
+      <a href="birdclef.html" class="pc ct reveal">
+        <div class="crn"></div>
+        <span class="bge">SDAI Fall 2024 · UNT</span>
+        <span class="pi">🐦</span>
+        <p class="pt">Audio Classification · Feature Eng · AWS</p>
+        <h3 class="pttl">BirdCLEF 2022 — Bird Classification</h3>
+        <p class="pdesc">Identifying 152 Hawaiian bird species from passive audio using librosa (107 acoustic features), hierarchical XGBoost at Order → Family taxonomy levels, and a live AWS Streamlit deployment with confidence scores.</p>
+        <div class="pr">107 Features · Hierarchical XGBoost · AWS</div>
+        <div class="pstk"><span class="stk">librosa</span><span class="stk">XGBoost</span><span class="stk">SMOTE</span><span class="stk">AWS</span></div>
+        <span class="pl">View Project →</span>
+      </a>
+
+      <a href="multimodal-emotion.html" class="pc ct reveal">
+        <div class="crn"></div>
+        <span class="bge">Deep Learning Spring 2024 · UNT</span>
+        <span class="pi">🎭</span>
+        <p class="pt">Multimodal · Classification · Project Lead</p>
+        <h3 class="pttl">Multimodal Emotion Recognition</h3>
+        <p class="pdesc">Led visual stream in a multimodal fusion system combining video and audio for emotion + sentiment classification on MELD (Friends TV series). VGG-16 fine-tuning fused with BiLSTM audio. Fusion failure was the most instructive finding.</p>
+        <div class="pr">VGG-16 48.3% · MELD · Project Lead</div>
+        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">BiLSTM</span><span class="stk">MELD</span></div>
+        <span class="pl">View Project →</span>
+      </a>
+
+      <a href="wecare.html" class="pc ct reveal">
+        <div class="crn"></div>
+        <span class="bge">MS AI · UNT · 2025</span>
+        <span class="pi">❤️</span>
+        <p class="pt">Edge AI · Wearable · Signal Processing</p>
+        <h3 class="pttl">WECARE — Cardiac & Fall Detection</h3>
+        <p class="pdesc">On-device arrhythmia and fall detection from ECG + IMU. Near-perfect F1 with sub-0.033ms inference — no cloud dependency, TorchScript deployment. Only 8 missed falls out of 228 fall instances.</p>
+        <div class="pr">F1 0.9864 (ECG) · 8 Missed Falls / 228</div>
+        <div class="pstk"><span class="stk">1D CNN</span><span class="stk">ECG</span><span class="stk">IMU</span><span class="stk">TorchScript</span></div>
+        <span class="pl">View Project →</span>
+      </a>
+
+      <a href="https://github.com/TarunSadarla2606/bigdata-customer-segmentation" target="_blank" class="pc ct reveal">
+        <div class="crn"></div>
+        <span class="bge">Big Data · UNT</span>
+        <span class="pi">🛒</span>
+        <p class="pt">Big Data · Clustering · Cloud Pipeline</p>
+        <h3 class="pttl">Big Data Customer Segmentation</h3>
+        <p class="pdesc">End-to-end customer segmentation pipeline on AWS using PySpark, Hive, and EMR. K-Means + GMM clustering on large-scale retail data — distributed ML at scale.</p>
+        <div class="pr">K-Means + GMM · AWS EMR · PySpark</div>
+        <div class="pstk"><span class="stk">PySpark</span><span class="stk">AWS EMR</span><span class="stk">Hive</span><span class="stk">Hadoop</span></div>
+        <span class="pl">GitHub →</span>
+      </a>
+
     </div>
-    <p class="projects-sub-desc reveal">Built to develop and demonstrate skills across medical imaging, multimodal AI, edge deployment, and big data. Each one chosen to push a specific technical capability.</p>
 
-    <div class="projects-grid-course">
+    <hr class="pdiv">
 
-      <a href="histopathology.html" class="project-card compact reveal">
-        <div class="project-card-corner"></div>
-        <span class="project-icon sm">🔬</span>
-        <p class="project-type">Classification · Histopathology</p>
-        <h3 class="project-title">Histopathologic Cancer Detection</h3>
-        <p class="project-desc">Binary cancer detection on PCam patches. Studied how training data volume affects performance across four stratified subsets — practical insight for data-constrained clinical settings. Team of 5, led DL design.</p>
-        <div class="project-result">ROC-AUC 0.81 · Deployable · Team of 5</div>
-        <div class="project-stack">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">Flask</span>
-          <span class="stack-tag">Docker</span>
-          <span class="stack-tag">Pathology</span>
-        </div>
-        <span class="project-link">View Project →</span>
+    <!-- COURSE COLLECTIONS -->
+    <div class="psh reveal"><h3>Course Collections</h3></div>
+    <p class="psd reveal">Multi-project collections — 3 assignments per course, each with its own technical scope and a section on what that project taught uniquely. All supervised by Prof. Russel Pears.</p>
+    <div class="g-small">
+
+      <a href="ml-course-projects.html" class="pc sm ct reveal">
+        <div class="crn"></div>
+        <p class="pt">Machine Learning · Fall 2024</p>
+        <h3 class="pttl">Machine Learning — 3 Projects</h3>
+        <p class="pdesc">Glass identification with RBF kernel methods, CelebA VGG-16 fine-tuning (0.9594 accuracy), and Bayesian network probabilistic reasoning.</p>
+        <div class="pstk"><span class="stk">scikit-learn</span><span class="stk">TensorFlow</span><span class="stk">networkx</span></div>
+        <span class="pl">View Collection →</span>
       </a>
 
-      <a href="wecare.html" class="project-card compact reveal">
-        <div class="project-card-corner"></div>
-        <span class="project-icon sm">❤️</span>
-        <p class="project-type">Edge AI · Wearable · Signal Processing</p>
-        <h3 class="project-title">WECARE — Cardiac & Fall Detection</h3>
-        <p class="project-desc">On-device arrhythmia and fall detection from ECG and IMU signals. Near-perfect F1 with sub-40ms latency — no cloud dependency, deployable on resource-constrained wearable hardware.</p>
-        <div class="project-result">F1 = 0.99 · &lt;40ms Latency · Edge Deploy</div>
-        <div class="project-stack">
-          <span class="stack-tag">1D CNN</span>
-          <span class="stack-tag">ECG</span>
-          <span class="stack-tag">IMU</span>
-          <span class="stack-tag">Edge AI</span>
-        </div>
-        <span class="project-link">View Project →</span>
-      </a>
-
-      <a href="multimodal-emotion.html" class="project-card compact reveal">
-        <div class="project-card-corner"></div>
-        <span class="project-icon sm">🎭</span>
-        <p class="project-type">Multimodal · Classification · Project Lead</p>
-        <h3 class="project-title">Multimodal Emotion Recognition</h3>
-        <p class="project-desc">Led visual stream in a multimodal fusion system combining video and audio for emotion classification. Custom CNN baseline + VGG-16 fine-tuning fused with BiLSTM audio features on the MELD dataset.</p>
-        <div class="project-result">CNN + BiLSTM Fusion · MELD Dataset</div>
-        <div class="project-stack">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">VGG-16</span>
-          <span class="stack-tag">BiLSTM</span>
-          <span class="stack-tag">Multimodal</span>
-        </div>
-        <span class="project-link">View Project →</span>
-      </a>
-
-      <a href="https://github.com/TarunSadarla2606/bigdata-customer-segmentation" target="_blank" class="project-card compact reveal">
-        <div class="project-card-corner"></div>
-        <span class="project-icon sm">🛒</span>
-        <p class="project-type">Big Data · Clustering · Cloud Pipeline</p>
-        <h3 class="project-title">Big Data Customer Segmentation</h3>
-        <p class="project-desc">End-to-end segmentation pipeline on AWS using PySpark, Hive, and EMR. K-Means + GMM clustering on large-scale retail data — built to demonstrate distributed ML at scale.</p>
-        <div class="project-result">K-Means + GMM · AWS EMR · PySpark</div>
-        <div class="project-stack">
-          <span class="stack-tag">PySpark</span>
-          <span class="stack-tag">AWS EMR</span>
-          <span class="stack-tag">Hive</span>
-          <span class="stack-tag">Hadoop</span>
-        </div>
-        <span class="project-link">View Project →</span>
+      <a href="fdai-projects.html" class="pc sm ct reveal">
+        <div class="crn"></div>
+        <p class="pt">Fundamentals of AI · Spring 2025</p>
+        <h3 class="pttl">Fundamentals of AI — 3 Projects</h3>
+        <p class="pdesc">Warehouse robot simulation (Dijkstra + A*), genetic algorithm for job shop scheduling (makespan 298), and reinforcement learning via value iteration (100% success, 22 iterations).</p>
+        <div class="pstk"><span class="stk">networkx</span><span class="stk">Genetic Algorithm</span><span class="stk">Value Iteration</span></div>
+        <span class="pl">View Collection →</span>
       </a>
 
     </div>
   </div>
 </section>
 
-<!-- ENDORSEMENTS — after projects, before research interests -->
-<section id="endorsements" style="border-top:1px solid var(--border);background:var(--bg2);">
-  <div style="max-width:1100px;margin:0 auto;">
+<!-- ENDORSEMENTS -->
+<section id="endorsements">
+  <div class="end-inner">
     <div class="reveal">
       <p class="section-label">Endorsements</p>
       <h2 class="section-title">From people who've seen the work directly</h2>
-      <p class="section-desc" style="margin-bottom:2.5rem;">Each professor listed here supervised or worked with me directly. Quotes are shared with explicit permission. Full academic references available on request.</p>
+      <p class="section-desc">Quotes shared with explicit permission. Full academic references available on request.</p>
     </div>
+    <div class="end-grid reveal">
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:1.5rem;" class="reveal">
-
-      <!-- Card 1 — Prof. Russel Pears (CNN Pruning Directed Study) -->
-      <div style="padding:2rem;border:1px solid var(--border);background:var(--bg3);position:relative;display:flex;flex-direction:column;">
-        <div style="font-family:'DM Serif Display',serif;font-size:3.5rem;color:rgba(0,200,200,0.12);line-height:0.8;margin-bottom:1rem;flex-shrink:0;">"</div>
-        <p style="font-size:0.93rem;color:var(--text);line-height:1.85;font-style:italic;margin-bottom:1.75rem;flex:1;">[Endorsement pending — Prof. Pears supervised Tarun's CSCE 5934 Directed Study on CNN Filter Pruning, Fall 2025. Quote to be added upon confirmation.]</p>
-        <div style="border-top:1px solid var(--border);padding-top:1.25rem;">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-            <div>
-              <div style="font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.2rem;">Prof. Russel Pears</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--cyan);letter-spacing:0.08em;margin-bottom:0.2rem;">Associate Professor · Computer Science &amp; Engineering</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.2rem;">University of North Texas, Denton TX</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.06em;">Context: CSCE 5934 Directed Study supervisor · CNN Filter Pruning research · Fall 2025</div>
-            </div>
-            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;color:var(--muted);letter-spacing:0.06em;text-align:right;">
-              <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ea989f99998f86c49a8f8b9899aa9f849ec48f8e9f">[email&#160;protected]</a></div>
-            </div>
-          </div>
+      <div class="end-card">
+        <div class="eq">"</div>
+        <p class="etxt">[Endorsement pending — quote to be added upon confirmation.]</p>
+        <div class="emeta">
+          <div class="ename">[Professor Name]</div>
+          <div class="etitle">[Title · Department]</div>
+          <div class="euni">[University]</div>
+          <div class="ectx">Context: [Course / research context]</div>
         </div>
       </div>
 
-      <!-- Card 2 — placeholder for MS advisor / course professor at UNT -->
-      <div style="padding:2rem;border:1px solid var(--border);background:var(--bg3);position:relative;display:flex;flex-direction:column;">
-        <div style="font-family:'DM Serif Display',serif;font-size:3.5rem;color:rgba(0,200,200,0.12);line-height:0.8;margin-bottom:1rem;flex-shrink:0;">"</div>
-        <p style="font-size:0.93rem;color:var(--text);line-height:1.85;font-style:italic;margin-bottom:1.75rem;flex:1;">[Endorsement pending — quote to be added upon confirmation.]</p>
-        <div style="border-top:1px solid var(--border);padding-top:1.25rem;">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-            <div>
-              <div style="font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.2rem;">[Professor Name]</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--cyan);letter-spacing:0.08em;margin-bottom:0.2rem;">[Title · Department]</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.2rem;">University of North Texas, Denton TX</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.06em;">Context: [Course / research context]</div>
-            </div>
-            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;color:var(--muted);letter-spacing:0.06em;text-align:right;">
-              <div>[<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8aefe7ebe3e6caffe4fea4efeeff">[email&#160;protected]</a>]</div>
-            </div>
-          </div>
+      <div class="end-card">
+        <div class="eq">"</div>
+        <p class="etxt">[Endorsement pending — quote to be added upon confirmation.]</p>
+        <div class="emeta">
+          <div class="ename">[Professor Name]</div>
+          <div class="etitle">[Title · Department]</div>
+          <div class="euni">[University]</div>
+          <div class="ectx">Context: [Course / research context]</div>
         </div>
       </div>
 
-      <!-- Card 3 — Dr. J. Andrew (B.Tech Guide, MIT Manipal) -->
-      <div style="padding:2rem;border:1px solid var(--border);background:var(--bg3);position:relative;display:flex;flex-direction:column;">
-        <div style="font-family:'DM Serif Display',serif;font-size:3.5rem;color:rgba(0,200,200,0.12);line-height:0.8;margin-bottom:1rem;flex-shrink:0;">"</div>
-        <p style="font-size:0.93rem;color:var(--text);line-height:1.85;font-style:italic;margin-bottom:1.75rem;flex:1;">[Endorsement pending — Dr. Andrew guided Tarun's B.Tech final year project on ASD Detection via Neuroimaging, the project that set the direction for his entire research career. Quote to be added upon confirmation.]</p>
-        <div style="border-top:1px solid var(--border);padding-top:1.25rem;">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-            <div>
-              <div style="font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.2rem;">Dr. J. Andrew</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--cyan);letter-spacing:0.08em;margin-bottom:0.2rem;">Assistant Professor (Senior Scale) · Computer Science &amp; Engineering</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.2rem;">Manipal Institute of Technology, Manipal, India</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.06em;">Context: B.Tech Final Year Project guide · ASD Detection from sMRI · 2022–2023</div>
-            </div>
-            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;color:var(--muted);letter-spacing:0.06em;text-align:right;">
-              <div>[contact pending]</div>
-            </div>
-          </div>
+      <div class="end-card">
+        <div class="eq">"</div>
+        <p class="etxt">[Endorsement pending — quote to be added upon confirmation.]</p>
+        <div class="emeta">
+          <div class="ename">[Professor Name]</div>
+          <div class="etitle">[Title · Department]</div>
+          <div class="euni">[University]</div>
+          <div class="ectx">Context: [Course / research context]</div>
         </div>
       </div>
 
-      <!-- Card 4 — placeholder for 4th professor -->
-      <div style="padding:2rem;border:1px solid var(--border);background:var(--bg3);position:relative;display:flex;flex-direction:column;">
-        <div style="font-family:'DM Serif Display',serif;font-size:3.5rem;color:rgba(0,200,200,0.12);line-height:0.8;margin-bottom:1rem;flex-shrink:0;">"</div>
-        <p style="font-size:0.93rem;color:var(--text);line-height:1.85;font-style:italic;margin-bottom:1.75rem;flex:1;">[Endorsement pending — quote to be added upon confirmation.]</p>
-        <div style="border-top:1px solid var(--border);padding-top:1.25rem;">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-            <div>
-              <div style="font-weight:600;color:var(--white);font-size:0.92rem;margin-bottom:0.2rem;">[Professor Name]</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--cyan);letter-spacing:0.08em;margin-bottom:0.2rem;">[Title · Department]</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.2rem;">[University]</div>
-              <div style="font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.06em;">Context: [Course / research context]</div>
-            </div>
-            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;color:var(--muted);letter-spacing:0.06em;text-align:right;">
-              <div>[email]</div>
-            </div>
-          </div>
+      <div class="end-card">
+        <div class="eq">"</div>
+        <p class="etxt">[Endorsement pending — quote to be added upon confirmation.]</p>
+        <div class="emeta">
+          <div class="ename">[Professor Name]</div>
+          <div class="etitle">[Title · Department]</div>
+          <div class="euni">[University]</div>
+          <div class="ectx">Context: [Course / research context]</div>
         </div>
       </div>
 
     </div>
-
-    <p class="reveal" style="font-size:0.78rem;color:var(--muted);margin-top:1.75rem;">All endorsements are voluntary and shared with explicit permission. Full academic references and contact details available on request — <a href="/cdn-cgi/l/email-protection#a5d1c4d7d0cbd6c4c1c4d7c9c49793e5c2c8c4ccc98bc6cac8" style="color:var(--cyan);text-decoration:none;"><span class="__cf_email__" data-cfemail="a0d4c1d2d5ced3c1c4c1d2ccc19296e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</span></a></p>
+    <p class="reveal" style="font-size:0.78rem;color:var(--muted);margin-top:1.75rem;">All endorsements voluntary and shared with explicit permission — <a href="mailto:tarunsadarla26@gmail.com" style="color:var(--cyan);text-decoration:none;">tarunsadarla26@gmail.com</a></p>
   </div>
 </section>
 
 <!-- RESEARCH INTERESTS -->
 <section id="research">
-  <div class="research-inner">
+  <div class="ri">
     <div class="reveal">
       <p class="section-label">Research Interests</p>
       <h2 class="section-title">What I'm thinking about</h2>
       <p class="section-desc">Problems I find genuinely interesting and want to work on next.</p>
     </div>
-    <div class="research-grid">
-      <div class="research-card reveal">
-        <div class="research-num">01</div>
-        <div class="research-title">Explainable AI in Radiology</div>
-        <div class="research-desc">Clinicians need to understand why a model made a prediction. Grad-CAM, SHAP, and attention visualization as tools for clinical trust — not just academic reporting.</div>
-      </div>
-      <div class="research-card reveal">
-        <div class="research-num">02</div>
-        <div class="research-title">Low-Data Medical Imaging</div>
-        <div class="research-desc">Clinical datasets are small, imbalanced, and expensive to annotate. Few-shot learning, self-supervised pretraining, and synthetic augmentation for radiology and pathology.</div>
-      </div>
-      <div class="research-card reveal">
-        <div class="research-num">03</div>
-        <div class="research-title">Clinical Deployment Constraints</div>
-        <div class="research-desc">A model that achieves 97% on a benchmark means nothing if it can't run in a hospital. Model compression, quantization, and real-time inference for imaging pipelines.</div>
-      </div>
-      <div class="research-card reveal">
-        <div class="research-num">04</div>
-        <div class="research-title">Temporal Imaging Analysis</div>
-        <div class="research-desc">Static frames lose information. Cine-loop ultrasound, longitudinal MRI, and time-series signal data reveal dynamics that single-image models miss entirely.</div>
-      </div>
+    <div class="rg">
+      <div class="rc reveal"><div class="rn">01</div><div class="rt">Explainable AI in Radiology</div><div class="rd">Clinicians need to understand why a model made a prediction. Grad-CAM, SHAP, and attention visualization as tools for clinical trust — not just academic reporting.</div></div>
+      <div class="rc reveal"><div class="rn">02</div><div class="rt">Low-Data Medical Imaging</div><div class="rd">Clinical datasets are small, imbalanced, and expensive to annotate. Few-shot learning, self-supervised pretraining, and synthetic augmentation for radiology and pathology.</div></div>
+      <div class="rc reveal"><div class="rn">03</div><div class="rt">Clinical Deployment Constraints</div><div class="rd">A model that achieves 97% on a benchmark means nothing if it can't run in a hospital. Model compression, quantization, and real-time inference for imaging pipelines.</div></div>
+      <div class="rc reveal"><div class="rn">04</div><div class="rt">Temporal Imaging Analysis</div><div class="rd">Static frames lose information. Cine-loop ultrasound, longitudinal MRI, and time-series signal data reveal dynamics that single-image models miss entirely.</div></div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="contact-glow"></div>
-  <div class="contact-inner">
+  <div class="cg"></div>
+  <div class="ci">
     <p class="section-label reveal">Contact</p>
     <h2 class="section-title reveal">Let's talk about hard problems<br>in medical imaging.</h2>
-    <p class="section-desc reveal">
-      Graduating May 2026, available for full-time roles from June 2026. Open to opportunities in healthcare AI, medical image analysis, and applied ML in clinical or research settings. Always happy to talk with researchers and practitioners working on serious clinical problems.
-    </p>
-    <div class="contact-links reveal">
-      <a href="/cdn-cgi/l/email-protection#dfabbeadaab1acbebbbeadb3beede99fb8b2beb6b3f1bcb0b2" class="contact-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-        Email
+    <p class="section-desc reveal">Graduating May 2026, available for full-time roles from June 2026. Open to opportunities in healthcare AI, medical image analysis, and applied ML in clinical or research settings.</p>
+    <div class="cl reveal">
+      <a href="mailto:tarunsadarla26@gmail.com" class="cit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email
       </a>
-      <a href="https://linkedin.com/in/tarun-sadarla-715026231" target="_blank" class="contact-item">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
+      <a href="https://linkedin.com/in/tarun-sadarla-715026231" target="_blank" class="cit">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn
       </a>
-      <a href="https://github.com/TarunSadarla2606" target="_blank" class="contact-item">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-        GitHub
+      <a href="https://github.com/TarunSadarla2606" target="_blank" class="cit">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub
       </a>
-      <a href="https://www.kaggle.com/tarunsadarla" target="_blank" class="contact-item">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.311z"/></svg>
-        Kaggle
+      <a href="https://www.kaggle.com/tarunsadarla" target="_blank" class="cit">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.311z"/></svg>Kaggle
       </a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <div class="footer-left">© 2026 Tarun Sadarla</div>
-  <div class="footer-right">MS AI · University of North Texas · Graduating May 2026 · Available June 2026</div>
+  <div class="fl">© 2026 Tarun Sadarla</div>
+  <div class="fr">MS AI · University of North Texas · Graduating May 2026 · Available June 2026</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX - 3 + 'px';
     cursor.style.top  = e.clientY - 3 + 'px';
   });
-  const observer = new IntersectionObserver(entries => {
+  const obs = new IntersectionObserver(entries => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        const delay = entry.target.dataset.delay || 0;
-        setTimeout(() => entry.target.classList.add('visible'), delay);
-        observer.unobserve(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+        obs.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach((el, i) => {
     el.dataset.delay = (i % 4) * 80;
-    observer.observe(el);
+    obs.observe(el);
   });
 </script>
 </body>
