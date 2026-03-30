@@ -336,7 +336,7 @@
     <div class="video-grid reveal">
       <div class="vid-card">
         <video controls muted loop playsinline preload="metadata">
-          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/blob/main/results/videos/phase1_basic_motion.mp4" type="video/mp4">
+          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/raw/main/results/videos/phase1_basic_motion.mp4" type="video/mp4">
         </video>
         <div class="vid-body">
           <p class="vid-phase">Phase 01</p>
@@ -347,7 +347,7 @@
       </div>
       <div class="vid-card">
         <video controls muted loop playsinline preload="metadata">
-          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/blob/main/results/videos/phase2_anatomical_constraints.mp4" type="video/mp4">
+          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/raw/main/results/videos/phase2_anatomical_constraints.mp4" type="video/mp4">
         </video>
         <div class="vid-body">
           <p class="vid-phase">Phase 02</p>
@@ -614,6 +614,15 @@
     </div>
   </div>
 
+</div>
+
+
+<div style="padding:1.5rem 1.75rem;border:1px solid rgba(0,200,200,0.3);background:rgba(0,200,200,0.04);margin:3rem 4rem 0;">
+  <h3 style="color:var(--cyan);margin-top:0;margin-bottom:0.75rem;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;">★ What this project taught — uniquely</h3>
+  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">Synthetic data generation as a research contribution.</strong> When real cine-loop (video) ultrasound training data doesn't exist, you create it. The Pseudo-LDDM framework — generating physically plausible probe motion simulations from static images — was the core novel contribution and a different kind of thinking from model architecture design. Understanding how to generate training data from first principles (physics of probe motion, anatomical constraints) is directly applicable to any medical imaging domain with scarce annotations.</p>
+  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">3D convolution for temporal consistency.</strong> This was the first project using 3D convolutional networks (3D U-Net) — where the third spatial dimension is time rather than depth. Understanding how 3D convolution captures temporal dependencies across frames, and when it adds value over applying a 2D model frame-by-frame, required building intuition about what "temporal consistency" means for a measurement task. The reliability scoring module (R=1.0 meaning every frame agreed on the same measurement) was the evaluation artifact of that reasoning.</p>
+  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">Ellipse fitting as a post-processing step.</strong> Raw segmentation masks don't directly give circumference measurements — fitting an ellipse to the predicted mask boundary and computing the ellipse's perimeter is a geometric post-processing step that most segmentation projects don't require. This bridged computer vision (segmentation) with clinical measurement (circumference in mm), and required understanding the distinction between predicting a region and measuring a quantity from that prediction.</p>
+  <p style="font-size:0.87rem;"><strong style="color:var(--white);">Honest contribution tracking on a team project.</strong> My teammate Ramyasri Murugesan built the full Pseudo-LDDM simulation. I built the baseline (Residual U-Net, all 4 preprocessing variants, evaluation). The 3D U-Net and temporal stability module were joint. Documenting this split accurately — and building a portfolio page that reflects it honestly — was a deliberate decision that sets this portfolio apart from those that obscure contribution boundaries.</p>
 </div>
 
 <div class="bottom-cta">

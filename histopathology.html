@@ -239,9 +239,29 @@
       </tbody>
     </table>
 
+    <div class="fig-2 reveal">
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/histopathology-cancer-detection/main/results/figures/fig_roc_pr_auc.png" alt="ROC-AUC and PR-AUC across subsets" loading="lazy">
+        <p class="fig-cap"><strong>Figure 1</strong> — ROC-AUC and PR-AUC across all 4 training data subsets</p>
+      </div>
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/histopathology-cancer-detection/main/results/figures/fig_data_volume_study.png" alt="Training size vs all metrics" loading="lazy">
+        <p class="fig-cap"><strong>Figure 2</strong> — Training data volume vs. all metrics — the core scaling study</p>
+      </div>
+    </div>
+    <div class="fig-2 reveal">
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/histopathology-cancer-detection/main/results/figures/fig_confusion_matrices.png" alt="Confusion matrices all subsets" loading="lazy">
+        <p class="fig-cap"><strong>Figure 3</strong> — Confusion matrices (2×2 grid) for all 4 subsets</p>
+      </div>
+      <div class="fig">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/histopathology-cancer-detection/main/results/figures/fig_metrics_all_subsets.png" alt="All metrics across subsets" loading="lazy">
+        <p class="fig-cap"><strong>Figure 4</strong> — Sensitivity, specificity, precision, F1, accuracy — all subsets</p>
+      </div>
+    </div>
     <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/histopathology-cancer-detection/main/results/subset_auc_comparison.png" alt="ROC-AUC and PRC-AUC comparison across subsets" loading="lazy">
-      <p class="fig-cap"><strong>Figure 1</strong> — ROC-AUC and PRC-AUC bar chart across all 4 training data subsets</p>
+      <img src="https://raw.githubusercontent.com/TarunSadarla2606/histopathology-cancer-detection/main/results/figures/fig_dataset_composition.png" alt="Dataset composition and noise filtering" loading="lazy">
+      <p class="fig-cap"><strong>Figure 5</strong> — Subset composition and noise filtering summary</p>
     </div>
 
     <h3>Full system comparison</h3>
@@ -271,6 +291,15 @@
   </div>
 
 </div>
+
+
+  <div class="learned-box reveal" style="margin:3rem 2rem 0;">
+    <h3>★ What this project taught — uniquely</h3>
+    <p><strong>Data volume as an empirical question, not an assumption.</strong> The non-monotonic improvement in ROC-AUC (0.81 → 0.79 → 0.81 → 0.82 across subsets) challenged the assumption that "more data always helps linearly." S2 showed surprisingly high specificity (0.931) but lower sensitivity (0.647) — the model became conservative with 40% of the data. This result illustrates that data volume interacts with model behavior in non-obvious ways, and systematic subset experiments like this are the only way to map that relationship empirically. This thinking applies directly to any clinical dataset where annotation is expensive.</p>
+    <p><strong>Noise filtering as a prerequisite step — not an afterthought.</strong> Scanning 220,025 raw image patches with PIL image verification found 29 corrupted files. Removing them before any training — and tracking this explicitly as a pipeline step — reflects production-grade data hygiene that most academic projects skip. In clinical imaging, corrupted or mislabeled training data has patient-safety implications, making this seemingly minor step meaningfully important.</p>
+    <p><strong>Full-stack deployment as a team collaboration challenge.</strong> This was the only project in this portfolio that combined a deep learning model with a production web application (Django backend + React frontend + REST API). Coordinating the interface between the model output (JSON with confidence scores) and the web app's display requirements required explicit API design — something that never comes up when working alone in a notebook.</p>
+    <p><strong>PR-AUC as the honest metric under class imbalance.</strong> PR-AUC values (0.69–0.71) were consistently lower than ROC-AUC (0.79–0.82) across all subsets — and that gap is meaningful, not coincidental. ROC-AUC is optimistic under class imbalance because it accounts for true negatives (of which there are many). PR-AUC focuses on precision-recall trade-offs for the positive class (cancer), which is what actually matters clinically. Always reporting both metrics for medical imaging tasks is a lesson this project made concrete.</p>
+  </div>
 
 <div class="bottom-cta">
   <div class="cta-left">

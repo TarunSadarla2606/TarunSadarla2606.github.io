@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Data Visualization — Tarun Sadarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(245,158,11,0.12);--border-bright:rgba(245,158,11,0.35);--accent:#f59e0b;--accent-dim:rgba(245,158,11,0.13);--accent-glow:rgba(245,158,11,0.06);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(8,13,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-back{font-family:'DM Mono',monospace;font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-back:hover{color:var(--accent);}
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+  #hero{min-height:52vh;display:flex;align-items:flex-end;padding:9rem 4rem 4rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 60% 35%,black 20%,transparent 72%);}
+  .hero-glow{position:absolute;width:500px;height:400px;background:radial-gradient(ellipse,rgba(245,158,11,0.06) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
+  .hero-content{position:relative;max-width:760px;}
+  .breadcrumb{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;}
+  .breadcrumb span{color:var(--accent);}
+  .proj-cat{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:0.9rem;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;}
+  h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.4rem);line-height:1.08;color:var(--white);letter-spacing:-0.025em;margin-bottom:1rem;opacity:0;animation:fadeUp 0.7s ease 0.3s forwards;}
+  h1 em{font-style:italic;color:var(--accent);}
+  .hero-sub{font-size:0.96rem;color:var(--muted);max-width:580px;line-height:1.8;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.7s ease 0.42s forwards;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:0.6rem;opacity:0;animation:fadeUp 0.7s ease 0.52s forwards;}
+  .meta-tag{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);display:inline-flex;}
+  .meta-tag.hi{border-color:rgba(245,158,11,0.38);color:var(--accent);background:var(--accent-dim);}
+  .page-content{max-width:980px;margin:0 auto;padding:4rem 4rem;}
+  .proj-section{margin-bottom:0;}
+  .proj-header{display:flex;align-items:baseline;gap:1.25rem;padding:2.5rem 0 1.25rem;border-top:1px solid var(--border);}
+  .proj-header:first-of-type{border-top:none;padding-top:0;}
+  .proj-num{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;min-width:80px;}
+  .proj-title-area h2{font-family:'DM Serif Display',serif;font-size:clamp(1.3rem,2.2vw,1.8rem);color:var(--white);letter-spacing:-0.02em;margin-bottom:0.25rem;}
+  .proj-title-area .ptag{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+  p{color:var(--text);font-size:0.91rem;line-height:1.82;margin-bottom:0.9rem;}
+  p strong{color:var(--white);font-weight:500;}
+  h3{font-size:0.9rem;font-weight:600;color:var(--white);margin-bottom:0.4rem;margin-top:1.5rem;}
+  abbr{text-decoration:underline dotted rgba(245,158,11,0.4);cursor:help;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin:1.1rem 0;}
+  .rtable{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.81rem;}
+  .rtable th{font-family:'DM Mono',monospace;font-size:0.59rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0.6rem 0.8rem;border-bottom:1px solid rgba(245,158,11,0.25);background:var(--bg3);}
+  .rtable td{padding:0.7rem 0.8rem;border-bottom:1px solid var(--border);color:var(--text);}
+  .rtable tr:hover td{background:var(--bg2);}
+  .lbl{color:var(--white);font-weight:500;}
+  .best{color:var(--accent);font-weight:500;}
+  .callout{padding:1rem 1.4rem;border-left:3px solid var(--accent);background:var(--bg2);margin:1.25rem 0;}
+  .callout p{margin:0;font-size:0.86rem;}
+  .callout strong{color:var(--accent);}
+  .contrib-list{list-style:none;margin:0.75rem 0;}
+  .contrib-list li{display:flex;gap:0.75rem;padding:0.7rem 0.9rem;border:1px solid var(--border);background:var(--bg2);margin-bottom:0.4rem;font-size:0.83rem;line-height:1.6;color:var(--text);}
+  .ci{color:var(--accent);flex-shrink:0;}
+  .learned-box{padding:1.35rem 1.6rem;border:1px solid rgba(245,158,11,0.28);background:rgba(245,158,11,0.04);margin:1.75rem 0;}
+  .learned-box h4{color:var(--accent);margin-bottom:0.6rem;font-size:0.85rem;font-weight:600;letter-spacing:0.05em;}
+  .learned-box p{font-size:0.84rem;margin-bottom:0.5rem;}
+  .learned-box p:last-child{margin-bottom:0;}
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1.25rem 0;}
+  .tg-cell{background:var(--bg2);padding:1.1rem;text-align:center;}
+  .tg-name{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.25rem;}
+  .tg-desc{font-size:0.78rem;color:var(--muted);line-height:1.55;}
+  .bottom-cta{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .cta-left h3{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--white);margin-bottom:0.3rem;}
+  .cta-left p{font-size:0.82rem;color:var(--muted);margin:0;}
+  .cta-btns{display:flex;gap:1rem;}
+  .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;background:var(--accent);color:var(--bg);font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+  .btn-p:hover{background:#fbbf24;box-shadow:0 5px 18px rgba(245,158,11,0.3);}
+  .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;border:1px solid var(--border-bright);color:var(--text);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+  .btn-s:hover{border-color:var(--accent);color:var(--accent);}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @media(max-width:800px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}#hero{padding:8rem 1.5rem 3rem;}.page-content{padding:3rem 1.5rem;}.two-col,.tool-grid{grid-template-columns:1fr;}.bottom-cta{padding:2rem 1.5rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#p1">Tableau</a></li>
+    <li><a href="#p2">D3.js + Power BI</a></li>
+    <li><a href="#p3">Final Project</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="breadcrumb">Portfolio <span>/</span> Course Collections <span>/</span> Data Visualization</div>
+    <p class="proj-cat">Scientific Data Visualization · Summer 2025 · UNT · Prof. Dr. Zeenat Tariq</p>
+    <h1>Scientific Data<br><em>Visualization</em></h1>
+    <p class="hero-sub">Visualization principles and tools across three platforms — Tableau, D3.js via Observable, and Power BI. Assignments progressing from basic dashboards to programmatic interactive charts. Final project combining Tableau advanced analytics, DAX custom measures, and Figma SVG custom icon design.</p>
+    <div class="hero-meta">
+      <span class="meta-tag hi">Tableau · D3.js · Power BI</span>
+      <span class="meta-tag hi">DAX Custom Measures</span>
+      <span class="meta-tag hi">Figma SVG Integration</span>
+      <span class="meta-tag">AWS · S3 · EC2 · Observable</span>
+    </div>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <div class="tool-grid reveal">
+    <div class="tg-cell">
+      <div class="tg-name">Tableau</div>
+      <div class="tg-desc">Drag-and-drop dashboards, calculated fields, storytelling with data. Used for assignments and final project.</div>
+    </div>
+    <div class="tg-cell">
+      <div class="tg-name">D3.js</div>
+      <div class="tg-desc">Programmatic, web-based interactive visualisations via Observable notebook environment using JavaScript.</div>
+    </div>
+    <div class="tg-cell">
+      <div class="tg-name">Power BI</div>
+      <div class="tg-desc">Business intelligence dashboards with DAX formula-based custom measures for computed metrics.</div>
+    </div>
+  </div>
+
+  <div class="callout reveal">
+    <p><strong>Note on AWS:</strong> This course was conducted entirely on AWS (S3 for data storage, EC2 for compute). Hands-on AWS practice assignments were completed but deleted before archiving. Only graded deliverables are preserved in this repository.</p>
+  </div>
+
+  <!-- Assignment 1 -->
+  <div id="p1" class="proj-section reveal">
+    <div class="proj-header">
+      <span class="proj-num">Assign. 01</span>
+      <div class="proj-title-area">
+        <h2>Tableau — Global Superstore Dataset</h2>
+        <span class="ptag">Tableau · Bar Charts · Shipping Cost Analysis</span>
+      </div>
+    </div>
+
+    <p>Exploratory visualization of the Global Superstore retail dataset across markets, segments, and product categories. Built side-by-side bar visualisations and multi-dimensional analytical views exploring sales, profit, and shipping metrics.</p>
+
+    <h3>Key visualizations</h3>
+    <ul class="contrib-list">
+      <li><span class="ci">▸</span>Market × Sales side-by-side bars — sum of shipping costs per sub-category across Furniture, Office Supplies, and Technology</li>
+      <li><span class="ci">▸</span>Key finding: Phones and Copiers have the highest shipping costs in Technology (Copiers: $159,496)</li>
+      <li><span class="ci">▸</span>Additional analytical views exploring sales, profit, and shipping metrics across markets</li>
+    </ul>
+
+    <div class="learned-box">
+      <h4>★ What this assignment taught — uniquely</h4>
+      <p><strong>Visualization as a discovery tool, not a reporting tool.</strong> The shipping cost finding (Copiers dominating Technology despite being less frequently purchased than Phones) only became visible when the data was broken down by sub-category rather than category. This experience of using visualization as an exploratory instrument — where the chart reveals something you weren't looking for — is a skill that directly applies to medical imaging data analysis, where summary statistics routinely hide subgroup patterns.</p>
+    </div>
+  </div>
+
+  <!-- Assignment 2 -->
+  <div id="p2" class="proj-section reveal">
+    <div class="proj-header">
+      <span class="proj-num">Assign. 02</span>
+      <div class="proj-title-area">
+        <h2>D3.js + Power BI — Iris &amp; Tech Layoffs</h2>
+        <span class="ptag">D3.js · Observable · Power BI · Pie Charts · Stacked Bars</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>Part A — D3.js via Observable (Iris dataset)</h3>
+        <p style="font-size:0.86rem;">Iris dataset (150 samples, 3 species, 4 features) visualized using D3.js in an Observable notebook. Pie chart showing perfectly balanced class distribution (50 each for Setosa, Versicolor, Virginica). Additional multivariate analysis of sepal/petal dimensions using D3 interactive elements.</p>
+        <p style="font-size:0.82rem;color:var(--muted);">Observable notebook: <a href="https://observablehq.com/d/aa9eb9017a90976c" style="color:var(--accent);text-decoration:none;">observablehq.com/d/aa9eb9017a90976c</a></p>
+      </div>
+      <div>
+        <h3>Part B — Power BI (Tech Layoffs)</h3>
+        <p style="font-size:0.86rem;">Tech layoffs dataset analyzed in Power BI. Stacked column chart (companies × total layoffs, sorted descending). Pie chart of layoffs by company filtered to Africa, Australia, and South America — showing relative regional contribution with percentage labels.</p>
+      </div>
+    </div>
+
+    <div class="learned-box">
+      <h4>★ What this assignment taught — uniquely</h4>
+      <p><strong>D3.js — from declarative to programmatic visualization.</strong> Tableau and Power BI abstract the chart into drag-and-drop operations. D3.js requires you to write the mapping from data to visual encoding in JavaScript — specifying exactly how data values translate to pixel positions, colors, and shapes. Working through Observable made the underlying structure of every chart visible: scales, axes, selections, and data binding. This gave me a fundamentally different mental model of what a visualization is — a function from data to visual marks — which transfers directly to designing custom clinical data visualizations that standard tools can't produce.</p>
+    </div>
+  </div>
+
+  <!-- Final Project -->
+  <div id="p3" class="proj-section reveal">
+    <div class="proj-header">
+      <span class="proj-num">Final</span>
+      <div class="proj-title-area">
+        <h2>Tableau Advanced Analytics + DAX + Figma SVG</h2>
+        <span class="ptag">Tableau · DAX Formula · Standard Deviation · Figma Vector Design</span>
+      </div>
+    </div>
+
+    <p>Advanced Tableau analytics combining computed statistical measures, custom DAX formulas, and Figma-designed SVG icons integrated into a dashboard. Demonstrates the full pipeline from data computation to visual presentation design.</p>
+
+    <h3>Key components</h3>
+    <ul class="contrib-list">
+      <li><span class="ci">▸</span>Sum and Standard Deviation of Sales Amount — aggregate statistics with std dev breakdown by Country</li>
+      <li><span class="ci">▸</span>Custom Quick Measure via DAX: Standard Deviation of Sales by Country using <code style="font-family:'DM Mono',monospace;font-size:0.8em;background:var(--bg3);padding:0.1em 0.35em;border:1px solid var(--border);">CALCULATE(STDEV.P([Sales Amount]), ALLEXCEPT(Table, Table[Country]))</code></li>
+      <li><span class="ci">▸</span>Figma SVG design: custom vector icons designed, exported as SVG, code cleaned, and integrated into Tableau dashboard</li>
+    </ul>
+
+    <div class="learned-box">
+      <h4>★ What this assignment taught — uniquely</h4>
+      <p><strong>DAX as a semantic layer for computed metrics.</strong> DAX (Data Analysis Expressions) is a formula language that operates on column-level calculations with context awareness — ALLEXCEPT filters work differently from what you'd expect from SQL or Python. Writing a formula that computes standard deviation per country while respecting other filter contexts made the difference between row-context and filter-context calculation concrete, which is a concept that appears in any database-backed dashboard system.</p>
+      <p><strong>Design integration — SVG from Figma to dashboard.</strong> Designing custom icons in Figma, exporting clean SVG, and integrating them into a Tableau dashboard was the only project-adjacent experience in this portfolio involving vector design tools. Understanding SVG as a code format (not just an image format) — and being able to clean the exported code — is a transferable skill for any web-based portfolio or visualization work.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-cta">
+  <div class="cta-left">
+    <h3>View Tableau workbooks, D3.js notebooks, and reports</h3>
+    <p>All assignments and final project reports preserved in the repository.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://github.com/TarunSadarla2606/scientific-data-visualization" target="_blank" class="btn-p">View on GitHub →</a>
+    <a href="index.html#contact" class="btn-s">Get in Touch</a>
+  </div>
+</div>
+
+<script>
+  const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('visible'),el.target.dataset.delay||0);obs.unobserve(el.target);}});},{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.delay=(i%3)*80;obs.observe(el);});
+</script>
+</body>
+</html>

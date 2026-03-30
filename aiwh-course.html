@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI in Wearables & Healthcare — Tarun Sadarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(245,158,11,0.12);--border-bright:rgba(245,158,11,0.35);--accent:#f59e0b;--accent-dim:rgba(245,158,11,0.13);--accent-glow:rgba(245,158,11,0.06);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;--red:#e06464;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(8,13,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-back{font-family:'DM Mono',monospace;font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-back:hover{color:var(--accent);}
+  .nav-links{display:flex;gap:1.5rem;list-style:none;}
+  .nav-links a{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+  #hero{min-height:52vh;display:flex;align-items:flex-end;padding:9rem 4rem 4rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 60% 35%,black 20%,transparent 72%);}
+  .hero-glow{position:absolute;width:500px;height:400px;background:radial-gradient(ellipse,rgba(245,158,11,0.06) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
+  .hero-content{position:relative;max-width:760px;}
+  .breadcrumb{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;}
+  .breadcrumb span{color:var(--accent);}
+  .proj-cat{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:0.9rem;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;}
+  h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.4rem);line-height:1.08;color:var(--white);letter-spacing:-0.025em;margin-bottom:1rem;opacity:0;animation:fadeUp 0.7s ease 0.3s forwards;}
+  h1 em{font-style:italic;color:var(--accent);}
+  .hero-sub{font-size:0.96rem;color:var(--muted);max-width:580px;line-height:1.8;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.7s ease 0.42s forwards;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:0.6rem;opacity:0;animation:fadeUp 0.7s ease 0.52s forwards;}
+  .meta-tag{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);display:inline-flex;}
+  .meta-tag.hi{border-color:rgba(245,158,11,0.38);color:var(--accent);background:var(--accent-dim);}
+  .page-content{max-width:980px;margin:0 auto;padding:4rem 4rem;}
+  .act-section{padding:2rem 0;border-top:1px solid var(--border);}
+  .act-section:first-of-type{border-top:none;padding-top:0;}
+  .act-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1rem;}
+  .act-num{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.22em;color:var(--accent);text-transform:uppercase;min-width:90px;flex-shrink:0;}
+  .act-title{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--white);letter-spacing:-0.01em;}
+  .act-tag{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-left:0.75rem;}
+  p{color:var(--text);font-size:0.91rem;line-height:1.82;margin-bottom:0.9rem;}
+  p strong{color:var(--white);font-weight:500;}
+  h3{font-size:0.9rem;font-weight:600;color:var(--white);margin-bottom:0.4rem;margin-top:1.5rem;}
+  abbr{text-decoration:underline dotted rgba(245,158,11,0.4);cursor:help;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin:1.1rem 0;}
+  .rtable{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.81rem;}
+  .rtable th{font-family:'DM Mono',monospace;font-size:0.59rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0.6rem 0.8rem;border-bottom:1px solid rgba(245,158,11,0.25);background:var(--bg3);}
+  .rtable td{padding:0.7rem 0.8rem;border-bottom:1px solid var(--border);color:var(--text);}
+  .rtable tr:hover td{background:var(--bg2);}
+  .lbl{color:var(--white);font-weight:500;}
+  .best{color:var(--accent);font-weight:500;}
+  .callout{padding:1rem 1.4rem;border-left:3px solid var(--accent);background:var(--bg2);margin:1.25rem 0;}
+  .callout p{margin:0;font-size:0.86rem;}
+  .callout strong{color:var(--accent);}
+  .activity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0;}
+  .ag-cell{background:var(--bg2);padding:1.1rem 1.25rem;}
+  .ag-num{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;margin-bottom:0.25rem;}
+  .ag-title{font-size:0.84rem;font-weight:600;color:var(--white);margin-bottom:0.3rem;}
+  .ag-desc{font-size:0.76rem;color:var(--muted);line-height:1.55;}
+  .learned-box{padding:1.35rem 1.6rem;border:1px solid rgba(245,158,11,0.28);background:rgba(245,158,11,0.04);margin:2rem 0;}
+  .learned-box h4{color:var(--accent);margin-bottom:0.6rem;font-size:0.85rem;font-weight:600;letter-spacing:0.05em;}
+  .learned-box p{font-size:0.84rem;margin-bottom:0.5rem;}
+  .learned-box p:last-child{margin-bottom:0;}
+  .result-block{background:var(--bg3);border:1px solid var(--border);padding:1.1rem 1.4rem;margin:1rem 0;}
+  .result-block h4{font-size:0.84rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;}
+  .bottom-cta{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .cta-left h3{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--white);margin-bottom:0.3rem;}
+  .cta-left p{font-size:0.82rem;color:var(--muted);margin:0;}
+  .cta-btns{display:flex;gap:1rem;}
+  .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;background:var(--accent);color:var(--bg);font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+  .btn-p:hover{background:#fbbf24;box-shadow:0 5px 18px rgba(245,158,11,0.3);}
+  .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;border:1px solid var(--border-bright);color:var(--text);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+  .btn-s:hover{border-color:var(--accent);color:var(--accent);}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @media(max-width:800px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}#hero{padding:8rem 1.5rem 3rem;}.page-content{padding:3rem 1.5rem;}.two-col{grid-template-columns:1fr;}.activity-grid{grid-template-columns:1fr;}.bottom-cta{padding:2rem 1.5rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#regulatory">Regulatory</a></li>
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#yolo">YOLOv8</a></li>
+    <li><a href="#mimic">MIMIC</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="breadcrumb">Portfolio <span>/</span> Course Collections <span>/</span> AI in Wearables</div>
+    <p class="proj-cat">AI in Wearables &amp; Healthcare · Fall 2025 · UNT · Prof. Dr. Mahdi Pedram</p>
+    <h1>AI in Wearables<br>&amp; <em>Healthcare</em></h1>
+    <p class="hero-sub">Hands-on activities covering the full spectrum of applied AI in wearable and clinical settings — from FDA regulatory frameworks and Seeed Studio XIAO nRF52840 hardware to YOLOv8 food detection, PPG pulse sensor experiments, and MIMIC-IV ICU clinical data analysis. 15 activities across Fall 2025.</p>
+    <div class="hero-meta">
+      <span class="meta-tag hi">YOLOv8 mAP@50 = 0.913</span>
+      <span class="meta-tag hi">PPG Ear vs. Finger Experiments</span>
+      <span class="meta-tag hi">MIMIC-IV ICU Analysis</span>
+      <span class="meta-tag hi">Seeed XIAO nRF52840 Hardware</span>
+      <span class="meta-tag">YOLOv8 · TinyML · MIT App Inventor · MIMIC-IV</span>
+    </div>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <!-- REGULATORY -->
+  <div id="regulatory" class="act-section reveal">
+    <div class="act-header">
+      <span class="act-num">Act. 01 / 03</span>
+      <span class="act-title">Regulatory &amp; Design Frameworks</span>
+      <span class="act-tag">FDA · mHealth · Dexcom CGM · Wearable Limitations</span>
+    </div>
+    <p>Activities covering the regulatory landscape and design challenges of AI-powered wearable medical devices — an essential context for understanding what it takes to deploy AI in clinical settings.</p>
+    <div class="activity-grid">
+      <div class="ag-cell">
+        <div class="ag-num">Activity 01</div>
+        <div class="ag-title">FDA and mHealth Regulation</div>
+        <div class="ag-desc">FDA's Software as a Medical Device (SaMD) framework. Discussion of additional oversight beyond FDA: third-party algorithmic audits, ethical review boards for bias, international harmonisation.</div>
+      </div>
+      <div class="ag-cell">
+        <div class="ag-num">Activity 03</div>
+        <div class="ag-title">Dexcom CGM Design Analysis</div>
+        <div class="ag-desc">Multi-level design analysis of the Dexcom Continuous Glucose Monitor across mechanical (waterproof transmitter, applicator), software/app (color-coded glucose display, trend arrows), and system (Bluetooth + cloud sync) levels.</div>
+      </div>
+      <div class="ag-cell">
+        <div class="ag-num">Activity 04</div>
+        <div class="ag-title">Activity Monitor Limitations in Obesity</div>
+        <div class="ag-desc">Hip-worn monitors show decreased accuracy due to altered gait and postural control. Wrist-worn affected by placement at higher BMI. Proposed: combined multi-site sensing with subject-specific calibration models.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HARDWARE -->
+  <div id="hardware" class="act-section reveal">
+    <div class="act-header">
+      <span class="act-num">Act. 02 / 05 / 06</span>
+      <span class="act-title">Hardware &amp; Sensor Activities</span>
+      <span class="act-tag">Seeed XIAO nRF52840 · Accelerometer · PPG · Gesture</span>
+    </div>
+
+    <p>Hands-on work with real wearable hardware — the Seeed Studio XIAO nRF52840 Sense (BLE-enabled microcontroller with IMU) — collecting accelerometer and PPG sensor data across different body placements and activity conditions.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>Activity 5 — Accelerometer data collection (50 Hz)</h3>
+        <p style="font-size:0.86rem;">Three activity types collected in-residence: Sitting (stationary on bed), Walking (regular-pace), Stairs (ascending and descending). Confusion matrix and classification report included for on-device activity recognition model.</p>
+        <h3>Activity 6 — Gesture recognition</h3>
+        <p style="font-size:0.86rem;">Acceleration plots for Flex gesture (wrist flexion) and Punch gesture — showing distinct temporal patterns enabling classification from raw accelerometer data.</p>
+      </div>
+      <div>
+        <h3>Activity 10 — PPG pulse sensor: Ear vs. Finger</h3>
+        <table class="rtable" style="font-size:0.76rem;">
+          <thead><tr><th>Condition</th><th>Location</th><th>Avg BPM</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="lbl">Sitting</td><td>Finger</td><td>~75</td><td>Stable IBI, strong signal</td></tr>
+            <tr><td class="lbl">Sitting</td><td>Ear</td><td>~73</td><td>More IBI variation</td></tr>
+            <tr><td class="lbl">Walking</td><td>Both</td><td>94–100</td><td>Motion artifacts visible</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.79rem;color:var(--muted);">Finding: Finger provides stronger, more stable signal at rest. Both show increased BPM during motion (74 → 94–100 bpm) with artifacts.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOLO -->
+  <div id="yolo" class="act-section reveal">
+    <div class="act-header">
+      <span class="act-num">Act. 07–09 / 11 / 14</span>
+      <span class="act-title">Model Training &amp; Edge Deployment</span>
+      <span class="act-tag">YOLOv8 · Food Detection · MIT App Inventor · Grid Search</span>
+    </div>
+
+    <p>End-to-end pipeline from data collection (smartphone photos) through model training (YOLOv8), hyperparameter optimization (embedding × threshold grid search), and mobile app deployment (MIT App Inventor).</p>
+
+    <div class="two-col">
+      <div>
+        <h3>YOLOv8 food detection (Activity 14)</h3>
+        <div class="callout" style="margin-top:0.75rem;">
+          <p>Overall: <strong>Precision 0.915 · Recall 0.874 · mAP@50 = 0.913 · mAP@50-95 = 0.849</strong></p>
+        </div>
+        <table class="rtable" style="margin-top:0.5rem;font-size:0.76rem;">
+          <thead><tr><th>Class</th><th>Precision</th><th>Recall</th><th>mAP@50</th></tr></thead>
+          <tbody>
+            <tr><td class="lbl">Bread</td><td>0.962</td><td>0.667</td><td>0.667</td></tr>
+            <tr><td class="lbl">Burger</td><td>0.911</td><td class="best">1.000</td><td class="best">0.995</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.76rem;color:var(--muted);">Dataset: 186 images collected via smartphone (Activity 7). Training parameters and results in Activity 8.</p>
+      </div>
+      <div>
+        <h3>Embedding × threshold grid search (Activity 11)</h3>
+        <p style="font-size:0.86rem;">Instead of manual hyperparameter tuning, a systematic grid search over 230 combinations: embedding size [8, 10, 12, 14, 16, 18, 20, 24, 28, 32] × threshold [0.018→0.040, step 0.001]. Demonstrates principled search methodology for lite edge models.</p>
+        <h3>MIT App Inventor (Activity 9)</h3>
+        <p style="font-size:0.86rem;">Mobile application built using MIT App Inventor — deployed on iPhone. Designer section (UI layout) and Blocks section (event-driven logic) both documented.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIMIC -->
+  <div id="mimic" class="act-section reveal">
+    <div class="act-header">
+      <span class="act-num">Act. 15</span>
+      <span class="act-title">MIMIC-IV ICU Clinical Data Analysis</span>
+      <span class="act-tag">MIMIC-IV · ICU Demographics · Admission Types · Clinical AI</span>
+    </div>
+
+    <p>Analysis of <abbr title="Medical Information Mart for Intensive Care: a large, de-identified health-related data set of patients admitted to critical care units">MIMIC-IV</abbr> — a real-world clinical dataset covering ICU admissions across unit types and patient demographics. This activity sits at the intersection of this course and my medical imaging AI focus — understanding clinical data structure is prerequisite to deploying AI in clinical settings.</p>
+
+    <div class="result-block">
+      <h4>Key findings</h4>
+      <p style="font-size:0.84rem;color:var(--text);margin:0;line-height:1.7;"><strong>MICU (Medical ICU)</strong> admits the highest number of older patients (&gt;89 years) with over 50,000 patients. <strong>Emergency admission type</strong> is the most common with 42,071 admissions. Visualisations of patient demographics, admission types, and ICU unit distribution reveal the clinical data landscape that AI systems must navigate.</p>
+    </div>
+
+    <div class="learned-box">
+      <h4>★ What this course taught — uniquely</h4>
+      <p><strong>The full stack of clinical AI deployment — from regulation to hardware to model to data.</strong> No other course in this portfolio covered all of: FDA regulatory frameworks, embedded microcontroller programming, data collection from real sensors, lite model architectures for battery-constrained hardware, grid-based hyperparameter search, mobile app deployment, and real clinical dataset analysis (MIMIC-IV). The breadth is the point — deploying AI in healthcare requires understanding every layer of this stack simultaneously.</p>
+      <p><strong>Edge AI as a real hardware constraint, not just a benchmark.</strong> The Seeed Studio XIAO nRF52840 activity (collecting accelerometer data at 50 Hz from three activity types) made the gap between a laptop GPU and an edge microcontroller tangible. Model choices that are trivial on cloud compute become tightly constrained when battery life, memory, and inference latency are physical limits. This constraint-first thinking directly informed my understanding of the WECARE project's 0.033ms latency target.</p>
+      <p><strong>MIMIC-IV as a clinical data structure reference.</strong> Working with a real de-identified ICU dataset — understanding its schema, admission type distribution, and patient age distribution — gave context for what production clinical datasets actually look like. This is the bridge between building models on clean benchmarks and deploying them in real healthcare environments where data is messy, incomplete, and clinically nuanced.</p>
+      <p><strong>YOLOv8 end-to-end — from phone camera to deployed model.</strong> Collecting 186 food images via smartphone, training YOLOv8, and achieving mAP@50 of 0.913 connected the full pipeline that most courses only teach in pieces. Understanding the annotation → training → evaluation → deployment loop from personal experience (including the data collection step, not just the training step) is directly transferable to any medical imaging annotation and training workflow.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-cta">
+  <div class="cta-left">
+    <h3>View all 15 activity reports</h3>
+    <p>PDF reports for all activities covering regulation, hardware, model training, and clinical data analysis.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://github.com/TarunSadarla2606/ai-wearables-healthcare" target="_blank" class="btn-p">View on GitHub →</a>
+    <a href="index.html#contact" class="btn-s">Get in Touch</a>
+  </div>
+</div>
+
+<script>
+  const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('visible'),el.target.dataset.delay||0);obs.unobserve(el.target);}});},{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.delay=(i%3)*80;obs.observe(el);});
+</script>
+</body>
+</html>

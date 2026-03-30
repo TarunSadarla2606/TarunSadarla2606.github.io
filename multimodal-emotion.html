@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(0,200,200,0.12);--border-bright:rgba(0,200,200,0.35);--cyan:#00c8c8;--cyan-dim:rgba(0,200,200,0.15);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;--yellow:#e0b84e;--red:#e06464;}
+  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(45,212,160,0.12);--border-bright:rgba(45,212,160,0.35);--cyan:#2dd4a0;--cyan-dim:rgba(45,212,160,0.13);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;--yellow:#e0b84e;--red:#e06464;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
@@ -15,11 +15,11 @@
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(8,13,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
   .nav-back{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
   .nav-back:hover{color:var(--cyan);}
-  .nav-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(0,200,200,0.45);letter-spacing:0.12em;}
+  .nav-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(45,212,160,0.45);letter-spacing:0.12em;}
 
   #hero{min-height:60vh;display:flex;align-items:flex-end;padding:9rem 4rem 4rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
-  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 65% 35%,black 20%,transparent 72%);}
-  .hero-glow{position:absolute;width:600px;height:500px;background:radial-gradient(ellipse,rgba(0,200,200,0.07) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(45,212,160,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,160,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 65% 35%,black 20%,transparent 72%);}
+  .hero-glow{position:absolute;width:600px;height:500px;background:radial-gradient(ellipse,rgba(45,212,160,0.07) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
   .hero-content{position:relative;max-width:820px;}
   .breadcrumb{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;}
   .breadcrumb span{color:var(--cyan);}
@@ -29,7 +29,7 @@
   .hero-sub{font-size:0.98rem;color:var(--muted);max-width:600px;line-height:1.82;margin-bottom:1.75rem;opacity:0;animation:fadeUp 0.7s ease 0.42s forwards;}
   .hero-meta{display:flex;flex-wrap:wrap;gap:0.7rem;opacity:0;animation:fadeUp 0.7s ease 0.52s forwards;}
   .meta-tag{display:inline-flex;align-items:center;font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);}
-  .meta-tag.hi{border-color:rgba(0,200,200,0.38);color:var(--cyan);background:var(--cyan-dim);}
+  .meta-tag.hi{border-color:rgba(45,212,160,0.38);color:var(--cyan);background:var(--cyan-dim);}
 
   .page-content{max-width:980px;margin:0 auto;padding:4rem 4rem;}
   .sec-label{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.45rem;}
@@ -39,7 +39,7 @@
   h3{font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:0.45rem;margin-top:2rem;}
   p{color:var(--text);font-size:0.92rem;line-height:1.82;margin-bottom:0.95rem;}
   p strong{color:var(--white);font-weight:500;}
-  abbr{text-decoration:underline dotted rgba(0,200,200,0.4);cursor:help;color:inherit;}
+  abbr{text-decoration:underline dotted rgba(45,212,160,0.4);cursor:help;color:inherit;}
   .divider{border:none;border-top:1px solid var(--border);margin:3.5rem 0;}
 
   .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:2.25rem 0;}
@@ -93,7 +93,7 @@
   .cta-left p{font-size:0.83rem;color:var(--muted);margin:0;}
   .cta-btns{display:flex;gap:1rem;flex-wrap:wrap;}
   .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;background:var(--cyan);color:var(--bg);font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
-  .btn-p:hover{background:#00e5e5;box-shadow:0 5px 18px rgba(0,200,200,0.3);}
+  .btn-p:hover{background:#3df5bc;box-shadow:0 5px 18px rgba(45,212,160,0.3);}
   .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;border:1px solid var(--border-bright);color:var(--text);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
   .btn-s:hover{border-color:var(--cyan);color:var(--cyan);}
 
@@ -124,7 +124,7 @@
       <span class="meta-tag hi">VGG-16 Transfer Learning</span>
       <span class="meta-tag hi">Dual-Head Multi-Task</span>
       <span class="meta-tag">PyTorch · MELD Dataset</span>
-      <span class="meta-tag">Deep Learning · UNT · Spring 2024 · 4-person team</span>
+      <span class="meta-tag">Deep Learning · Spring 2025 · UNT · 4-person team</span>
     </div>
   </div>
 </section>
@@ -251,26 +251,26 @@
     <h3>Result figures — architecture diagrams and data distributions</h3>
     <div class="fig-2 reveal">
       <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/cnn_architecture.png" alt="CNN architecture" loading="lazy">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/CNN.png" alt="CNN architecture" loading="lazy">
         <p class="fig-cap"><strong>Figure 1</strong> — Custom 5-layer CNN architecture diagram</p>
       </div>
       <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/vgg16_architecture.png" alt="VGG-16 architecture" loading="lazy">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/VGG.png" alt="VGG-16 architecture" loading="lazy">
         <p class="fig-cap"><strong>Figure 2</strong> — Pretrained VGG-16 with dual-head output</p>
       </div>
     </div>
     <div class="fig-2 reveal">
       <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/training_distribution.png" alt="Training set distributions" loading="lazy">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/Train_dist.png" alt="Training set distributions" loading="lazy">
         <p class="fig-cap"><strong>Figure 3</strong> — Training set class distributions (emotion + sentiment)</p>
       </div>
       <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/test_distribution.png" alt="Test set distributions" loading="lazy">
+        <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/Test_dist.png" alt="Test set distributions" loading="lazy">
         <p class="fig-cap"><strong>Figure 4</strong> — Test set class distributions</p>
       </div>
     </div>
     <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/video_durations.png" alt="Video durations" loading="lazy">
+      <img src="https://raw.githubusercontent.com/TarunSadarla2606/multimodal-emotion-recognition/main/results/figures/Video_Durations__1_.png" alt="Video durations" loading="lazy">
       <p class="fig-cap"><strong>Figure 5</strong> — Video clip duration distribution across the MELD dataset</p>
     </div>
   </div>
@@ -303,6 +303,14 @@
   </div>
 
 </div>
+
+
+  <div class="learned-box reveal" style="margin:3rem 2rem 0;">
+    <h3>★ What this project taught — uniquely</h3>
+    <p><strong>Why simple fusion fails on real conversational data.</strong> The multimodal fusion did not improve over individual streams — and understanding exactly why is more valuable than if it had worked. Simple feature concatenation (100-D video + 192-D audio) without temporal alignment means the model sees a video feature vector computed from 1 frame per 3 seconds alongside audio features computed from the full clip. Those two representations describe different windows of the same utterance. Learning to diagnose a fusion architecture failure — and articulate specifically what would fix it (attention-based cross-modal alignment, temporal video modeling) — is a skill that applies to any multimodal clinical pipeline.</p>
+    <p><strong>Multi-task learning with dual output heads.</strong> Every other classification project in this portfolio has a single output. This was the first project with two simultaneous targets — sentiment (3 classes) and emotion (7 classes) — sharing a backbone but with separate heads. Understanding how multi-task objectives interact during training (when they help each other, when they compete) and why a single forward pass can produce two predictions is directly applicable to clinical AI systems that must simultaneously predict multiple diagnoses or measurements from the same scan.</p>
+    <p><strong>Transfer learning for a task far from ImageNet.</strong> VGG-16 was pretrained on ImageNet (1,000-class natural image classification) and fine-tuned for facial emotion recognition — a task with very different discriminative features (subtle muscle movements vs object outlines). Observing that fine-tuning improved over the from-scratch CNN by ~8% despite the domain gap demonstrated something concrete: hierarchical visual representations are partially transferable even across very different tasks, as long as the early layers' edge/texture detectors remain useful.</p>
+  </div>
 
 <div class="bottom-cta">
   <div class="cta-left">

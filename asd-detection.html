@@ -574,6 +574,15 @@
 
 </div>
 
+
+<div style="padding:1.5rem 1.75rem;border:1px solid rgba(157,127,232,0.3);background:rgba(157,127,232,0.04);margin:3rem 4rem 0;">
+  <h3 style="color:var(--purple);margin-top:0;margin-bottom:0.75rem;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;">★ What this project taught — uniquely</h3>
+  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">Clinical neuroimaging data from scratch — NIfTI conversion pipeline.</strong> Every other project in this portfolio starts with preprocessed images or sensor data. This was the first time I worked with NIfTI (.nii.gz) volumetric brain MRI files — understanding what they are (3D arrays of voxel intensities with spatial metadata), writing a conversion pipeline to DICOM, extracting 2D PNG slices, and filtering out empty/malformed slices. Building a data pipeline from a raw scientific format to something a neural network can consume is a different skill from using an already-packaged dataset.</p>
+  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">The ViT failure as a data scale lesson.</strong> Seeing a Vision Transformer plateau at ~60% (near random) while a 5-layer CNN reached 91% on the same data was the single most important technical lesson of this project. It made the inductive bias argument concrete — CNNs assume local spatial structure (nearby voxels are related), which maps directly onto brain anatomy. ViTs assume nothing and must learn everything from data, requiring far more examples. This lesson shaped every subsequent architecture choice in the MS.</p>
+  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">Multi-site data heterogeneity as a real problem.</strong> ABIDE-I aggregates data from 17 research centres using different MRI scanners, protocols, and field strengths. Training on this data without site-specific normalization introduces scanner bias — the model may learn to classify scanner brand rather than brain structure. This is the central challenge of multi-site clinical dataset aggregation, and encountering it on a real 17-site dataset was the first time it became a practical concern rather than an abstract one.</p>
+  <p style="font-size:0.87rem;"><strong style="color:var(--white);">Optimizer choice vs. architecture selection — relative impact.</strong> Systematically testing three optimizers (Adam, NAdam, RMSprop) within each architecture produced comparable results — all within 1% of each other. But switching from plain CNN to skip-connected CNN improved AUC from 0.97 to 0.98 across all optimizers. This empirical comparison demonstrated that architecture choice has larger impact than optimizer tuning at this data scale — a principle that generalizes broadly.</p>
+</div>
+
 <div class="bottom-cta">
   <div class="cta-left">
     <h3>This is where it started. Happy to talk about where it goes next.</h3>

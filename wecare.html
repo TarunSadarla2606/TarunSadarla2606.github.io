@@ -128,7 +128,7 @@
       <span class="meta-tag hi">FN = 8 / 228 Falls</span>
       <span class="meta-tag">PyTorch · TorchScript · Edge Deploy</span>
       <span class="meta-tag">MIT-BIH + MobiFall Datasets</span>
-      <span class="meta-tag">MS AI · UNT · 2025 · 2-person team</span>
+      <span class="meta-tag">AI in Wearables & Healthcare · Fall 2025 · UNT · 2-person team</span>
     </div>
   </div>
 </section>
@@ -293,6 +293,15 @@
   </div>
 
 </div>
+
+
+  <div class="learned-box reveal" style="margin-top:2rem;">
+    <h3>★ What this project taught — uniquely</h3>
+    <p><strong>Edge AI as a hard constraint, not a preference.</strong> Every other project in this portfolio can run on any hardware with enough memory. WECARE had a real deployment target: a wearable device where inference must complete in &lt;40ms, no cloud calls, no RNN overhead. Designing for this constraint from the start — compact 3-block 1D CNN, TorchScript export, no recurrent layers — is a fundamentally different design process than optimizing for accuracy on a benchmark. The 0.033ms result isn't just a number; it's headroom for battery optimization.</p>
+    <p><strong>Threshold tuning as a clinical safety decision.</strong> Setting the IMU fall detection threshold at 0.65 (rather than the default 0.5) was a deliberate clinical trade-off: accept more false positives (alarm fatigue risk) to minimize false negatives (missed falls, which are life-threatening for elderly patients). This is the kind of asymmetric cost reasoning that clinical AI requires — different failure modes have different consequences, and the threshold is a policy decision as much as a technical one.</p>
+    <p><strong>Class imbalance handling for real biosignal data.</strong> ECG data is ~75% normal beats by nature — a model that predicts "normal" for every input achieves 75% accuracy while being clinically useless. Addressing this with class weights + WeightedRandomSampler (rather than just oversampling or augmentation) was the specific solution that preserved the full dataset while correcting the learning objective. This technique directly transfers to any medical imaging dataset with rare condition prevalence.</p>
+    <p><strong>Deployment format matters: TorchScript over TFLite.</strong> The original plan was TFLite deployment, which failed due to dependency conflicts between PyTorch-trained models and TensorFlow Lite's export pipeline. Switching to TorchScript — PyTorch's native deployment format — produced a stable, self-contained model file with no runtime framework dependencies. Understanding the deployment ecosystem (not just model training) and making pragmatic format decisions is a real production skill.</p>
+  </div>
 
 <div class="bottom-cta">
   <div class="cta-left">
