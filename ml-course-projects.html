@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(45,212,160,0.12);--border-bright:rgba(45,212,160,0.35);--accent:#2dd4a0;--accent-dim:rgba(45,212,160,0.13);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;--yellow:#e0b84e;--red:#e06464;}
+  :root{--bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;--border:rgba(245,158,11,0.12);--border-bright:rgba(245,158,11,0.35);--accent:#f59e0b;--accent-dim:rgba(245,158,11,0.13);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;--green:#4ec994;--yellow:#e0b84e;--red:#e06464;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
@@ -19,8 +19,8 @@
   .nav-links a{font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
   .nav-links a:hover{color:var(--accent);}
   #hero{min-height:52vh;display:flex;align-items:flex-end;padding:9rem 4rem 4rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
-  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(45,212,160,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,160,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 60% 35%,black 20%,transparent 72%);}
-  .hero-glow{position:absolute;width:500px;height:400px;background:radial-gradient(ellipse,rgba(45,212,160,0.06) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 60% 35%,black 20%,transparent 72%);}
+  .hero-glow{position:absolute;width:500px;height:400px;background:radial-gradient(ellipse,rgba(245,158,11,0.06) 0%,transparent 65%);top:-5%;right:-3%;pointer-events:none;}
   .hero-content{position:relative;max-width:760px;}
   .breadcrumb{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;}
   .breadcrumb span{color:var(--accent);}
@@ -30,7 +30,7 @@
   .hero-sub{font-size:0.96rem;color:var(--muted);max-width:580px;line-height:1.8;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.7s ease 0.42s forwards;}
   .hero-meta{display:flex;flex-wrap:wrap;gap:0.6rem;opacity:0;animation:fadeUp 0.7s ease 0.52s forwards;}
   .meta-tag{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);display:inline-flex;}
-  .meta-tag.hi{border-color:rgba(45,212,160,0.38);color:var(--accent);background:var(--accent-dim);}
+  .meta-tag.hi{border-color:rgba(245,158,11,0.38);color:var(--accent);background:var(--accent-dim);}
   .page-content{max-width:980px;margin:0 auto;padding:4rem 4rem;}
 
   /* Project sections */
@@ -43,10 +43,10 @@
   p{color:var(--text);font-size:0.91rem;line-height:1.82;margin-bottom:0.9rem;}
   p strong{color:var(--white);font-weight:500;}
   h3{font-size:0.9rem;font-weight:600;color:var(--white);margin-bottom:0.4rem;margin-top:1.5rem;}
-  abbr{text-decoration:underline dotted rgba(45,212,160,0.4);cursor:help;}
+  abbr{text-decoration:underline dotted rgba(245,158,11,0.4);cursor:help;}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin:1.1rem 0;}
   .rtable{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.81rem;}
-  .rtable th{font-family:'DM Mono',monospace;font-size:0.59rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0.6rem 0.8rem;border-bottom:1px solid rgba(45,212,160,0.25);background:var(--bg3);}
+  .rtable th{font-family:'DM Mono',monospace;font-size:0.59rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0.6rem 0.8rem;border-bottom:1px solid rgba(245,158,11,0.25);background:var(--bg3);}
   .rtable td{padding:0.7rem 0.8rem;border-bottom:1px solid var(--border);color:var(--text);}
   .rtable tr:hover td{background:var(--bg2);}
   .lbl{color:var(--white);font-weight:500;}
@@ -54,7 +54,7 @@
   .contrib-list{list-style:none;margin:0.75rem 0;}
   .contrib-list li{display:flex;gap:0.75rem;padding:0.7rem 0.9rem;border:1px solid var(--border);background:var(--bg2);margin-bottom:0.4rem;font-size:0.83rem;line-height:1.6;color:var(--text);}
   .ci{color:var(--accent);flex-shrink:0;}
-  .learned-box{padding:1.35rem 1.6rem;border:1px solid rgba(45,212,160,0.28);background:rgba(45,212,160,0.04);margin:1.75rem 0;}
+  .learned-box{padding:1.35rem 1.6rem;border:1px solid rgba(245,158,11,0.28);background:rgba(245,158,11,0.04);margin:1.75rem 0;}
   .learned-box h4{color:var(--accent);margin-bottom:0.6rem;font-size:0.85rem;font-weight:600;letter-spacing:0.05em;}
   .learned-box p{font-size:0.84rem;margin-bottom:0.5rem;}
   .learned-box p:last-child{margin-bottom:0;}
@@ -69,7 +69,7 @@
   .cta-left p{font-size:0.82rem;color:var(--muted);margin:0;}
   .cta-btns{display:flex;gap:1rem;}
   .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;background:var(--accent);color:var(--bg);font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
-  .btn-p:hover{background:#3df5bc;box-shadow:0 5px 18px rgba(45,212,160,0.3);}
+  .btn-p:hover{background:#fbbf24;box-shadow:0 5px 18px rgba(245,158,11,0.3);}
   .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;border:1px solid var(--border-bright);color:var(--text);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
   .btn-s:hover{border-color:var(--accent);color:var(--accent);}
   .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease;}
@@ -142,7 +142,7 @@
       </div>
     </div>
 
-    <div class="learned-box">
+    <div class="learned-box" style="max-width:860px;">
       <h4>★ What this project taught — uniquely</h4>
       <p><strong>Kernel methods and the kernel trick.</strong> This was the first time I worked directly with kernel functions as explicit feature map transforms — computing the RBF kernel matrix, using it as input features, and directly observing via t-SNE how kernel mapping restructures the feature space. Understanding that you can implicitly project into infinite-dimensional spaces without computing the projection explicitly (the kernel trick) became concrete when I saw it working — or not working — on the glass dataset's awkward 6-class distribution.</p>
       <p><strong>Feature importance analysis beyond permutation.</strong> Using Logistic Regression coefficients to identify and then ablate the two least significant chemical features — and measuring the actual performance change — gave me a practical view of what "feature importance" means statistically versus what it means for model performance. The two aren't always aligned.</p>
@@ -184,7 +184,7 @@
       </div>
     </div>
 
-    <div class="learned-box">
+    <div class="learned-box" style="max-width:860px;">
       <h4>★ What this project taught — uniquely</h4>
       <p><strong>Systematic hyperparameter search with KerasTuner.</strong> All other projects in this portfolio use manual or grid hyperparameter tuning. This was the first use of automated search (KerasTuner) on a large-scale image dataset — learning how to define a search space, run trials efficiently, and interpret search results without overfitting to the validation set during the search process itself.</p>
       <p><strong>Facial landmark analysis as a continuous variable.</strong> Computing mouth width from raw CelebA landmark pixel coordinates, converting it to a continuous index, then dividing into quartiles to test whether the quartile distribution interacts with a separate classification task (smiling) — this multi-variable experimental design was new. It's a way of asking whether a proxy feature (face geometry) contains information that overlaps with a labeled attribute.</p>
@@ -217,7 +217,7 @@
       </tbody>
     </table>
 
-    <div class="learned-box">
+    <div class="learned-box" style="max-width:860px;">
       <h4>★ What this project taught — uniquely</h4>
       <p><strong>Probabilistic inference through marginalization by hand.</strong> Every other project in this portfolio uses gradient-based optimization or statistical estimators. This was the only project requiring manual computation of conditional probability distributions through summing over intermediate variables — implementing the chain rule of probability, not calling a library to do it. Writing out each marginalization step made the relationship between graph structure and inference cost concrete in a way that reading about it never did.</p>
       <p><strong>DAG-based causal structure.</strong> Bayesian networks represent conditional independence assumptions, not just correlations. Building a DAG where causal direction matters — battery age causes battery dead, not the reverse — and then verifying that the network's probability tables encode the right dependencies, was a fundamentally different kind of modelling than anything else in this portfolio.</p>

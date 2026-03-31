@@ -30,8 +30,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .nav-links a:hover{color:var(--cyan);}
 
 /* HERO */
-#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 60% 40%,black 30%,transparent 80%);}
+#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 60% 40%,black 30%,transparent 80%);overflow:hidden;pointer-events:none;}
 .hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,200,0.07) 0%,transparent 70%);top:5%;right:0;pointer-events:none;}
 .hero-content{position:relative;max-width:800px;}
 .hero-tag{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
@@ -52,7 +52,7 @@ h1 em{font-style:italic;color:var(--cyan);}
 .stat-num{font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--white);line-height:1;}
 .stat-num span{color:var(--cyan);font-size:1.2rem;}
 .stat-label{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
-.stat-dropdown{position:fixed;top:auto;left:auto;background:var(--bg2);border:1px solid var(--border);padding:0.75rem 1rem;min-width:200px;z-index:300;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity 0.2s,transform 0.2s;max-height:280px;overflow-y:auto;}
+.stat-dropdown{position:absolute;top:calc(100% + 10px);left:0;background:var(--bg2);border:1px solid var(--border);padding:0.75rem 1rem;min-width:210px;z-index:300;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity 0.2s,transform 0.2s;}
 .stat-item:hover .stat-dropdown{opacity:1;transform:translateY(0);pointer-events:auto;}
 .stat-dropdown::before{content:'';position:absolute;top:-5px;left:16px;width:8px;height:8px;background:var(--bg2);border-left:1px solid var(--border);border-top:1px solid var(--border);transform:rotate(45deg);}
 .sd-item{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;color:var(--text);padding:0.25rem 0;border-bottom:1px solid rgba(0,200,200,0.08);}
@@ -307,8 +307,8 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
         <div class="stat-label">Total Projects</div>
         <div class="stat-dropdown">
           <div class="sd-item"><span>▸</span>3 Research deep-dives</div>
-          <div class="sd-item"><span>▸</span>7 Standalone course projects</div>
-          <div class="sd-item"><span>▸</span>4 Course collections</div>
+          <div class="sd-item"><span>▸</span>6 Standalone course projects</div>
+          <div class="sd-item"><span>▸</span>5 Course collections</div>
         </div>
       </div>
 
@@ -775,16 +775,7 @@ document.querySelectorAll('.reveal').forEach((el, i) => {
   obs.observe(el);
 });
 
-// Fix dropdown positioning to follow cursor/stat item
-document.querySelectorAll('.stat-item').forEach(item => {
-  item.addEventListener('mouseenter', () => {
-    const dropdown = item.querySelector('.stat-dropdown');
-    if (!dropdown) return;
-    const rect = item.getBoundingClientRect();
-    dropdown.style.top = (rect.bottom + 8) + 'px';
-    dropdown.style.left = rect.left + 'px';
-  });
-});
+// Dropdowns use CSS absolute positioning anchored to .stat-item
 </script>
 </body>
 </html>

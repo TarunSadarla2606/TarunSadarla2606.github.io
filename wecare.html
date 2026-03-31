@@ -104,6 +104,10 @@
   .reveal.visible{opacity:1;transform:translateY(0);}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
   @media(max-width:800px){nav{padding:1rem 1.5rem;}.nav-title{display:none;}#hero{padding:8rem 1.5rem 3rem;}.page-content{padding:3rem 1.5rem;}.two-col,.fig-2,.fig-3{grid-template-columns:1fr;}.metrics-row{grid-template-columns:repeat(2,1fr);}.bottom-cta{padding:2rem 1.5rem;}}
+  .learned-box{padding:1.5rem 1.75rem;border:1px solid rgba(45,212,160,0.3);background:rgba(45,212,160,0.04);margin:2.5rem auto;max-width:860px;}
+  .learned-box h3{color:var(--cyan);margin-top:0;margin-bottom:0.75rem;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;}
+  .learned-box p{font-size:0.87rem;margin-bottom:0.65rem;}
+  .learned-box p:last-child{margin-bottom:0;}
 </style>
 </head>
 <body>
@@ -127,9 +131,8 @@
       <span class="meta-tag hi">&lt;0.033ms Inference</span>
       <span class="meta-tag hi">FN = 8 / 228 Falls</span>
       <span class="meta-tag">PyTorch · TorchScript · Edge Deploy</span>
-      <span class="meta-tag">MIT-BIH + MobiFall Datasets
-      <span class="meta-tag">Prof. Mahdi Pedram · AI Wearables & Healthcare · Fall 2025</span></span>
-      <span class="meta-tag">AI in Wearables & Healthcare · Fall 2025 · UNT · 2-person team</span>
+      <span class="meta-tag">MIT-BIH · PhysioNet + MobiFall · Kaggle</span>
+      <span class="meta-tag">AI Wearables &amp; Healthcare · Fall 2025 · Prof. Mahdi Pedram · UNT · 2-person team</span>
     </div>
   </div>
 </section>
@@ -296,7 +299,7 @@
 </div>
 
 
-  <div class="learned-box reveal" style="margin-top:2rem;">
+  <div class="learned-box reveal">
     <h3>★ What this project taught — uniquely</h3>
     <p><strong>Edge AI as a hard constraint, not a preference.</strong> Every other project in this portfolio can run on any hardware with enough memory. WECARE had a real deployment target: a wearable device where inference must complete in &lt;40ms, no cloud calls, no RNN overhead. Designing for this constraint from the start — compact 3-block 1D CNN, TorchScript export, no recurrent layers — is a fundamentally different design process than optimizing for accuracy on a benchmark. The 0.033ms result isn't just a number; it's headroom for battery optimization.</p>
     <p><strong>Threshold tuning as a clinical safety decision.</strong> Setting the IMU fall detection threshold at 0.65 (rather than the default 0.5) was a deliberate clinical trade-off: accept more false positives (alarm fatigue risk) to minimize false negatives (missed falls, which are life-threatening for elderly patients). This is the kind of asymmetric cost reasoning that clinical AI requires — different failure modes have different consequences, and the threshold is a policy decision as much as a technical one.</p>
