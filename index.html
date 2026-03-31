@@ -24,16 +24,17 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(8,13,20,0.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
-.nav-logo{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--white);letter-spacing:0.04em;text-decoration:none;transition:color 0.2s;font-style:italic;}.nav-logo:hover{color:var(--cyan);}
 .nav-links{display:flex;gap:1.8rem;list-style:none;}
-.nav-links a{font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-links a{font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
 .nav-links a:hover{color:var(--cyan);}
 
 /* HERO */
-#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;}
+#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;z-index:10;}
 .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 60% 40%,black 30%,transparent 80%);overflow:hidden;pointer-events:none;}
 .hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,200,0.07) 0%,transparent 70%);top:5%;right:0;pointer-events:none;}
 .hero-content{position:relative;max-width:800px;}
+
 .hero-tag{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards;}
 .hero-tag::before{content:'//';margin-right:0.5em;opacity:0.5;}
 h1{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,5.5vw,5rem);line-height:1.05;color:var(--white);letter-spacing:-0.02em;margin-bottom:1.1rem;opacity:0;animation:fadeUp 0.8s ease 0.35s forwards;}
@@ -43,6 +44,8 @@ h1 em{font-style:italic;color:var(--cyan);}
 .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 0.65s forwards;}
 .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;background:var(--cyan);color:var(--bg);font-size:0.82rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
 .btn-p:hover{background:#00e5e5;transform:translateY(-1px);box-shadow:0 8px 30px rgba(0,200,200,0.3);}
+.btn-resume{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border:1px solid rgba(157,127,232,0.6);color:var(--purple);font-size:0.82rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;background:rgba(157,127,232,0.08);}
+.btn-resume:hover{border-color:var(--purple);background:rgba(157,127,232,0.18);transform:translateY(-1px);}
 .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border:1px solid var(--cyan-bb);color:var(--text);font-size:0.82rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
 .btn-s:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-glow);}
 
@@ -52,7 +55,7 @@ h1 em{font-style:italic;color:var(--cyan);}
 .stat-num{font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--white);line-height:1;}
 .stat-num span{color:var(--cyan);font-size:1.2rem;}
 .stat-label{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
-.stat-dropdown{position:absolute;top:calc(100% + 10px);left:0;background:var(--bg2);border:1px solid var(--border);padding:0.75rem 1rem;min-width:210px;z-index:300;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity 0.2s,transform 0.2s;}
+.stat-dropdown{position:absolute;top:calc(100% + 10px);left:0;background:var(--bg2);border:1px solid var(--border);padding:0.75rem 1rem;min-width:210px;z-index:9999;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity 0.2s,transform 0.2s;box-shadow:0 8px 24px rgba(0,0,0,0.5);}
 .stat-item:hover .stat-dropdown{opacity:1;transform:translateY(0);pointer-events:auto;}
 .stat-dropdown::before{content:'';position:absolute;top:-5px;left:16px;width:8px;height:8px;background:var(--bg2);border-left:1px solid var(--border);border-top:1px solid var(--border);transform:rotate(45deg);}
 .sd-item{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;color:var(--text);padding:0.25rem 0;border-bottom:1px solid rgba(0,200,200,0.08);}
@@ -67,7 +70,7 @@ section{padding:6rem 4rem;}
 .sd{color:var(--muted);max-width:560px;margin-bottom:3.5rem;font-size:0.94rem;line-height:1.7;}
 
 /* ABOUT */
-#about{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+#about{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1;}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;max-width:1100px;margin:0 auto;}
 .about-text p{color:var(--text);margin-bottom:1.2rem;font-size:0.96rem;line-height:1.85;}
 .about-text p strong{color:var(--white);font-weight:500;}
@@ -84,17 +87,20 @@ section{padding:6rem 4rem;}
 /* JOURNEY SECTION */
 #journey{background:var(--bg);border-top:1px solid var(--border);}
 .journey-inner{max-width:1100px;margin:0 auto;}
-.journey-flow{position:relative;margin-top:2rem;}
-.journey-flow::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--border),rgba(0,200,200,0.3),var(--border));transform:translateX(-50%);}
-.jf-item{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;align-items:start;}
-.jf-item.right .jf-content{order:2;text-align:left;}
-.jf-item.right .jf-dot-col{order:1;display:flex;justify-content:flex-end;}
-.jf-content{padding:1.5rem;border:1px solid var(--border);background:var(--bg2);position:relative;}
+.journey-flow{position:relative;margin-top:2rem;display:flex;flex-direction:column;gap:1.5rem;}
+.jf-item{display:grid;grid-template-columns:1fr 220px;gap:1.5rem;align-items:stretch;}
+.jf-item.right{grid-template-columns:220px 1fr;}
+.jf-content{padding:1.5rem;border:2px solid var(--border);background:var(--bg2);position:relative;}
 .jf-content::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.jf-purple::before{background:linear-gradient(90deg,var(--purple),transparent);}
-.jf-cyan::before{background:linear-gradient(90deg,var(--cyan),transparent);}
-.jf-teal::before{background:linear-gradient(90deg,var(--teal),transparent);}
-.jf-amber::before{background:linear-gradient(90deg,var(--amber),transparent);}
+/* Colored border per tier */
+.jf-purple .jf-content{border-color:rgba(157,127,232,0.45);background:rgba(157,127,232,0.03);}
+.jf-purple .jf-content::before{background:var(--purple);}
+.jf-cyan .jf-content{border-color:rgba(0,200,200,0.38);background:rgba(0,200,200,0.025);}
+.jf-cyan .jf-content::before{background:var(--cyan);}
+.jf-teal .jf-content{border-color:rgba(45,212,160,0.38);background:rgba(45,212,160,0.025);}
+.jf-teal .jf-content::before{background:var(--teal);}
+.jf-amber .jf-content{border-color:rgba(245,158,11,0.38);background:rgba(245,158,11,0.025);}
+.jf-amber .jf-content::before{background:var(--amber);}
 .jf-tag{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.45rem;}
 .jf-purple .jf-tag{color:var(--purple);}
 .jf-cyan .jf-tag{color:var(--cyan);}
@@ -107,17 +113,17 @@ section{padding:6rem 4rem;}
 .jf-learning::before{content:'↗ Gained: ';}
 .jf-gap{font-family:'DM Mono',monospace;font-size:0.7rem;color:rgba(224,100,100,0.75);letter-spacing:0.04em;margin-top:0.25rem;}
 .jf-gap::before{content:'→ Led to: ';}
-.jf-dot-col{display:flex;justify-content:flex-start;align-items:flex-start;padding-top:1.8rem;}
-.jf-dot{width:14px;height:14px;border-radius:50%;border:2px solid;flex-shrink:0;margin-top:0.1rem;}
-.jf-purple .jf-dot{background:var(--purple);border-color:var(--purple);box-shadow:0 0 12px rgba(157,127,232,0.4);}
-.jf-cyan .jf-dot{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 12px rgba(0,200,200,0.4);}
-.jf-teal .jf-dot{background:var(--teal);border-color:var(--teal);box-shadow:0 0 12px rgba(45,212,160,0.35);}
-.jf-amber .jf-dot{background:var(--amber);border-color:var(--amber);box-shadow:0 0 12px rgba(245,158,11,0.35);}
-.future-box{padding:2rem 2.5rem;border:1px solid rgba(0,200,200,0.3);background:rgba(0,200,200,0.04);margin-top:3rem;max-width:800px;margin-left:auto;margin-right:auto;}
+/* Journey image column */
+.jf-img-col{overflow:hidden;position:relative;min-height:180px;}
+.jf-img-col img{width:100%;height:100%;object-fit:cover;filter:saturate(0.55) brightness(0.75);transition:filter 0.4s;display:block;}
+.jf-img-col:hover img{filter:saturate(0.75) brightness(0.9);}
+.jf-img-col::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,13,20,0.3) 0%,transparent 60%);}
+.future-box{padding:2rem 2.5rem;border:1px solid rgba(0,200,200,0.3);background:rgba(0,200,200,0.04);margin-top:2.5rem;max-width:860px;margin-left:auto;margin-right:auto;}
 .future-box h3{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--white);margin-bottom:0.75rem;}
 .future-box p{font-size:0.88rem;color:var(--text);line-height:1.8;margin-bottom:0.75rem;}
 .future-box p:last-child{margin-bottom:0;}
 .future-box p strong{color:var(--cyan);font-weight:500;}
+@media(max-width:900px){.jf-item,.jf-item.right{grid-template-columns:1fr;}.jf-img-col{min-height:140px;}}
 
 /* PROJECTS */
 #projects{max-width:1200px;margin:0 auto;}
@@ -256,6 +262,41 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
   .journey-flow::before{display:none;}
   .jf-dot-col{display:none;}
 }
+
+/* TIER OVERVIEW (projects section) */
+.tier-overview{margin-bottom:2rem;border:1px solid var(--border);background:var(--bg2);}
+.to-header{display:flex;align-items:flex-start;gap:1rem;padding:1.4rem 1.75rem 0.6rem;border-bottom:1px solid var(--border);}
+.to-dots{display:flex;gap:0.4rem;padding-top:0.35rem;flex-shrink:0;}
+.to-dot{width:10px;height:10px;border-radius:50%;}
+.to-title{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--white);margin-bottom:0.2rem;letter-spacing:-0.01em;}
+.to-sub{font-size:0.8rem;color:var(--muted);line-height:1.65;}
+.to-list{display:flex;flex-direction:column;}
+.to-item{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:0.85rem 1.75rem;border-bottom:1px solid rgba(0,200,200,0.06);transition:background 0.2s;}
+.to-item:last-child{border-bottom:none;}
+.to-item:hover{background:var(--bg3);}
+.to-item-content{flex:1;display:flex;align-items:baseline;gap:0.85rem;flex-wrap:wrap;}
+.to-name{font-weight:600;color:var(--white);font-size:0.88rem;}
+.to-desc{font-size:0.79rem;color:var(--muted);line-height:1.5;}
+.to-links{display:flex;gap:0.5rem;flex-shrink:0;align-items:center;}
+.to-link{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;padding:0.28rem 0.7rem;border:1px solid;transition:all 0.2s;}
+.to-gh{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;padding:0.28rem 0.7rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);transition:all 0.2s;}
+.to-gh:hover{color:var(--white);border-color:rgba(255,255,255,0.2);}
+.to-item.purple .to-link{color:var(--purple);border-color:rgba(157,127,232,0.4);background:rgba(157,127,232,0.08);}
+.to-item.purple .to-link:hover{background:rgba(157,127,232,0.18);}
+.to-item.cyan .to-link{color:var(--cyan);border-color:rgba(0,200,200,0.4);background:rgba(0,200,200,0.08);}
+.to-item.cyan .to-link:hover{background:rgba(0,200,200,0.18);}
+.to-item.teal .to-link{color:var(--teal);border-color:rgba(45,212,160,0.35);background:rgba(45,212,160,0.07);}
+.to-item.teal .to-link:hover{background:rgba(45,212,160,0.16);}
+.to-item.amber .to-link{color:var(--amber);border-color:rgba(245,158,11,0.35);background:rgba(245,158,11,0.07);}
+.to-item.amber .to-link:hover{background:rgba(245,158,11,0.16);}
+
+/* HERO VISUAL STRIP */
+.hero-visual{position:absolute;right:0;top:0;bottom:0;width:42%;pointer-events:none;overflow:hidden;display:flex;align-items:center;}
+.hero-img-stack{position:relative;width:100%;height:100%;}
+.hero-img-stack img{position:absolute;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(0.3) brightness(0.35);}
+.hero-img-stack::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--bg) 0%,transparent 40%),linear-gradient(to bottom,var(--bg) 0%,transparent 20%,transparent 80%,var(--bg) 100%);}
+/* PROJECT SECTION VISUAL */
+@media(max-width:900px){.hero-visual{display:none;}}
 </style>
 </head>
 <body>
@@ -267,8 +308,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
     <li><a href="#about">About</a></li>
     <li><a href="#journey">Journey</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#endorsements">Endorsements</a></li>
-    <li><a href="#research">Research</a></li>
+        <li><a href="#research">Focus Areas</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -277,12 +317,21 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
 <section id="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-glow"></div>
+  <div class="hero-visual">
+    <div class="hero-img-stack">
+      <img src="https://miro.medium.com/v2/resize:fit:1400/1*mU6YJRWoDh-8n6iuaKo11w.png" alt="Medical imaging background" loading="eager">
+    </div>
+  </div>
   <div class="hero-content">
     <p class="hero-tag">Medical Imaging AI · Deep Learning · Healthcare</p>
     <h1>Building AI for<br><em>clinical imaging</em> —<br>from pixel to patient.</h1>
     <p class="hero-sub">I design and train deep learning systems for clinical imaging problems — <strong>segmentation, classification, and edge deployment</strong> across radiology, histopathology, ultrasound, and neuroimaging — with a focus on models that are accurate and deployable in real-world healthcare settings.</p>
     <div class="hero-cta">
       <a href="#projects" class="btn-p">View Projects ↓</a>
+      <a href="resume.pdf" target="_blank" class="btn-resume">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Resume ↓
+      </a>
       <a href="#contact" class="btn-s">Get in Touch</a>
     </div>
     <div class="hero-stats">
@@ -371,7 +420,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
       </div>
       <div style="padding:1.4rem;border:1px solid var(--border);background:var(--bg3);">
         <p class="sl" style="margin-bottom:0.7rem;font-size:0.62rem;">Currently</p>
-        <p style="font-size:0.84rem;color:var(--text);line-height:1.72;">Open to full-time opportunities in <span style="color:var(--cyan)">healthcare AI</span>, <span style="color:var(--cyan)">medical image analysis</span>, and <span style="color:var(--cyan)">applied ML in clinical settings</span>. Graduating May 2026, available from June 2026.</p>
+        <p style="font-size:0.84rem;color:var(--text);line-height:1.72;">MS AI (Biomedical Concentration) graduating May 2026, available from June 2026. Looking for roles as a <span style="color:var(--cyan)">Machine Learning Engineer</span>, <span style="color:var(--cyan)">AI Engineer</span>, or <span style="color:var(--cyan)">Medical Imaging Scientist</span> in healthcare — radiology AI, pathology AI, clinical decision support, or wearable health monitoring.</p>
       </div>
     </div>
   </div>
@@ -388,68 +437,85 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
 
     <div class="journey-flow">
 
+      <!-- ASD — Purple, image right -->
       <div class="jf-item jf-purple reveal">
         <div class="jf-content">
           <div class="jf-tag">B.Tech — Origin · 2023 · MIT Manipal · Prof. J. Andrew</div>
           <div class="jf-title">ASD Detection via Neuroimaging</div>
-          <div class="jf-body">First encounter with medical imaging AI — NIfTI brain MRI, CNN vs ViT comparison on ABIDE-I. 91% accuracy with CNN; ViT failed at ~60%. The ViT failure was <strong>the most important finding</strong>: data scale determines architecture viability.</div>
+          <div class="jf-body">CNN vs ViT on ABIDE-I (1,067 subjects, 17 sites). CNN: 91% accuracy, AUC 0.98. ViT: 60% — <strong>data scale determines architecture viability</strong>. The lesson that shaped every decision after.</div>
           <div class="jf-learning">Medical imaging pipelines · NIfTI/DICOM · Architecture trade-offs at data scale</div>
           <div class="jf-gap">Needed: More data, real clinical datasets, proper segmentation, temporal modeling</div>
         </div>
-        <div class="jf-dot-col"><div class="jf-dot"></div></div>
+        <div class="jf-img-col">
+          <img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41598-025-93912-7/MediaObjects/41598_2025_93912_Fig1_HTML.jpg" alt="sMRI brain scans — ASD detection" loading="lazy">
+        </div>
       </div>
 
+      <!-- Fetal Head — Cyan, image left -->
       <div class="jf-item right jf-cyan reveal">
-        <div class="jf-dot-col"><div class="jf-dot"></div></div>
+        <div class="jf-img-col">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbmxcwFsMwvJObAjq4nxy9j6Zbz39KY6s4uw&s" alt="Fetal head ultrasound HC measurement" loading="lazy">
+        </div>
         <div class="jf-content">
           <div class="jf-tag">MS Research · CSCE 6260 · Fall 2025 · Prof. Xiaohui Yuan</div>
           <div class="jf-title">Fetal Head Segmentation — Cine-Loop</div>
-          <div class="jf-body">Addressed the limitations from ASD: real clinical dataset (HC18 ultrasound), proper segmentation (Residual U-Net), and temporal modeling (3D U-Net). Built Pseudo-LDDM to generate training data when none exists — <strong>synthetic data generation as a research skill</strong>.</div>
+          <div class="jf-body">Real clinical dataset (HC18 ultrasound), proper segmentation (Residual U-Net), temporal modeling (3D U-Net). Built <strong>Pseudo-LDDM</strong> — synthesised video training data from still images when none existed. 86.2% Dice.</div>
           <div class="jf-learning">U-Net segmentation · 3D convolution · Synthetic data generation · Clinical measurement pipelines</div>
           <div class="jf-gap">Needed: Model efficiency for deployment, compression techniques</div>
         </div>
       </div>
 
+      <!-- CNN Pruning — Cyan, image right -->
       <div class="jf-item jf-cyan reveal">
         <div class="jf-content">
           <div class="jf-tag">MS Research · CSCE 5934 Directed Study · Fall 2025 · Prof. Russel Pears</div>
           <div class="jf-title">CNN Filter Pruning — Hybrid Crossover</div>
-          <div class="jf-body">Directly addressed the deployment gap: how do you get a large model to run on hospital hardware? Introduced Hybrid Crossover merging — synthesize rather than discard redundant filters. 2× compression, +0.37% accuracy, 2× faster runtime. Supervised by Prof. Russel Pears.</div>
+          <div class="jf-body"><strong>Hybrid Crossover</strong>: synthesise a new filter from two redundant ones instead of deleting. Result: 2× compression, +0.37% accuracy, 2× faster runtime on VGG-16.</div>
           <div class="jf-learning">Model compression · Regression-based synthesis · Guard-rail engineering · Production-aware pruning</div>
           <div class="jf-gap">Needed: Multi-modal data, audio/signal processing, cloud-scale data engineering</div>
         </div>
-        <div class="jf-dot-col"><div class="jf-dot"></div></div>
+        <div class="jf-img-col">
+          <img src="https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs11042-023-17656-0/MediaObjects/11042_2023_17656_Fig10_HTML.png" alt="CNN filter pruning diagram" loading="lazy">
+        </div>
       </div>
 
+      <!-- Standalone Projects — Teal, image left -->
       <div class="jf-item right jf-teal reveal">
-        <div class="jf-dot-col"><div class="jf-dot"></div></div>
+        <div class="jf-img-col">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Histopathology_of_clear_cell_renal_cell_carcinoma%2C_grade_1%2C_high_magnification.jpg/330px-Histopathology_of_clear_cell_renal_cell_carcinoma%2C_grade_1%2C_high_magnification.jpg" alt="Histopathology microscopy" loading="lazy">
+        </div>
         <div class="jf-content">
           <div class="jf-tag">Standalone Projects · 2024–2025</div>
-          <div class="jf-title">Histopathology · BirdCLEF · Multimodal · WECARE · Big Data · Feature Engineering</div>
-          <div class="jf-body">Each project filled a specific gap: <strong>Histopathology</strong> → data volume empirics and full-stack deployment. <strong>BirdCLEF</strong> → acoustic feature engineering + AWS. <strong>Multimodal</strong> → multi-task learning, fusion architecture failures (learned more from failure). <strong>WECARE</strong> → edge AI constraints, clinical safety threshold reasoning. <strong>Big Data</strong> → distributed compute, RFM pipeline. <strong>Feature Engineering</strong> → classical methods, MATLAB, ground truth annotation.</div>
+          <div class="jf-title">Histopathology · BirdCLEF · Multimodal · WECARE · Big Data · FE</div>
+          <div class="jf-body"><strong>Histopathology</strong>: scaling study + full-stack deployment. <strong>WECARE</strong>: edge AI, 0.033ms inference, clinical threshold reasoning. <strong>BirdCLEF</strong>: audio features + AWS. <strong>Multimodal</strong>: the fusion failure taught more than success would have. <strong>Big Data</strong>: PySpark + EMR. <strong>FE</strong>: classical MATLAB pipeline.</div>
           <div class="jf-learning">Full deployment stack · AWS + PySpark · Audio signals · Wearable biosignals · Edge AI · MATLAB image processing</div>
           <div class="jf-gap">Needed: Broader AI foundations, visualization, regulatory context</div>
         </div>
       </div>
 
+      <!-- Course Collections — Amber, image right -->
       <div class="jf-item jf-amber reveal">
         <div class="jf-content">
           <div class="jf-tag">Course Collections · 2024–2025</div>
-          <div class="jf-title">ML · FDAI · SDV · AI in Wearables — Foundations & Context</div>
-          <div class="jf-body">Built the theoretical foundations that make all the above work better: <strong>ML course</strong> → kernel methods, hyperparameter search, Bayesian reasoning. <strong>FDAI</strong> → search algorithms, evolutionary optimization, RL policy learning. <strong>SDV</strong> → programmatic visualization (D3.js), business intelligence (Power BI). <strong>AI in Wearables</strong> → FDA frameworks, hardware constraints, clinical data (MIMIC-IV), YOLOv8 end-to-end pipeline.</div>
+          <div class="jf-title">ML · FDAI · SDV · AI in Wearables — Foundations &amp; Context</div>
+          <div class="jf-body"><strong>ML</strong>: kernels, Bayesian, hyperparameter search. <strong>FDAI</strong>: A*, GA, value iteration. <strong>SDV</strong>: Tableau, D3.js, Power BI. <strong>AI Wearables</strong>: FDA frameworks, MIMIC-IV, YOLOv8, real hardware.</div>
           <div class="jf-learning">Classical ML theory · Optimization algorithms · Visualization tools · Clinical regulatory context · Hardware constraints</div>
           <div class="jf-gap">All skills now converge →</div>
         </div>
-        <div class="jf-dot-col"><div class="jf-dot"></div></div>
+        <div class="jf-img-col">
+          <img src="https://techno-soft.com/wp-content/uploads/2024/09/W.webp" alt="AI in wearables and healthcare" loading="lazy">
+        </div>
       </div>
 
     </div>
 
+    </div>
+
     <div class="future-box reveal">
-      <h3>Where this is all heading — one possible project as an example</h3>
-      <p>Every project in this MS taught one piece: ASD taught imaging pipelines. Fetal Head taught segmentation and temporal modeling. CNN Pruning taught compression for deployment. WECARE taught edge constraints. Big Data taught cloud-scale pipelines. BirdCLEF taught feature engineering. The SDAI course taught full-stack deployment. AIWH taught clinical data structure (MIMIC-IV).</p>
-      <p><strong>One example of a project that could tie all of this together</strong> — not yet committed to, but illustrative of the kind of work this portfolio leads toward: a chest X-ray AI system (ClinicalCXR-AI) using the MIMIC-CXR + MIMIC-IV datasets — combining a DenseNet-121 visual backbone with a clinical metadata MLP in a late-fusion architecture, deployed via FastAPI. This would use: DICOM-native image loading (from ASD + Fetal Head), late fusion architecture (from Multimodal Emotion), deployment pipeline (from WECARE + BirdCLEF), clinical data schema knowledge (from AIWH), and model compression awareness (from CNN Pruning). Each piece came from somewhere in this portfolio.</p>
-      <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">This is the kind of work I want to do full-time — and I'm available to start from June 2026.</p>
+      <h3>What I'd contribute on day one — a realistic work scenario</h3>
+      <p>Picture a mid-size radiology group integrating an AI triage tool across three hospital sites. The clinical team is receiving chest X-rays from different scanner models. The AI vendor's model is flagging too many false positives on one site because its scanner produces slightly different image characteristics. This is a real, recurring problem in clinical AI deployment.</p>
+      <p><strong>Here's where my specific skills land:</strong> I understand DICOM-native data pipelines (from the ASD and Fetal Head work). I know how to audit model performance across data subsets with different distributions (from the histopathology scaling study). I've dealt with latency and hardware constraints in a deployment context (from CNN Pruning and WECARE). I've worked with clinical datasets including MIMIC-IV ICU data (from the AIWH course). I can write the evaluation code, identify the site-specific performance gap, and work with the clinical team to understand whether the issue is a preprocessing step, a calibration gap, or a retraining requirement — and communicate that clearly to both the engineering team and the radiologist.</p>
+      <p style="font-size:0.82rem;color:var(--muted);margin-top:0.75rem;">This is the kind of problem I want to be solving from June 2026 — not in a lab, but in a working clinical environment. I'm a fresh graduate, but I've built every component of this scenario across the last two years.</p>
     </div>
   </div>
 </section>
@@ -459,10 +525,35 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
   <div class="pw">
     <div class="reveal">
       <p class="sl">Projects</p>
-      <h2 class="st">Research &amp; Engineering Work</h2>
-      <p class="sd">Every project I built during my MS and B.Tech — organized by tier and color-coded by type.</p>
+      <h2 class="st">Two years of work, three tiers.</h2>
+      <p class="sd">All projects organized by depth and scope. The overview page has every project with descriptions, key metrics, tech stacks, and direct GitHub links.</p>
     </div>
 
+    <!-- OVERVIEW LINK — top, before tiers -->
+    <div class="reveal" style="margin-bottom:2rem;padding:1.35rem 1.75rem;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.3rem;">Full Project Overview Page</div>
+        <div style="font-size:0.9rem;color:var(--white);font-weight:500;margin-bottom:0.15rem;">Every project, every result, every repo — on one page.</div>
+        <div style="font-size:0.78rem;color:var(--muted);">All 14 projects with descriptions, metrics, tech stacks, deep-dive links and GitHub repos. Organized by tier.</div>
+      </div>
+      <a href="projects.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.4rem;background:var(--cyan);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.73rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));" onmouseover="this.style.background='#00e5e5'" onmouseout="this.style.background='var(--cyan)'">View All Projects →</a>
+    </div>
+
+    <!-- PROJECT IMAGES STRIP -->
+    <div class="proj-img-pair reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;height:130px;">
+      <div style="overflow:hidden;position:relative;">
+        <img src="https://www.shutterstock.com/image-vector/ai-human-collaboration-enhancing-medical-260nw-2652196067.jpg" alt="AI in medical imaging" loading="lazy" style="width:100%;height:100%;object-fit:cover;filter:saturate(0.3) brightness(0.45);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--bg) 100%);"></div>
+        <div style="position:absolute;bottom:0.5rem;left:0.75rem;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,200,200,0.7);">AI &amp; Clinical Teams</div>
+      </div>
+      <div style="overflow:hidden;position:relative;">
+        <img src="https://media.licdn.com/dms/image/v2/D5612AQFi_Ok_6n5tqg/article-cover_image-shrink_720_1280/B56ZnNTtPtJYAI-/0/1760086126248?e=2147483647&v=beta&t=kznRQFlboYabrWBg-Ajnw_0S4SH6nxtJe2PTvYit1r0" alt="Medical AI deployment" loading="lazy" style="width:100%;height:100%;object-fit:cover;filter:saturate(0.3) brightness(0.45);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to left,transparent 60%,var(--bg) 100%);"></div>
+        <div style="position:absolute;bottom:0.5rem;right:0.75rem;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,200,200,0.7);">Clinical AI Deployment</div>
+      </div>
+    </div>
+
+    <!-- COLOR LEGEND -->
     <div class="color-legend reveal">
       <div class="legend-item"><div class="legend-dot ld-purple"></div>Origin / Research (ASD)</div>
       <div class="legend-item"><div class="legend-dot ld-cyan"></div>Research Projects</div>
@@ -470,187 +561,47 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
       <div class="legend-item"><div class="legend-dot ld-amber"></div>Course Collections</div>
     </div>
 
-    <!-- RESEARCH -->
-    <div class="psh reveal"><h3>Research Projects</h3></div>
-    <p class="psd reveal">Original methodology, independent literature review, and documented findings. Each produced results beyond coursework scope.</p>
-    <div class="g-research">
-
-      <a href="asd-detection.html" class="pc cp reveal">
-        <div class="crn"></div>
-        <span class="bge">★ Origin Project · Deep Dive</span>
-        <span class="pi">🧠</span>
-        <p class="pt">Classification · Neuroimaging · Explainability</p>
-        <h3 class="pttl">ASD Detection via Neuroimaging</h3>
-        <p class="pdesc">My B.Tech final year project — the one that decided my career. ASD classification from sMRI brain scans using CNNs and Vision Transformers on ABIDE-I (1,067 subjects, 17 research centres). The ViT failure at 60% shaped every subsequent architecture decision.</p>
-        <div class="pr">91% Accuracy · AUC 0.98 · 1,067 Subjects</div>
-        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">TensorFlow</span><span class="stk">ViT</span><span class="stk">ABIDE-I</span></div>
-        <span class="pl">Full Deep Dive →</span>
-      </a>
-
-      <a href="fetal-head.html" class="pc cc reveal">
-        <div class="crn"></div>
-        <span class="bge">★ Deep Dive Available</span>
-        <span class="pi">🤰</span>
-        <p class="pt">Segmentation · Ultrasound · Temporal AI</p>
-        <h3 class="pttl">Fetal Head Circumference via Cine-Loop</h3>
-        <p class="pdesc">Extended static-frame segmentation to temporally-aware video analysis for automated HC measurement. Built Pseudo-LDDM — physics-inspired simulation generating realistic cine-loop training data from still images. Residual U-Net + 3D U-Net.</p>
-        <div class="pr">86.2% Dice · ≈0mm Temporal Std · Reliability 1.0</div>
-        <div class="pstk"><span class="stk">TensorFlow</span><span class="stk">3D U-Net</span><span class="stk">HC18</span></div>
-        <span class="pl">Full Deep Dive →</span>
-      </a>
-
-      <a href="cnn-pruning.html" class="pc cc reveal">
-        <div class="crn"></div>
-        <span class="bge">★ Deep Dive Available</span>
-        <span class="pi">✂️</span>
-        <p class="pt">Model Compression · Efficiency · Deployment</p>
-        <h3 class="pttl">CNN Filter Pruning — Hybrid Crossover</h3>
-        <p class="pdesc">Introduced Hybrid Crossover: synthesize a new filter via regression that captures the best of both redundant filters — instead of discarding. Compared against Standard Drop across VGG-16 and 5-CNN under hard accuracy guard rails. CSCE 5934 Directed Study.</p>
-        <div class="pr">2× Compression · +0.37% Accuracy · 2× Faster</div>
-        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">Model Compression</span></div>
-        <span class="pl">Full Deep Dive →</span>
-      </a>
-
-    </div>
-
-    <hr class="pdiv">
-
-    <!-- STANDALONE COURSE PROJECTS -->
-    <div class="psh reveal"><h3>Standalone Course Projects</h3></div>
-    <p class="psd reveal">Substantial individual-contribution course projects — each with real datasets, meaningful scope, and documented results.</p>
-    <div class="g-mid">
-
-      <a href="histopathology.html" class="pc ct reveal">
-        <div class="crn"></div>
-        <span class="bge">SDAI · Fall 2024</span>
-        <span class="pi">🔬</span>
-        <p class="pt">Histopathology · Classification · Scaling</p>
-        <h3 class="pttl">Histopathologic Cancer Detection</h3>
-        <p class="pdesc">Binary cancer detection on PCam patches. Systematic study of training data volume vs. performance across 4 stratified subsets. Full-stack deployment: Django backend + React frontend. Team of 5.</p>
-        <div class="pr">ROC-AUC 0.82 · 187K patches · Deployed</div>
-        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">Django</span><span class="stk">React</span></div>
-        <span class="pl">View Project →</span>
-      </a>
-
-      <a href="birdclef.html" class="pc ct reveal">
-        <div class="crn"></div>
-        <span class="bge">SDAI · Fall 2024</span>
-        <span class="pi">🐦</span>
-        <p class="pt">Audio Classification · Feature Eng · AWS</p>
-        <h3 class="pttl">BirdCLEF 2022 — Bird Classification</h3>
-        <p class="pdesc">152 Hawaiian bird species from passive audio. Complete librosa pipeline (107 acoustic features), hierarchical XGBoost (Order → Family taxonomy), live AWS Streamlit deployment with per-class confidence scores.</p>
-        <div class="pr">107 Features · Hierarchical XGBoost · AWS</div>
-        <div class="pstk"><span class="stk">librosa</span><span class="stk">XGBoost</span><span class="stk">AWS</span></div>
-        <span class="pl">View Project →</span>
-      </a>
-
-      <a href="multimodal-emotion.html" class="pc ct reveal">
-        <div class="crn"></div>
-        <span class="bge">Deep Learning · Spring 2025</span>
-        <span class="pi">🎭</span>
-        <p class="pt">Multimodal · Classification · Project Lead</p>
-        <h3 class="pttl">Multimodal Emotion Recognition</h3>
-        <p class="pdesc">Led visual stream in a multimodal fusion system combining video + audio for emotion and sentiment classification on MELD. VGG-16 + BiLSTM fusion. The fusion failure was the most instructive finding: simple concatenation without temporal alignment fails on real data.</p>
-        <div class="pr">VGG-16 48.3% · MELD · Project Lead</div>
-        <div class="pstk"><span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">BiLSTM</span></div>
-        <span class="pl">View Project →</span>
-      </a>
-
-      <a href="wecare.html" class="pc ct reveal">
-        <div class="crn"></div>
-        <span class="bge">AI Wearables · Fall 2025</span>
-        <span class="pi">❤️</span>
-        <p class="pt">Edge AI · Wearable · Signal Processing</p>
-        <h3 class="pttl">WECARE — Cardiac &amp; Fall Detection</h3>
-        <p class="pdesc">On-device arrhythmia and fall detection from ECG + IMU. Sub-0.033ms inference — no cloud dependency, TorchScript deployment. Only 8 missed falls out of 228 — threshold tuning as a clinical safety decision.</p>
-        <div class="pr">F1 0.9864 (ECG) · 8 FN / 228 Falls</div>
-        <div class="pstk"><span class="stk">1D CNN</span><span class="stk">ECG</span><span class="stk">TorchScript</span></div>
-        <span class="pl">View Project →</span>
-      </a>
-
-      <a href="big-data.html" class="pc ct reveal">
-        <div class="crn"></div>
-        <span class="bge">Big Data · Spring 2025</span>
-        <span class="pi">🛒</span>
-        <p class="pt">Big Data · EDA · RFM Analysis · AWS</p>
-        <h3 class="pttl">Big Data Customer Segmentation</h3>
-        <p class="pdesc">541,909 e-commerce transactions analyzed in PySpark on AWS EMR. Complete 60-cell EDA + RFM feature engineering pipeline (Recency-Frequency-Monetary) feeding into K-Means and Bisecting K-Means clustering by teammates.</p>
-        <div class="pr">541K Transactions · RFM · AWS EMR</div>
-        <div class="pstk"><span class="stk">PySpark</span><span class="stk">AWS EMR</span><span class="stk">Hadoop</span></div>
-        <span class="pl">View Project →</span>
-      </a>
-
-      <a href="fe-project.html" class="pc ct reveal">
-        <div class="crn"></div>
-        <span class="bge">Feature Engineering · Fall 2024</span>
-        <span class="pi">⚙️</span>
-        <p class="pt">Image Processing · Feature Eng · MATLAB · QC</p>
-        <h3 class="pttl">Industrial Component Classification</h3>
-        <p class="pdesc">Automated quality control pipeline for industrial components using MATLAB — Sobel edge detection, morphological operations, Gabor filters, and Wavelet transforms (Haar, db2, sym4, coif1). mIoU evaluation with manually annotated ground truth. Project lead.</p>
-        <div class="pr">Gabor + Wavelet · mIoU · MATLAB · 4-person team</div>
-        <div class="pstk"><span class="stk">MATLAB</span><span class="stk">Gabor</span><span class="stk">Wavelet</span><span class="stk">mIoU</span></div>
-        <span class="pl">View Project →</span>
-      </a>
-
-    </div>
-
-    <hr class="pdiv">
-
-    <!-- COURSE COLLECTIONS -->
-    <div class="psh reveal"><h3>Course Collections</h3></div>
-    <p class="psd reveal">Multi-project course pages — each covering assignments within a single course. Supervised by different faculty across UNT's AI program.</p>
-    <div class="g-small">
-
-      <a href="ml-course-projects.html" class="pc sm ca reveal">
-        <div class="crn"></div>
-        <p class="pt">Machine Learning · Fall 2024</p>
-        <h3 class="pttl">Machine Learning — 3 Projects</h3>
-        <p class="pdesc">Glass identification (classical ML + RBF kernel), CelebA VGG-16 fine-tuning (0.9594 acc), and Bayesian network construction. Prof. Russel Pears.</p>
-        <div class="pstk"><span class="stk">scikit-learn</span><span class="stk">TensorFlow</span><span class="stk">networkx</span></div>
-        <span class="pl">View Collection →</span>
-      </a>
-
-      <a href="fdai-projects.html" class="pc sm ca reveal">
-        <div class="crn"></div>
-        <p class="pt">Fundamentals of AI · Spring 2025</p>
-        <h3 class="pttl">Fundamentals of AI — 3 Projects</h3>
-        <p class="pdesc">Warehouse robot (Dijkstra + A*), genetic algorithm for job shop scheduling (makespan 298), value iteration RL (100% success, 22 iters). Prof. Russel Pears.</p>
-        <div class="pstk"><span class="stk">networkx</span><span class="stk">GA</span><span class="stk">Value Iteration</span></div>
-        <span class="pl">View Collection →</span>
-      </a>
-
-      <a href="sdv-course.html" class="pc sm ca reveal">
-        <div class="crn"></div>
-        <p class="pt">Scientific Data Visualization · Summer 2025</p>
-        <h3 class="pttl">Data Visualization — 3 Assignments</h3>
-        <p class="pdesc">Tableau (Global Superstore), D3.js via Observable (Iris), Power BI (tech layoffs). Final project: DAX custom measures + Figma SVG icons. Prof. Zeenat Tariq.</p>
-        <div class="pstk"><span class="stk">Tableau</span><span class="stk">D3.js</span><span class="stk">Power BI</span><span class="stk">Figma</span></div>
-        <span class="pl">View Collection →</span>
-      </a>
-
-      <a href="aiwh-course.html" class="pc sm ca reveal">
-        <div class="crn"></div>
-        <p class="pt">AI in Wearables &amp; Healthcare · Fall 2025</p>
-        <h3 class="pttl">AI in Wearables — 15 Activities</h3>
-        <p class="pdesc">FDA regulation, Seeed XIAO nRF52840 hardware, accelerometer + PPG data collection, YOLOv8 food detection (mAP@50=0.913), MIT App Inventor, MIMIC-IV ICU analysis. Prof. Mahdi Pedram.</p>
-        <div class="pstk"><span class="stk">YOLOv8</span><span class="stk">MIMIC-IV</span><span class="stk">PPG</span><span class="stk">TinyML</span></div>
-        <span class="pl">View Collection →</span>
-      </a>
-
-      <div class="pc sm ca reveal" style="opacity:0.7;cursor:default;">
-        <div class="crn"></div>
-        <p class="pt">AI in Health · Spring 2026</p>
-        <h3 class="pttl">HINF 5506: Applications of AI in Health</h3>
-        <p class="pdesc">AI applications in healthcare — currently in progress. Topics include clinical decision support, health informatics, and AI-driven healthcare workflows. Prof. Haihua Chen.</p>
-        <div class="pstk"><span class="stk">In Progress</span><span class="stk">Spring 2026</span></div>
-        <span class="pl" style="color:var(--muted);">In Progress — Updated April 2026</span>
+    <!-- TIER 1: RESEARCH — single merged box -->
+    <div class="tier-overview reveal" style="border:2px solid rgba(157,127,232,0.38);background:rgba(157,127,232,0.02);">
+      <div class="to-header" style="border-bottom-color:rgba(157,127,232,0.15);">
+        <div class="to-dots"><div class="to-dot" style="background:var(--purple);box-shadow:0 0 8px rgba(157,127,232,0.5);"></div><div class="to-dot" style="background:var(--cyan);box-shadow:0 0 8px rgba(0,200,200,0.5);"></div></div>
+        <div><h3 class="to-title" style="color:var(--purple);">Research Projects — 3 projects</h3></div>
       </div>
-
+      <div style="padding:1.25rem 1.75rem;">
+        <p style="font-size:0.87rem;color:var(--text);line-height:1.78;margin-bottom:1.1rem;">Three projects with original methodology and documented findings. My B.Tech capstone on ASD detection from sMRI (CNN vs ViT, ABIDE-I, 1,067 subjects — the project that decided my career direction). Two MS research projects: fetal head circumference segmentation from cine-loop ultrasound using Pseudo-LDDM synthetic data generation and 3D U-Net (86.2% Dice), and CNN filter pruning via Hybrid Crossover synthesis achieving 2× compression with +0.37% accuracy — both with full deep-dive pages.</p>
+        <a href="projects.html#research" style="display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1rem;color:var(--purple);border:1px solid rgba(157,127,232,0.45);background:rgba(157,127,232,0.08);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(157,127,232,0.18)'" onmouseout="this.style.background='rgba(157,127,232,0.08)'">View Research Projects →</a>
+      </div>
     </div>
+
+    <!-- TIER 2: STANDALONE — single merged box -->
+    <div class="tier-overview reveal" style="border:2px solid rgba(45,212,160,0.35);background:rgba(45,212,160,0.02);">
+      <div class="to-header" style="border-bottom-color:rgba(45,212,160,0.15);">
+        <div class="to-dots"><div class="to-dot" style="background:var(--teal);box-shadow:0 0 8px rgba(45,212,160,0.4);"></div></div>
+        <div><h3 class="to-title" style="color:var(--teal);">Standalone Course Projects — 6 projects</h3></div>
+      </div>
+      <div style="padding:1.25rem 1.75rem;">
+        <p style="font-size:0.87rem;color:var(--text);line-height:1.78;margin-bottom:1.1rem;">Six substantial projects each tackling a different domain with real datasets. Histopathologic cancer detection (PCam, data volume scaling study, Django + React deployment). BirdCLEF audio classification (107 acoustic features, hierarchical XGBoost, live AWS deployment). Multimodal emotion recognition (VGG-16 + BiLSTM fusion, MELD — the fusion failure taught the most). WECARE on-device cardiac + fall detection (ECG + IMU, 0.033ms inference, TorchScript). Big Data customer segmentation (541K transactions, PySpark on AWS EMR). Industrial component quality classification (MATLAB, Gabor + Wavelet features, mIoU).</p>
+        <a href="projects.html#standalone" style="display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1rem;color:var(--teal);border:1px solid rgba(45,212,160,0.38);background:rgba(45,212,160,0.07);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(45,212,160,0.16)'" onmouseout="this.style.background='rgba(45,212,160,0.07)'">View Standalone Projects →</a>
+      </div>
+    </div>
+
+    <!-- TIER 3: COLLECTIONS — single merged box -->
+    <div class="tier-overview reveal" style="border:2px solid rgba(245,158,11,0.35);background:rgba(245,158,11,0.02);">
+      <div class="to-header" style="border-bottom-color:rgba(245,158,11,0.15);">
+        <div class="to-dots"><div class="to-dot" style="background:var(--amber);box-shadow:0 0 8px rgba(245,158,11,0.4);"></div></div>
+        <div><h3 class="to-title" style="color:var(--amber);">Course Collections — 5 courses</h3></div>
+      </div>
+      <div style="padding:1.25rem 1.75rem;">
+        <p style="font-size:0.87rem;color:var(--text);line-height:1.78;margin-bottom:1.1rem;">Five multi-assignment course pages covering the foundations and context behind all the above work. Machine Learning (classical ML, hyperparameter search, VGG-16 fine-tuning). Fundamentals of AI (A*, genetic algorithms, value iteration RL). Scientific Data Visualization (Tableau, D3.js, Power BI). AI in Wearables &amp; Healthcare (FDA frameworks, real hardware, MIMIC-IV, YOLOv8 end-to-end). Applications of AI in Health — HINF 5506, in progress Spring 2026.</p>
+        <a href="projects.html#collections" style="display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1rem;color:var(--amber);border:1px solid rgba(245,158,11,0.38);background:rgba(245,158,11,0.07);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(245,158,11,0.16)'" onmouseout="this.style.background='rgba(245,158,11,0.07)'">View Course Collections →</a>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- ENDORSEMENTS -->
+
+<!-- ENDORSEMENTS SECTION — uncomment when quotes are confirmed
 <section id="endorsements">
   <div class="end-inner">
     <div class="reveal">
@@ -683,45 +634,46 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
     <p class="reveal" style="font-size:0.77rem;color:var(--muted);margin-top:1.75rem;">All endorsements voluntary and shared with explicit permission — <a href="/cdn-cgi/l/email-protection#99edf8ebecf7eaf8fdf8ebf5f8abafd9fef4f8f0f5b7faf6f4" style="color:var(--cyan);text-decoration:none;"><span class="__cf_email__" data-cfemail="d2a6b3a0a7bca1b3b6b3a0beb3e0e492b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></a></p>
   </div>
 </section>
+-->
 
-<!-- RESEARCH INTERESTS -->
+<!-- WHERE I'M READY TO CONTRIBUTE -->
 <section id="research">
   <div class="ri">
     <div class="reveal">
-      <p class="sl">Research Interests</p>
-      <h2 class="st">What I'm thinking about</h2>
-      <p class="sd">Problems I find genuinely interesting and want to work on next — driven by gaps encountered across this portfolio.</p>
+      <p class="sl">Where I Want to Work</p>
+      <h2 class="st">Ready for real clinical AI work</h2>
+      <p class="sd">Not just research directions — concrete ways AI is being deployed in healthcare today, and where my skills fit directly into those workflows.</p>
     </div>
     <div class="rg">
       <div class="rc reveal">
         <div class="rn">01</div>
-        <div class="rt">Explainability in Clinical AI</div>
-        <div class="rd">A model that achieves 97% on a benchmark tells a clinician nothing if they can't see why it decided what it did. Grad-CAM, SHAP, and cross-modal attention as trust mechanisms — not just academic reporting artifacts. LIME in the ASD project exposed how hard this is in practice.</div>
+        <div class="rt">Radiology AI — Triage &amp; Decision Support</div>
+        <div class="rd">AI is already in radiology departments — flagging critical findings, prioritising worklists, and reducing radiologist burden. I want to build the detection and segmentation pipelines behind those systems: training on DICOM-native data, validating across scanners, and deploying on hospital infrastructure rather than research servers.</div>
       </div>
       <div class="rc reveal">
         <div class="rn">02</div>
-        <div class="rt">Low-Data Medical Imaging</div>
-        <div class="rd">The ViT failure in the ASD project (60% with 100K slices) proved the point: annotation is expensive and data is scarce in clinical settings. Few-shot learning, self-supervised pretraining, and synthetic augmentation (like Pseudo-LDDM) as principled responses to that constraint.</div>
+        <div class="rt">Pathology AI — High-Throughput Screening</div>
+        <div class="rd">Digital pathology labs are replacing glass slides with whole-slide images at scale. The value is in the throughput — automated cancer screening across thousands of cases per day. The histopathology work in this portfolio was built precisely for this: understanding how data volume affects model reliability in a screening pipeline.</div>
       </div>
       <div class="rc reveal">
         <div class="rn">03</div>
-        <div class="rt">Clinical Deployment Constraints</div>
-        <div class="rd">Model compression, quantization, and real-time inference for imaging pipelines — from laptop GPU to hospital workstation. WECARE's 0.033ms result and the CNN pruning 2× speedup showed this is achievable without sacrificing clinical utility.</div>
+        <div class="rt">Clinical Deployment — From Model to Workflow</div>
+        <div class="rd">A model that works in a notebook is not a product. Getting AI into clinical use means handling DICOM pipelines, inference latency within radiologist workflow timings, integration with PACS systems, and passing clinical validation. The CNN pruning and WECARE work both addressed real deployment constraints — not just benchmark metrics.</div>
       </div>
       <div class="rc reveal">
         <div class="rn">04</div>
-        <div class="rt">Temporal &amp; Longitudinal Imaging</div>
-        <div class="rd">Static frames lose information. Cine-loop ultrasound, longitudinal MRI follow-up, and time-series biosignal data reveal dynamics that single-image models miss entirely. The fetal head cine-loop work is one starting point; extending this to 3D volumetric imaging is the clear next step.</div>
+        <div class="rt">Wearable &amp; Remote Patient Monitoring</div>
+        <div class="rd">Hospitals are extending their reach beyond physical walls through wearables. The infrastructure for cardiac monitoring, fall detection, and chronic disease management is being built now. WECARE's on-device pipeline was built for exactly this gap: clinical-grade accuracy with no cloud dependency, for patients who cannot always be in a clinic.</div>
       </div>
       <div class="rc reveal">
         <div class="rn">05</div>
-        <div class="rt">Multimodal Clinical Fusion</div>
-        <div class="rd">The fusion failure in the multimodal emotion project taught a specific lesson about what simple concatenation cannot do. Cross-modal attention and temporally-aligned fusion — now applied to imaging + clinical metadata (like MIMIC-CXR + MIMIC-IV) — is the architecture problem worth solving next.</div>
+        <div class="rt">Healthcare Operations &amp; Clinical Intelligence</div>
+        <div class="rd">AI in healthcare isn't only about imaging — it's also about patient flow, resource allocation, and using clinical data (like MIMIC-IV) to improve outcomes at the system level. The Big Data and AIWH work gave me a foundation in the infrastructure and data pipelines that make clinical intelligence possible in practice.</div>
       </div>
       <div class="rc reveal">
         <div class="rn">06</div>
-        <div class="rt">Multi-Site Dataset Generalization</div>
-        <div class="rd">ABIDE-I's 17 scanner sites introduced scanner bias that training doesn't automatically resolve. Domain adaptation, federated learning, and site-specific normalization for multi-centre clinical studies — where scanner heterogeneity is the norm, not the exception.</div>
+        <div class="rt">Trustworthy AI for Clinical Teams</div>
+        <div class="rd">Clinicians need to understand and trust AI outputs before they act on them. Explainability isn't a research nicety — it's a regulatory and practical requirement. I've worked with Grad-CAM and LIME in real imaging contexts, and I understand that the goal is not a publishable heatmap but a visualisation a radiologist or pathologist can use to make a better decision faster.</div>
       </div>
     </div>
   </div>
@@ -732,8 +684,8 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
   <div class="cg"></div>
   <div class="ci">
     <p class="sl reveal">Contact</p>
-    <h2 class="st reveal">Let's talk about hard problems<br>in medical imaging.</h2>
-    <p class="sd reveal">Graduating May 2026, available for full-time roles from June 2026. Open to opportunities in healthcare AI, medical image analysis, and applied ML in clinical or research settings.</p>
+    <h2 class="st reveal">Open to the right role<br>in clinical AI.</h2>
+    <p class="sd reveal">MS AI (Biomedical Concentration) graduating May 2026, available from June 2026. Looking for roles as a Machine Learning Engineer, AI Engineer, or Medical Imaging Scientist in healthcare — radiology AI, pathology AI, clinical decision support, or wearable health monitoring.</p>
     <div class="cl reveal">
       <a href="/cdn-cgi/l/email-protection#8ffbeefdfae1fceeebeefde3eebdb9cfe8e2eee6e3a1ece0e2" class="cit">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email

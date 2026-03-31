@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Projects — Tarun Sadarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;
+  --cyan:#00c8c8;--cyan-dim:rgba(0,200,200,0.13);--cyan-b:rgba(0,200,200,0.35);
+  --purple:#9d7fe8;--purple-dim:rgba(157,127,232,0.13);--purple-b:rgba(157,127,232,0.35);
+  --teal:#2dd4a0;--teal-dim:rgba(45,212,160,0.13);--teal-b:rgba(45,212,160,0.32);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.13);--amber-b:rgba(245,158,11,0.32);
+  --border:rgba(0,200,200,0.10);--white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(8,13,20,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.nav-back{font-family:'DM Mono',monospace;font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:var(--cyan);}
+.nav-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(0,200,200,0.45);letter-spacing:0.12em;}
+.page-header{padding:9rem 4rem 3rem;position:relative;border-bottom:1px solid var(--border);overflow:hidden;}
+.ph-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 100% at 50% 0%,black 30%,transparent 75%);pointer-events:none;}
+.ph-content{position:relative;max-width:1100px;margin:0 auto;}
+.ph-tag{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:0.75rem;}
+.ph-tag::before{content:'// ';opacity:0.45;}
+.ph-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.5rem);color:var(--white);letter-spacing:-0.025em;margin-bottom:0.75rem;line-height:1.1;}
+.ph-sub{font-size:0.96rem;color:var(--muted);max-width:580px;line-height:1.75;margin-bottom:1.75rem;}
+.tier-nav{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);overflow-x:auto;}
+.tn-item{padding:0.75rem 1.5rem;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap;background:var(--bg2);transition:all 0.2s;border-bottom:2px solid transparent;}
+.tn-item:hover{color:var(--white);background:var(--bg3);}
+.tn-item.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.page-content{max-width:1100px;margin:0 auto;padding:3.5rem 4rem 5rem;}
+.tier-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:0.6rem;margin-top:3rem;}
+.tier-header:first-of-type{margin-top:0;}
+.tier-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.td-purple{background:var(--purple);box-shadow:0 0 8px rgba(157,127,232,0.5);}
+.td-cyan{background:var(--cyan);box-shadow:0 0 8px rgba(0,200,200,0.5);}
+.td-teal{background:var(--teal);box-shadow:0 0 8px rgba(45,212,160,0.4);}
+.td-amber{background:var(--amber);box-shadow:0 0 8px rgba(245,158,11,0.4);}
+.tier-header h2{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--white);letter-spacing:-0.015em;}
+.tier-header::after{content:'';flex:1;height:1px;background:var(--border);}
+.tier-desc{font-size:0.84rem;color:var(--muted);margin-bottom:1.75rem;max-width:640px;line-height:1.7;}
+.proj-row{border:1px solid var(--border);background:var(--bg2);margin-bottom:1px;transition:border-color 0.25s;}
+.proj-row.purple:hover{border-color:rgba(157,127,232,0.35);}
+.proj-row.cyan:hover{border-color:rgba(0,200,200,0.35);}
+.proj-row.teal:hover{border-color:rgba(45,212,160,0.3);}
+.proj-row.amber:hover{border-color:rgba(245,158,11,0.3);}
+.pr-top{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;padding:1.5rem 1.75rem 0;}
+.pr-body{padding:0 1.75rem 1.5rem;}
+.pr-badge{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;padding:0.2rem 0.6rem;border:1px solid;display:inline-block;margin-bottom:0.5rem;}
+.badge-purple{color:var(--purple);border-color:rgba(157,127,232,0.35);background:var(--purple-dim);}
+.badge-cyan{color:var(--cyan);border-color:rgba(0,200,200,0.35);background:var(--cyan-dim);}
+.badge-teal{color:var(--teal);border-color:rgba(45,212,160,0.3);background:var(--teal-dim);}
+.badge-amber{color:var(--amber);border-color:rgba(245,158,11,0.3);background:var(--amber-dim);}
+.pr-title{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--white);letter-spacing:-0.01em;margin-bottom:0.3rem;}
+.pr-meta{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:0.85rem;}
+.pr-desc{font-size:0.87rem;color:var(--text);line-height:1.75;margin-bottom:0.85rem;}
+.pr-result{font-family:'DM Mono',monospace;font-size:0.72rem;padding:0.35rem 0.85rem;display:inline-block;margin-bottom:0.85rem;}
+.result-purple{color:var(--purple);border:1px solid rgba(157,127,232,0.3);background:var(--purple-dim);}
+.result-cyan{color:var(--cyan);border:1px solid rgba(0,200,200,0.3);background:var(--cyan-dim);}
+.result-teal{color:var(--teal);border:1px solid rgba(45,212,160,0.25);background:var(--teal-dim);}
+.result-amber{color:var(--amber);border:1px solid rgba(245,158,11,0.25);background:var(--amber-dim);}
+.pr-stack{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:1rem;}
+.stk{font-family:'DM Mono',monospace;font-size:0.59rem;padding:0.15rem 0.44rem;border:1px solid var(--border);color:var(--muted);}
+.pr-links{display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;}
+.pl-deep{display:inline-flex;align-items:center;gap:0.35rem;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.45rem 1rem;text-decoration:none;transition:all 0.2s;font-weight:500;}
+.pl-deep.purple{color:var(--purple);border:1px solid rgba(157,127,232,0.35);background:var(--purple-dim);}
+.pl-deep.purple:hover{background:rgba(157,127,232,0.22);}
+.pl-deep.cyan{color:var(--cyan);border:1px solid rgba(0,200,200,0.35);background:var(--cyan-dim);}
+.pl-deep.cyan:hover{background:rgba(0,200,200,0.22);}
+.pl-deep.teal{color:var(--teal);border:1px solid rgba(45,212,160,0.3);background:var(--teal-dim);}
+.pl-deep.teal:hover{background:rgba(45,212,160,0.2);}
+.pl-deep.amber{color:var(--amber);border:1px solid rgba(245,158,11,0.28);background:var(--amber-dim);}
+.pl-deep.amber:hover{background:rgba(245,158,11,0.2);}
+.gh-svg{width:12px;height:12px;}
+.pl-gh{display:inline-flex;align-items:center;gap:0.35rem;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.45rem 1rem;color:var(--muted);border:1px solid var(--border);text-decoration:none;transition:all 0.2s;background:var(--bg3);}
+.pl-gh:hover{color:var(--white);border-color:rgba(255,255,255,0.2);}
+.pl-na{font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(122,143,166,0.5);letter-spacing:0.06em;font-style:italic;}
+.legend{display:flex;gap:1.5rem;flex-wrap:wrap;padding:1rem 1.5rem;background:var(--bg3);border:1px solid var(--border);margin-bottom:2.5rem;}
+.li{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.ld{width:9px;height:9px;border-radius:50%;}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+footer{padding:1.75rem 4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.fl,.fr{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.1em;}
+.fl a{color:var(--cyan);text-decoration:none;}
+@media(max-width:800px){
+  nav{padding:1rem 1.5rem;}.nav-title{display:none;}
+  .page-header{padding:8rem 1.5rem 2.5rem;}
+  .page-content{padding:2.5rem 1.5rem 4rem;}
+  .pr-top{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:0.5rem;padding:1.5rem;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-back">← Home</a>
+  <span class="nav-title">All Projects — Tarun Sadarla</span>
+</nav>
+
+<div class="page-header">
+  <div class="ph-grid"></div>
+  <div class="ph-content">
+    <p class="ph-tag">Full Project Overview</p>
+    <h1 class="ph-title">Every project. Every repo.<br>All in one place.</h1>
+    <p class="ph-sub">All projects from my MS and B.Tech — organized by tier with direct links to deep-dive pages and GitHub repositories.</p>
+    <div class="tier-nav">
+      <a href="#research" class="tn-item active">Research Projects</a>
+      <a href="#standalone" class="tn-item">Standalone Projects</a>
+      <a href="#collections" class="tn-item">Course Collections</a>
+    </div>
+  </div>
+</div>
+
+<div class="page-content">
+  <div class="legend reveal">
+    <div class="li"><div class="ld" style="background:var(--purple);box-shadow:0 0 6px rgba(157,127,232,0.5);"></div>Origin / Research (ASD)</div>
+    <div class="li"><div class="ld" style="background:var(--cyan);box-shadow:0 0 6px rgba(0,200,200,0.5);"></div>Research Projects</div>
+    <div class="li"><div class="ld" style="background:var(--teal);box-shadow:0 0 6px rgba(45,212,160,0.4);"></div>Standalone Course Projects</div>
+    <div class="li"><div class="ld" style="background:var(--amber);box-shadow:0 0 6px rgba(245,158,11,0.4);"></div>Course Collections</div>
+  </div>
+
+  <!-- RESEARCH -->
+  <div id="research" class="tier-header reveal"><div class="tier-dot td-purple"></div><div class="tier-dot td-cyan"></div><h2>Research Projects</h2></div>
+  <p class="tier-desc reveal">Original methodology, documented findings, and results beyond coursework scope. Full deep-dive pages available for all three.</p>
+
+  <div class="proj-row purple reveal">
+    <div class="pr-top"><div>
+      <span class="pr-badge badge-purple">★ Origin Project · B.Tech Capstone · MIT Manipal · 2023</span>
+      <div class="pr-title">ASD Detection via Structural Neuroimaging</div>
+      <div class="pr-meta">CNN · Vision Transformer · ABIDE-I · Prof. J. Andrew</div>
+    </div></div>
+    <div class="pr-body">
+      <p class="pr-desc">The project that decided my career. ASD classification from sMRI brain scans (1,067 subjects, 17 research centres). CNN: 91% accuracy, AUC 0.98. ViT: 60% — proved data scale determines architecture viability. That failure shaped every subsequent architecture decision in the MS.</p>
+      <div class="pr-result result-purple">▸ 91% Accuracy · AUC 0.98 · 1,067 Subjects · 17 Sites</div>
+      <div class="pr-stack"><span class="stk">PyTorch</span><span class="stk">TensorFlow</span><span class="stk">ViT</span><span class="stk">ABIDE-I</span><span class="stk">NIfTI</span><span class="stk">DICOM</span></div>
+      <div class="pr-links">
+        <a href="asd-detection.html" class="pl-deep purple">Full Deep Dive →</a>
+        <a href="https://github.com/TarunSadarla2606/asd-detection-neuroimaging" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-row cyan reveal">
+    <div class="pr-top"><div>
+      <span class="pr-badge badge-cyan">★ Research Deep Dive · CSCE 6260 · Fall 2025</span>
+      <div class="pr-title">Fetal Head Circumference Estimation via Cine-Loop</div>
+      <div class="pr-meta">Segmentation · Ultrasound · 3D U-Net · Prof. Xiaohui Yuan</div>
+    </div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Extended static segmentation to temporally-aware video analysis for automated HC measurement. Built Pseudo-LDDM — synthesised cine-loop training data from still images when none existed. Residual U-Net baseline + 3D U-Net with frame-level reliability scoring.</p>
+      <div class="pr-result result-cyan">▸ 86.2% Dice · ≈0mm Temporal Std · Reliability Score 1.0</div>
+      <div class="pr-stack"><span class="stk">TensorFlow</span><span class="stk">3D U-Net</span><span class="stk">HC18</span><span class="stk">Ultrasound</span><span class="stk">Cine-Loop</span></div>
+      <div class="pr-links">
+        <a href="fetal-head.html" class="pl-deep cyan">Full Deep Dive →</a>
+        <a href="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-row cyan reveal">
+    <div class="pr-top"><div>
+      <span class="pr-badge badge-cyan">★ Research Deep Dive · CSCE 5934 Directed Study · Fall 2025</span>
+      <div class="pr-title">CNN Filter Pruning — Hybrid Crossover</div>
+      <div class="pr-meta">Model Compression · VGG-16 · Prof. Russel Pears</div>
+    </div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Introduced Hybrid Crossover: synthesise a new filter from two redundant ones instead of discarding. Compared against Standard Drop across VGG-16 and 5-layer CNN under hard accuracy guard rails. Motivated by deployment gap from Fetal Head project.</p>
+      <div class="pr-result result-cyan">▸ 2× Compression · +0.37% Accuracy · 2× Faster Runtime</div>
+      <div class="pr-stack"><span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">ILR Saliency</span><span class="stk">Regression Synthesis</span></div>
+      <div class="pr-links">
+        <a href="cnn-pruning.html" class="pl-deep cyan">Full Deep Dive →</a>
+        <a href="https://github.com/TarunSadarla2606/cnn-structured-pruning-vgg16" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STANDALONE -->
+  <div id="standalone" class="tier-header reveal" style="margin-top:4rem;"><div class="tier-dot td-teal"></div><h2>Standalone Course Projects</h2></div>
+  <p class="tier-desc reveal">Substantial individual-contribution projects with real datasets, meaningful scope, and documented results.</p>
+
+  <div class="proj-row teal reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-teal">SDAI · Fall 2024 · Prof. Xiaohui Yuan · 5-person team</span><div class="pr-title">Histopathologic Cancer Detection</div><div class="pr-meta">Histopathology · Classification · Full-Stack Deployment</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Binary cancer detection on PCam (187K images). Systematic data volume study across 4 stratified subsets — non-monotonic results proved more data isn't always better. Full-stack: Django + React + REST API.</p>
+      <div class="pr-result result-teal">▸ ROC-AUC 0.82 · PR-AUC 0.71 · 187K Patches · Deployed</div>
+      <div class="pr-stack"><span class="stk">PyTorch</span><span class="stk">Django</span><span class="stk">React</span><span class="stk">PCam</span></div>
+      <div class="pr-links"><a href="histopathology.html" class="pl-deep teal">Deep Dive →</a><a href="https://github.com/TarunSadarla2606/histopathology-cancer-detection" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row teal reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-teal">SDAI · Fall 2024 · Prof. Xiaohui Yuan</span><div class="pr-title">BirdCLEF 2022 — Bird Species Classification</div><div class="pr-meta">Audio Classification · Feature Engineering · AWS Deployment</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">152 Hawaiian bird species from passive audio. 107 acoustic features via librosa, hierarchical XGBoost (Order→Family taxonomy), live AWS Streamlit deployment with per-class confidence.</p>
+      <div class="pr-result result-teal">▸ 107 Features · Hierarchical XGBoost · Live AWS Demo</div>
+      <div class="pr-stack"><span class="stk">librosa</span><span class="stk">XGBoost</span><span class="stk">AWS</span><span class="stk">Streamlit</span></div>
+      <div class="pr-links"><a href="birdclef.html" class="pl-deep teal">Deep Dive →</a><a href="https://github.com/TarunSadarla2606/birdclef-2022-bird-classification" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row teal reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-teal">Deep Learning · Spring 2025 · Prof. Yan Huang · Project Lead · 4-person team</span><div class="pr-title">Multimodal Emotion Recognition</div><div class="pr-meta">Video + Audio Fusion · BiLSTM · MELD Dataset</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Led visual stream in multimodal fusion system for emotion + sentiment classification on MELD. VGG-16 + BiLSTM + late fusion. Fusion didn't outperform individual streams — diagnosing why (temporal misalignment, feature mismatch) was the key learning.</p>
+      <div class="pr-result result-teal">▸ VGG-16: 48.3% · MELD · Dual-head Output</div>
+      <div class="pr-stack"><span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">BiLSTM</span><span class="stk">MELD</span></div>
+      <div class="pr-links"><a href="multimodal-emotion.html" class="pl-deep teal">Deep Dive →</a><a href="https://github.com/TarunSadarla2606/multimodal-emotion-recognition" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row teal reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-teal">AI Wearables · Fall 2025 · Prof. Mahdi Pedram · 2-person team</span><div class="pr-title">WECARE — Wearable Cardiac &amp; Fall Detection</div><div class="pr-meta">Edge AI · ECG · IMU · 1D CNN · TorchScript</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">On-device arrhythmia (MIT-BIH) and fall detection (MobiFall). 3-block 1D CNN, TorchScript, no cloud dependency. Threshold 0.65 — deliberate clinical decision to minimise missed falls. 0.033ms inference.</p>
+      <div class="pr-result result-teal">▸ ECG F1: 0.9864 · 8 Missed Falls / 228 · 0.033ms</div>
+      <div class="pr-stack"><span class="stk">PyTorch</span><span class="stk">1D CNN</span><span class="stk">TorchScript</span><span class="stk">MIT-BIH</span></div>
+      <div class="pr-links"><a href="wecare.html" class="pl-deep teal">Deep Dive →</a><a href="https://github.com/TarunSadarla2606/wecare-cardiac-fall-detection" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row teal reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-teal">Intro to Big Data · Spring 2025 · Prof. Zeenat Tariq · 4-person team</span><div class="pr-title">Big Data Customer Segmentation — EDA &amp; RFM</div><div class="pr-meta">PySpark · AWS EMR · 541K Transactions</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">541,909 e-commerce transactions on AWS S3 + EMR. 60-cell PySpark EDA + RFM feature engineering pipeline (Recency-Frequency-Monetary) feeding K-Means clustering.</p>
+      <div class="pr-result result-teal">▸ 541K Transactions · £1.77M Top Customer · RFM Pipeline</div>
+      <div class="pr-stack"><span class="stk">PySpark</span><span class="stk">AWS EMR</span><span class="stk">S3</span><span class="stk">Hadoop</span></div>
+      <div class="pr-links"><a href="big-data.html" class="pl-deep teal">Deep Dive →</a><a href="https://github.com/TarunSadarla2606/big-data-customer-segmentation" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row teal reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-teal">Feature Engineering · Fall 2024 · Prof. Xiaohui Yuan · Project Lead · 4-person team</span><div class="pr-title">Industrial Component Quality Classification</div><div class="pr-meta">MATLAB · Gabor Filters · Wavelet Transforms · mIoU</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Automated quality control pipeline in MATLAB. Led preprocessing (Sobel + morphological ops), component detection, and MATLAB Image Labeler ground truth annotation. Gabor + Wavelet feature extraction; mIoU evaluation.</p>
+      <div class="pr-result result-teal">▸ Gabor + Wavelet Features · mIoU · 20 Images</div>
+      <div class="pr-stack"><span class="stk">MATLAB</span><span class="stk">Gabor</span><span class="stk">Wavelet</span><span class="stk">mIoU</span></div>
+      <div class="pr-links"><a href="fe-project.html" class="pl-deep teal">Deep Dive →</a><a href="https://github.com/TarunSadarla2606/industrial-component-classification" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <!-- COLLECTIONS -->
+  <div id="collections" class="tier-header reveal" style="margin-top:4rem;"><div class="tier-dot td-amber"></div><h2>Course Collections</h2></div>
+  <p class="tier-desc reveal">Multi-project course pages — each covering assignments within a single course, supervised by different faculty across UNT's AI program.</p>
+
+  <div class="proj-row amber reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-amber">Machine Learning · Fall 2024 · Prof. Russel Pears</span><div class="pr-title">Machine Learning — 3 Projects</div><div class="pr-meta">Glass ID · CelebA VGG-16 Fine-Tuning · Bayesian Network</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Glass type identification (classical ML + RBF SVM), CelebA attribute recognition (VGG-16 fine-tuning, 0.9594 acc), and Bayesian network construction from conditional probability tables.</p>
+      <div class="pr-result result-amber">▸ CelebA VGG-16: 0.9594 Acc · 3 Projects</div>
+      <div class="pr-stack"><span class="stk">scikit-learn</span><span class="stk">TensorFlow</span><span class="stk">VGG-16</span><span class="stk">networkx</span></div>
+      <div class="pr-links"><a href="ml-course-projects.html" class="pl-deep amber">View Collection →</a><a href="https://github.com/TarunSadarla2606/machine-learning-course-projects" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row amber reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-amber">Fundamentals of AI · Spring 2025 · Prof. Russel Pears</span><div class="pr-title">Fundamentals of AI — 3 Projects</div><div class="pr-meta">Warehouse Robot · Genetic Algorithm · Value Iteration RL</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Warehouse robot pathfinding (Dijkstra + A*), genetic algorithm for job-shop scheduling (makespan 298), value iteration RL (100% goal success in 22 iterations).</p>
+      <div class="pr-result result-amber">▸ Makespan 298 · 100% RL Success · 22 Iterations</div>
+      <div class="pr-stack"><span class="stk">networkx</span><span class="stk">Python</span><span class="stk">GA</span><span class="stk">Value Iteration</span></div>
+      <div class="pr-links"><a href="fdai-projects.html" class="pl-deep amber">View Collection →</a><a href="https://github.com/TarunSadarla2606/fundamentals-of-ai-projects" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row amber reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-amber">Scientific Data Visualization · Summer 2025 · Prof. Zeenat Tariq</span><div class="pr-title">Scientific Data Visualization — 2 Assignments</div><div class="pr-meta">Tableau · D3.js / Observable · Power BI</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Assignment 1: Tableau — Global Superstore (shipping costs, sales by market). Assignment 2: D3.js via Observable (Iris dataset) + Power BI (tech layoffs — stacked bar + regional pie charts).</p>
+      <div class="pr-result result-amber">▸ Tableau · D3.js · Power BI · 3 Platforms</div>
+      <div class="pr-stack"><span class="stk">Tableau</span><span class="stk">D3.js</span><span class="stk">Power BI</span><span class="stk">Observable</span></div>
+      <div class="pr-links"><a href="sdv-course.html" class="pl-deep amber">View Collection →</a><a href="https://github.com/TarunSadarla2606/scientific-data-visualization" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row amber reveal">
+    <div class="pr-top"><div><span class="pr-badge badge-amber">AI in Wearables &amp; Healthcare · Fall 2025 · Prof. Mahdi Pedram</span><div class="pr-title">AI in Wearables &amp; Healthcare — 15 Activities</div><div class="pr-meta">YOLOv8 · PPG Sensor · MIMIC-IV · Seeed XIAO nRF52840</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">FDA/SaMD frameworks, Seeed XIAO nRF52840 hardware (accelerometer + PPG at 50Hz), YOLOv8 food detection (mAP@50 = 0.913), MIT App Inventor mobile deployment, MIMIC-IV ICU analysis.</p>
+      <div class="pr-result result-amber">▸ YOLOv8 mAP@50: 0.913 · MIMIC-IV ICU · Real Hardware</div>
+      <div class="pr-stack"><span class="stk">YOLOv8</span><span class="stk">MIMIC-IV</span><span class="stk">PPG</span><span class="stk">TinyML</span></div>
+      <div class="pr-links"><a href="aiwh-course.html" class="pl-deep amber">View Collection →</a><a href="https://github.com/TarunSadarla2606/ai-wearables-healthcare" target="_blank" class="pl-gh"><svg class="gh-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub ↗</a></div>
+    </div>
+  </div>
+
+  <div class="proj-row amber reveal" style="opacity:0.6;">
+    <div class="pr-top"><div><span class="pr-badge badge-amber">AI in Health · Spring 2026 · Prof. Haihua Chen</span><div class="pr-title">HINF 5506: Applications of AI in Health</div><div class="pr-meta">In Progress — Updated April 2026</div></div></div>
+    <div class="pr-body">
+      <p class="pr-desc">Currently in progress. Clinical decision support, health informatics, and AI-driven healthcare workflows. Page and repo will be available upon completion.</p>
+      <div class="pr-result result-amber">▸ In Progress</div>
+      <div class="pr-links"><span class="pl-na">Available April 2026</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="fl">← <a href="index.html">Back to Portfolio Home</a></div>
+  <div class="fr">Tarun Sadarla · MS AI · UNT · Graduating May 2026</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.dataset.delay = (i % 5) * 60;
+  obs.observe(el);
+});
+const sections = ['research','standalone','collections'];
+window.addEventListener('scroll', () => {
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 200) current = id;
+  });
+  document.querySelectorAll('.tn-item').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
