@@ -234,8 +234,17 @@ section{padding:6rem 4rem;}
 .rt{font-weight:600;color:var(--white);font-size:0.9rem;margin-bottom:0.45rem;}
 .rd{font-size:0.81rem;color:var(--muted);line-height:1.7;}
 
-/* CONTACT */
+
+/* CONTACT LAYOUT WITH IMAGES */
 #contact{text-align:center;position:relative;overflow:hidden;}
+.contact-layout{display:grid;grid-template-columns:1fr 380px;gap:0;align-items:stretch;max-width:100%;}
+.contact-img-col{overflow:hidden;position:relative;}
+.contact-img-col img{width:100%;height:100%;object-fit:cover;filter:saturate(0.25) brightness(0.4);display:block;}
+.contact-img-col::after{content:'';position:absolute;inset:0;}
+.contact-img-col:first-child::after{background:linear-gradient(to right,rgba(8,13,20,0.5) 0%,transparent 60%);}
+.contact-img-col:last-child::after{background:linear-gradient(to left,rgba(8,13,20,0.5) 0%,transparent 60%);}
+@media(max-width:900px){.contact-layout{grid-template-columns:1fr;}.contact-img-col{display:none;}}
+.cg{position:absolute;width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,200,200,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
 .cg{position:absolute;width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,200,200,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
 .ci{position:relative;max-width:600px;margin:0 auto;}
 .ci .sl,.ci .st,.ci .sd{text-align:center;margin-left:auto;margin-right:auto;}
@@ -539,19 +548,6 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
       <a href="projects.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.4rem;background:var(--cyan);color:var(--bg);font-family:'DM Mono',monospace;font-size:0.73rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));" onmouseover="this.style.background='#00e5e5'" onmouseout="this.style.background='var(--cyan)'">View All Projects →</a>
     </div>
 
-    <!-- PROJECT IMAGES STRIP -->
-    <div class="proj-img-pair reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;height:130px;">
-      <div style="overflow:hidden;position:relative;">
-        <img src="https://www.shutterstock.com/image-vector/ai-human-collaboration-enhancing-medical-260nw-2652196067.jpg" alt="AI in medical imaging" loading="lazy" style="width:100%;height:100%;object-fit:cover;filter:saturate(0.3) brightness(0.45);">
-        <div style="position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--bg) 100%);"></div>
-        <div style="position:absolute;bottom:0.5rem;left:0.75rem;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,200,200,0.7);">AI &amp; Clinical Teams</div>
-      </div>
-      <div style="overflow:hidden;position:relative;">
-        <img src="https://media.licdn.com/dms/image/v2/D5612AQFi_Ok_6n5tqg/article-cover_image-shrink_720_1280/B56ZnNTtPtJYAI-/0/1760086126248?e=2147483647&v=beta&t=kznRQFlboYabrWBg-Ajnw_0S4SH6nxtJe2PTvYit1r0" alt="Medical AI deployment" loading="lazy" style="width:100%;height:100%;object-fit:cover;filter:saturate(0.3) brightness(0.45);">
-        <div style="position:absolute;inset:0;background:linear-gradient(to left,transparent 60%,var(--bg) 100%);"></div>
-        <div style="position:absolute;bottom:0.5rem;right:0.75rem;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,200,200,0.7);">Clinical AI Deployment</div>
-      </div>
-    </div>
 
     <!-- COLOR LEGEND -->
     <div class="color-legend reveal">
@@ -631,7 +627,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
         <div class="emeta"><div class="ename">[Professor Name]</div><div class="etitle">[Title · Department]</div><div class="euni">[University]</div><div class="ectx">Context: [Course / research context]</div></div>
       </div>
     </div>
-    <p class="reveal" style="font-size:0.77rem;color:var(--muted);margin-top:1.75rem;">All endorsements voluntary and shared with explicit permission — <a href="/cdn-cgi/l/email-protection#99edf8ebecf7eaf8fdf8ebf5f8abafd9fef4f8f0f5b7faf6f4" style="color:var(--cyan);text-decoration:none;"><span class="__cf_email__" data-cfemail="d2a6b3a0a7bca1b3b6b3a0beb3e0e492b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></a></p>
+    <p class="reveal" style="font-size:0.77rem;color:var(--muted);margin-top:1.75rem;">All endorsements voluntary and shared with explicit permission — <a href="mailto:tarunsadarla26@gmail.com" style="color:var(--cyan);text-decoration:none;">tarunsadarla26@gmail.com</a></p>
   </div>
 </section>
 -->
@@ -682,24 +678,34 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
 <!-- CONTACT -->
 <section id="contact">
   <div class="cg"></div>
-  <div class="ci">
-    <p class="sl reveal">Contact</p>
-    <h2 class="st reveal">Open to the right role<br>in clinical AI.</h2>
-    <p class="sd reveal">MS AI (Biomedical Concentration) graduating May 2026, available from June 2026. Looking for roles as a Machine Learning Engineer, AI Engineer, or Medical Imaging Scientist in healthcare — radiology AI, pathology AI, clinical decision support, or wearable health monitoring.</p>
-    <div class="cl reveal">
-      <a href="/cdn-cgi/l/email-protection#8ffbeefdfae1fceeebeefde3eebdb9cfe8e2eee6e3a1ece0e2" class="cit">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email
-      </a>
-      <a href="https://linkedin.com/in/tarun-sadarla-715026231" target="_blank" class="cit">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn
-      </a>
-      <a href="https://github.com/TarunSadarla2606" target="_blank" class="cit">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub
-      </a>
-      <a href="https://www.kaggle.com/tarunsadarla" target="_blank" class="cit">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.311z"/></svg>Kaggle
-      </a>
+  <div class="contact-layout">
+
+    <!-- Left: content -->
+    <div class="ci reveal">
+      <p class="sl">Contact</p>
+      <h2 class="st">Open to the right role<br>in clinical AI.</h2>
+      <p class="sd">MS AI (Biomedical Concentration) graduating May 2026, available from June 2026. Looking for roles as a Machine Learning Engineer, AI Engineer, or Medical Imaging Scientist in healthcare — radiology AI, pathology AI, clinical decision support, or wearable health monitoring.</p>
+      <div class="cl">
+        <a href="mailto:tarunsadarla26@gmail.com" class="cit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email
+        </a>
+        <a href="https://linkedin.com/in/tarun-sadarla-715026231" target="_blank" class="cit">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn
+        </a>
+        <a href="https://github.com/TarunSadarla2606" target="_blank" class="cit">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub
+        </a>
+        <a href="https://www.kaggle.com/tarunsadarla" target="_blank" class="cit">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.311z"/></svg>Kaggle
+        </a>
+      </div>
     </div>
+
+    <!-- Right: single image -->
+    <div class="contact-img-col reveal">
+      <img src="https://media.licdn.com/dms/image/v2/D5612AQFi_Ok_6n5tqg/article-cover_image-shrink_720_1280/B56ZnNTtPtJYAI-/0/1760086126248?e=2147483647&v=beta&t=kznRQFlboYabrWBg-Ajnw_0S4SH6nxtJe2PTvYit1r0" alt="Clinical AI deployment in healthcare" loading="lazy">
+    </div>
+
   </div>
 </section>
 
@@ -708,7 +714,7 @@ footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-i
   <div class="fr">MS AI · University of North Texas · Graduating May 2026 · Available June 2026</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX - 3 + 'px';
