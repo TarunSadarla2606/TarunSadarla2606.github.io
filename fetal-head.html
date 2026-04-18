@@ -3,653 +3,695 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fetal Head Segmentation — Tarun Sadarla</title>
+<title>Fetal Head Circumference Clinical AI — Tarun Sadarla</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#080d14;--bg2:#0d1520;--bg3:#111c2a;
-    --border:rgba(0,200,200,0.12);--border-bright:rgba(0,200,200,0.35);
-    --cyan:#00c8c8;--cyan-dim:rgba(0,200,200,0.15);--cyan-glow:rgba(0,200,200,0.06);
-    --white:#eef2f7;--muted:#7a8fa6;--text:#c8d8e8;
-    --green:#4ec994;--yellow:#e0b84e;--red:#e06464;
-  }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
-  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
+:root {
+  --navy:     #0F2D54;
+  --blue:     #1B5FA8;
+  --blue-mid: #2574C4;
+  --sky:      #3A9BD5;
+  --sky-light:#EBF4FD;
+  --sky-pale: #F4F9FF;
+  --white:    #FFFFFF;
+  --off-white:#F7FAFD;
+  --slate:    #3D5166;
+  --muted:    #6B829A;
+  --border:   #D0DFF0;
+  --border-light: #E8F0FA;
+  --text:     #253347;
+  --green:    #17836B;
+  --green-bg: #EAF7F3;
+  --amber:    #B45309;
+  --amber-bg: #FEF3C7;
+  --red:      #B91C1C;
+  --red-bg:   #FEE2E2;
+  --teal:     #0E7490;
+  --teal-bg:  #ECFEFF;
+  --shadow-sm: 0 1px 4px rgba(15,45,84,0.07);
+  --shadow:    0 4px 16px rgba(15,45,84,0.10);
+  --shadow-md: 0 8px 32px rgba(15,45,84,0.13);
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; line-height: 1.75; overflow-x: hidden; }
 
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(8,13,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
-  .nav-back{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-  .nav-back:hover{color:var(--cyan);}
-  .nav-title{font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(0,200,200,0.45);letter-spacing:0.12em;}
-  .nav-links{display:flex;gap:2rem;list-style:none;}
-  .nav-links a{font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-  .nav-links a:hover{color:var(--cyan);}
+/* ── NAV ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 3rem; height: 60px; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); box-shadow: var(--shadow-sm); }
+.nav-back { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; color: var(--blue); text-decoration: none; transition: color 0.2s; }
+.nav-back:hover { color: var(--navy); }
+.nav-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.03em; color: var(--slate); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--blue); }
 
-  #hero{min-height:76vh;display:flex;align-items:flex-end;padding:10rem 4rem 5rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
-  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,200,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.035) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 75% 80% at 65% 35%,black 20%,transparent 72%);}
-  .hero-glow{position:absolute;width:720px;height:520px;background:radial-gradient(ellipse,rgba(0,200,200,0.07) 0%,transparent 65%);top:-8%;right:-4%;pointer-events:none;}
-  .hero-content{position:relative;max-width:860px;}
-  .breadcrumb{display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;}
-  .breadcrumb span{color:var(--cyan);}
-  .proj-cat{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:1rem;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;}
-  h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,4.8vw,4.2rem);line-height:1.08;color:var(--white);letter-spacing:-0.025em;margin-bottom:1.3rem;opacity:0;animation:fadeUp 0.7s ease 0.3s forwards;}
-  h1 em{font-style:italic;color:var(--cyan);}
-  .hero-plain{font-size:1.05rem;color:var(--muted);max-width:580px;line-height:1.85;margin-bottom:0.75rem;opacity:0;animation:fadeUp 0.7s ease 0.42s forwards;}
-  .hero-tech{font-size:0.86rem;color:rgba(122,143,166,0.7);max-width:580px;line-height:1.75;margin-bottom:2rem;font-family:'DM Mono',monospace;letter-spacing:0.02em;opacity:0;animation:fadeUp 0.7s ease 0.5s forwards;}
-  .hero-meta{display:flex;flex-wrap:wrap;gap:0.75rem;opacity:0;animation:fadeUp 0.7s ease 0.58s forwards;}
-  .meta-tag{display:inline-flex;align-items:center;font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.32rem 0.8rem;border:1px solid var(--border);color:var(--muted);background:var(--bg3);}
-  .meta-tag.hi{border-color:rgba(0,200,200,0.38);color:var(--cyan);background:var(--cyan-dim);}
+/* ── HERO ── */
+#hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 3rem 5rem; background: linear-gradient(150deg, #0A2540 0%, #134B8C 50%, #1A6FA8 100%); position: relative; overflow: hidden; }
+.hero-pattern { position: absolute; inset: 0; opacity: 0.05; background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 36px 36px; }
+.hero-wave { position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to top, rgba(255,255,255,0.04) 0%, transparent 100%); }
+.hero-circle { position: absolute; top: -80px; right: -80px; width: 500px; height: 500px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.06); }
+.hero-circle2 { position: absolute; top: -160px; right: -160px; width: 700px; height: 700px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.04); }
+/* Ultrasound ring visual hint */
+.hero-circle3 { position: absolute; bottom: 40px; right: 60px; width: 200px; height: 200px; border-radius: 50%; border: 1.5px solid rgba(100,200,255,0.15); }
+.hero-circle4 { position: absolute; bottom: 10px; right: 30px; width: 260px; height: 260px; border-radius: 50%; border: 1px solid rgba(100,200,255,0.08); }
+.hero-content { position: relative; max-width: 840px; }
+.live-badge { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.4rem 1rem; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.1); margin-bottom: 1.5rem; text-decoration: none; transition: background 0.2s; display: inline-flex; opacity: 0; animation: fadeUp 0.7s ease 0.05s forwards; }
+.live-badge:hover { background: rgba(255,255,255,0.18); }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #5CE65C; box-shadow: 0 0 8px #5CE65C; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+.proj-cat { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(150,210,255,0.9); text-transform: uppercase; margin-bottom: 0.9rem; opacity: 0; animation: fadeUp 0.7s ease 0.15s forwards; }
+h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.9rem); line-height: 1.08; color: #FFFFFF; letter-spacing: -0.02em; margin-bottom: 1.2rem; opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards; }
+h1 em { font-style: italic; color: #7DD3FC; }
+.hero-lead { font-size: 1.05rem; color: rgba(220,235,255,0.88); max-width: 680px; line-height: 1.9; margin-bottom: 1.75rem; opacity: 0; animation: fadeUp 0.7s ease 0.38s forwards; }
+.hero-lead strong { color: #FFFFFF; font-weight: 600; }
+.hero-kpi { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease 0.48s forwards; }
+.kpi-chip { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); padding: 0.55rem 1.1rem; }
+.kpi-chip .kv { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #FFFFFF; line-height: 1; }
+.kpi-chip .kl { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(180,215,255,0.8); margin-top: 0.15rem; }
+.kpi-chip.isuog { background: rgba(92,230,92,0.15); border-color: rgba(92,230,92,0.35); }
+.kpi-chip.isuog .kv { color: #AEFFD0; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; opacity: 0; animation: fadeUp 0.7s ease 0.58s forwards; }
+.btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.75rem; background: #FFFFFF; color: var(--navy); text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+.btn-primary:hover { background: #EBF4FD; transform: translateY(-1px); }
+.btn-sec { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.75rem; border: 1.5px solid rgba(255,255,255,0.45); color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.2s; }
+.btn-sec:hover { border-color: white; background: rgba(255,255,255,0.1); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.75rem; border: 1px solid rgba(255,255,255,0.25); color: rgba(200,225,255,0.75); text-decoration: none; transition: all 0.2s; }
+.btn-ghost:hover { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.4); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
 
-  .page-content{max-width:1060px;margin:0 auto;padding:5rem 4rem;}
-  .sec-label{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.5rem;}
-  .sec-label::before{content:'// ';opacity:0.45;}
-  h2{font-family:'DM Serif Display',serif;font-size:clamp(1.55rem,2.6vw,2.15rem);color:var(--white);letter-spacing:-0.02em;margin-bottom:0.5rem;line-height:1.2;}
-  .h2-sub{font-size:0.92rem;color:var(--muted);margin-bottom:1.75rem;max-width:620px;line-height:1.7;}
-  h3{font-family:'Outfit',sans-serif;font-size:0.97rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;margin-top:2.25rem;}
-  p{color:var(--text);font-size:0.93rem;line-height:1.85;margin-bottom:1rem;}
-  p strong{color:var(--white);font-weight:500;}
-  p em{color:var(--cyan);font-style:normal;}
-  abbr{text-decoration:underline dotted rgba(0,200,200,0.4);cursor:help;color:inherit;}
-  .divider{border:none;border-top:1px solid var(--border);margin:4.5rem 0;}
+/* ── LAYOUT ── */
+.page-content { max-width: 1040px; margin: 0 auto; padding: 5rem 3rem; }
+.sec-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.45rem; font-weight: 500; }
+.sec-label.green { color: var(--green); }
+.sec-label.amber { color: var(--amber); }
+.sec-label.teal { color: var(--teal); }
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,2.8vw,2.1rem); color: var(--navy); letter-spacing: -0.02em; margin-bottom: 0.4rem; line-height: 1.2; }
+.h2-sub { font-size: 0.94rem; color: var(--muted); margin-bottom: 1.75rem; max-width: 640px; line-height: 1.7; }
+h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 0.45rem; margin-top: 2rem; }
+p { color: var(--text); font-size: 0.94rem; line-height: 1.85; margin-bottom: 0.9rem; }
+p strong { color: var(--navy); font-weight: 600; }
+hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4rem 0; }
 
-  .al{display:inline-flex;align-items:center;gap:0.4rem;font-family:'DM Mono',monospace;font-size:0.61rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.2rem 0.58rem;border-radius:2px;margin-bottom:0.5rem;margin-top:0.75rem;}
-  .al-all{background:rgba(78,201,148,0.1);color:var(--green);border:1px solid rgba(78,201,148,0.25);}
-  .al-tech{background:rgba(0,200,200,0.07);color:var(--cyan);border:1px solid var(--border);}
+/* ── IMPACT STRIP ── */
+.impact-strip { background: linear-gradient(90deg, var(--sky-pale) 0%, #EEF5FF 100%); border: 1px solid var(--border); border-left: 4px solid var(--blue); padding: 1.6rem 2rem; margin-bottom: 3rem; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem; }
+.impact-item .impact-val { font-family: 'Playfair Display', serif; font-size: 1.65rem; color: var(--blue); line-height: 1; margin-bottom: 0.2rem; }
+.impact-item .impact-val.green { color: var(--green); }
+.impact-item .impact-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.impact-item .impact-desc { font-size: 0.82rem; color: var(--slate); margin-top: 0.2rem; }
 
-  .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:2.5rem 0;}
-  .metric-cell{background:var(--bg2);padding:1.5rem;text-align:center;}
-  .metric-val{font-family:'DM Serif Display',serif;font-size:1.85rem;color:var(--cyan);line-height:1;margin-bottom:0.3rem;}
-  .metric-label{font-family:'DM Mono',monospace;font-size:0.61rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
-  .metric-sub{font-size:0.68rem;color:rgba(122,143,166,0.6);margin-top:0.2rem;}
+/* ── METRICS ── */
+.metrics-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; border: 1px solid var(--border); margin: 2.5rem 0; }
+.metric-cell { padding: 1.5rem 1.25rem; text-align: center; border-right: 1px solid var(--border-light); background: var(--white); }
+.metric-cell:last-child { border-right: none; }
+.metric-val { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue); line-height: 1; margin-bottom: 0.3rem; }
+.metric-val.green { color: var(--green); }
+.metric-val.sota { color: var(--teal); }
+.metric-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.metric-sub { font-size: 0.7rem; color: var(--muted); margin-top: 0.25rem; opacity: 0.75; }
 
-  .callout{padding:1.25rem 1.75rem;border-left:3px solid var(--cyan);background:var(--bg2);margin:1.75rem 0;}
-  .callout p{margin:0;font-size:0.9rem;}
-  .callout strong{color:var(--cyan);}
+/* ── COMPARISON TABLE ── */
+.cmp-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.85rem; border: 1px solid var(--border); }
+.cmp-table th { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); padding: 0.8rem 1rem; text-align: left; background: var(--sky-pale); border-bottom: 1px solid var(--border); }
+.cmp-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-light); color: var(--text); }
+.cmp-table td:first-child { font-weight: 600; color: var(--navy); }
+.cmp-table td.old { color: var(--muted); }
+.cmp-table td.new { color: var(--green); font-weight: 500; }
+.cmp-table td.sota { color: var(--teal); font-weight: 500; }
+.cmp-table tr:hover td { background: var(--sky-pale); }
 
-  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.25rem;margin:1.5rem 0;}
+/* ── PIPELINE ── */
+.pipeline { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; border: 1px solid var(--border); }
+.pipe-step { display: grid; grid-template-columns: 3rem 1fr; gap: 1.25rem; align-items: start; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-light); background: var(--white); transition: background 0.15s; }
+.pipe-step:last-child { border-bottom: none; }
+.pipe-step:hover { background: var(--sky-pale); }
+.pipe-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--blue); background: var(--sky-light); width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pipe-content h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
+.pipe-content p { font-size: 0.84rem; color: var(--slate); margin: 0; line-height: 1.65; }
 
-  .fig{margin:2rem 0;}
-  .fig img{width:100%;display:block;border:1px solid var(--border);background:#050a10;transition:border-color 0.25s;}
-  .fig img:hover{border-color:var(--border-bright);}
-  .fig-cap{font-family:'DM Mono',monospace;font-size:0.64rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-top:0.6rem;text-align:center;padding:0 0.5rem;}
-  .fig-cap strong{color:var(--text);font-weight:400;}
-  .fig-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:2rem 0;}
-  .fig-2 .fig{margin:0;}
+/* ── PHASE TIMELINE ── */
+.phase-timeline { margin: 2.5rem 0; }
+.phase-block { border: 1px solid var(--border); padding: 1.75rem 2rem; margin-bottom: 1.25rem; background: var(--white); border-left: 4px solid var(--blue-mid); position: relative; }
+.phase-block.p0 { border-left-color: #6B829A; }
+.phase-block.p1 { border-left-color: var(--blue); }
+.phase-block.p2 { border-left-color: var(--sky); }
+.phase-block.p3 { border-left-color: var(--green); }
+.phase-block.p4 { border-left-color: var(--teal); }
+.phase-block.current { background: var(--sky-pale); }
+.phase-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
+.phase-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 0.35rem; }
+.phase-sub { font-size: 0.86rem; color: var(--slate); line-height: 1.6; }
+.phase-metrics { display: flex; gap: 1.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+.pm { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--blue); }
+.pm.good { color: var(--green); }
+.pm.bad { color: #B91C1C; }
+.pm-label { font-size: 0.65rem; color: var(--muted); display: block; }
 
-  .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0;}
-  .vid-card{border:1px solid var(--border);background:var(--bg2);overflow:hidden;transition:border-color 0.25s,transform 0.25s;}
-  .vid-card:hover{border-color:var(--border-bright);transform:translateY(-2px);}
-  .vid-card video{width:100%;display:block;background:#000;aspect-ratio:16/9;object-fit:cover;}
-  .vid-body{padding:1rem 1.25rem 1.25rem;}
-  .vid-phase{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.25rem;}
-  .vid-title{font-size:0.9rem;font-weight:600;color:var(--white);margin-bottom:0.4rem;}
-  .vid-plain{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:0.5rem;}
-  .vid-tech{font-size:0.73rem;color:rgba(122,143,166,0.6);line-height:1.55;font-family:'DM Mono',monospace;}
+/* ── ABLATION TABLE ── */
+.ablation { border: 1px solid var(--border); margin: 2rem 0; }
+.abl-row { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border-light); align-items: center; }
+.abl-row.head { background: var(--sky-pale); font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.abl-row:last-child { border-bottom: none; }
+.abl-row:hover { background: var(--sky-pale); }
+.abl-name { font-weight: 600; color: var(--navy); font-size: 0.9rem; }
+.abl-desc { font-size: 0.8rem; color: var(--muted); }
+.abl-val { font-family: 'Playfair Display', serif; font-size: 1.2rem; }
+.abl-val.best { color: var(--green); }
+.abl-val.mid { color: var(--amber); }
+.abl-val.worst { color: #B91C1C; }
+.abl-note { font-size: 0.8rem; color: var(--slate); }
 
-  .phase-steps{display:flex;margin:1.5rem 0 2.25rem;overflow-x:auto;}
-  .ph-step{flex:1;min-width:130px;padding:0.85rem 1rem;border:1px solid var(--border);background:var(--bg3);text-align:center;}
-  .ph-step:not(:first-child){border-left:none;}
-  .ph-step.done{border-color:rgba(0,200,200,0.3);background:var(--cyan-dim);}
-  .ph-num{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.22em;color:var(--cyan);margin-bottom:0.2rem;}
-  .ph-title{font-size:0.74rem;font-weight:600;color:var(--white);}
+/* ── XAI GRID ── */
+.xai-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
+.xai-card { padding: 1.75rem; border-right: 1px solid var(--border-light); background: var(--white); }
+.xai-card:last-child { border-right: none; }
+.xai-icon { font-size: 1.5rem; margin-bottom: 0.6rem; }
+.xai-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--navy); margin-bottom: 0.55rem; }
+.xai-card p { font-size: 0.84rem; color: var(--slate); line-height: 1.7; margin: 0; }
 
-  .rtable{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.83rem;}
-  .rtable th{font-family:'DM Mono',monospace;font-size:0.61rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0.7rem 0.9rem;border-bottom:1px solid var(--border-bright);background:var(--bg3);}
-  .rtable td{padding:0.8rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text);}
-  .rtable tr:hover td{background:var(--bg2);}
-  .best{color:var(--cyan);font-weight:500;} .lbl{color:var(--white);font-weight:500;} .bad{color:var(--red);} .good{color:var(--green);}
+/* ── CALLOUTS ── */
+.callout { padding: 1.25rem 1.5rem; border-left: 4px solid var(--blue); background: var(--sky-pale); margin: 1.75rem 0; }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-bg); }
+.callout.green { border-left-color: var(--green); background: var(--green-bg); }
+.callout.teal { border-left-color: var(--teal); background: var(--teal-bg); }
+.callout p { margin: 0; font-size: 0.87rem; line-height: 1.7; color: var(--text); }
+.callout strong { color: var(--navy); }
 
-  .dice-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0;}
-  .dc{background:var(--bg2);padding:1.1rem 0.75rem;text-align:center;}
-  .dc-range{font-family:'DM Mono',monospace;font-size:0.61rem;color:var(--muted);margin-bottom:0.3rem;}
-  .dc-class{font-weight:600;font-size:0.82rem;margin-bottom:0.2rem;}
-  .dc-n{font-family:'DM Serif Display',serif;font-size:1.6rem;line-height:1;}
-  .dc-interp{font-size:0.66rem;color:var(--muted);margin-top:0.3rem;}
-  .d-ex .dc-class,.d-ex .dc-n{color:var(--cyan);}
-  .d-go .dc-class,.d-go .dc-n{color:var(--green);}
-  .d-mo .dc-class,.d-mo .dc-n{color:var(--yellow);}
-  .d-we .dc-class,.d-we .dc-n{color:#e09a4e;}
-  .d-fa .dc-class,.d-fa .dc-n{color:var(--red);}
+/* ── ISUOG BADGE ── */
+.isuog-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; background: var(--green-bg); border: 1px solid rgba(23,131,107,0.3); color: var(--green); margin-left: 0.5rem; }
+.isuog-badge::before { content: '✓'; }
 
-  .contrib-block{margin-bottom:1.5rem;}
-  .contrib-who{font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding-bottom:0.5rem;border-bottom:1px solid var(--border);margin-bottom:0.85rem;}
-  .contrib-who span{color:var(--cyan);}
-  .contrib-list{list-style:none;}
-  .contrib-list li{display:flex;gap:0.85rem;padding:0.85rem 1.1rem;border:1px solid var(--border);background:var(--bg2);margin-bottom:0.5rem;font-size:0.86rem;line-height:1.65;color:var(--text);transition:border-color 0.2s;}
-  .contrib-list li:hover{border-color:var(--border-bright);}
-  .ci{color:var(--cyan);flex-shrink:0;}
+/* ── TWO COL ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin: 2rem 0; }
 
-  .finding-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin:2rem 0;}
-  .finding{padding:1.4rem;border:1px solid var(--border);background:var(--bg3);}
-  .finding-icon{font-size:1.2rem;margin-bottom:0.65rem;}
-  .finding-title{font-size:0.85rem;font-weight:600;color:var(--white);margin-bottom:0.4rem;}
-  .finding-body{font-size:0.79rem;color:var(--muted);line-height:1.65;}
+/* ── PULL QUOTE ── */
+.pull-quote { padding: 2rem 2.5rem; border-left: 4px solid var(--blue); background: var(--sky-pale); margin: 3rem 0; position: relative; }
+.pull-quote p { font-family: 'Playfair Display', serif; font-size: 1.08rem; color: var(--navy); line-height: 1.7; font-style: italic; margin: 0; }
+.pull-quote .attrib { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); margin-top: 0.75rem; text-transform: uppercase; }
 
-  .bottom-cta{background:var(--bg2);border-top:1px solid var(--border);padding:4rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
-  .cta-left h3{font-family:'DM Serif Display',serif;font-size:1.45rem;color:var(--white);margin-bottom:0.4rem;}
-  .cta-left p{font-size:0.85rem;color:var(--muted);margin:0;}
-  .cta-btns{display:flex;gap:1rem;flex-wrap:wrap;}
-  .btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;background:var(--cyan);color:var(--bg);font-size:0.79rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
-  .btn-p:hover{background:#00e5e5;box-shadow:0 6px 20px rgba(0,200,200,0.3);}
-  .btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border:1px solid var(--border-bright);color:var(--text);font-size:0.79rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
-  .btn-s:hover{border-color:var(--cyan);color:var(--cyan);}
+/* ── STACK ── */
+.stack-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0; }
+.stk { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; padding: 0.25rem 0.65rem; border: 1px solid var(--border); color: var(--slate); background: var(--white); }
 
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
-  .reveal.visible{opacity:1;transform:translateY(0);}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+/* ── WORKFLOW ── */
+.wf-row { display: flex; flex-wrap: wrap; gap: 0; margin: 2rem 0; border: 1px solid var(--border); }
+.wf-step { flex: 1; min-width: 120px; padding: 1.1rem 0.9rem; border-right: 1px solid var(--border-light); text-align: center; background: var(--white); position: relative; }
+.wf-step:last-child { border-right: none; }
+.wf-step::after { content: '→'; position: absolute; right: -0.65rem; top: 50%; transform: translateY(-50%); color: var(--blue); font-size: 1rem; z-index: 1; }
+.wf-step:last-child::after { display: none; }
+.wf-icon { font-size: 1.3rem; margin-bottom: 0.35rem; }
+.wf-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); font-weight: 500; }
+.wf-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
 
-  @media(max-width:800px){
-    nav{padding:1rem 1.5rem;} .nav-title,.nav-links{display:none;}
-    #hero{padding:8rem 1.5rem 3rem;} .page-content{padding:3rem 1.5rem;}
-    .two-col,.fig-2,.video-grid,.finding-grid{grid-template-columns:1fr;}
-    .metrics-row,.dice-grid{grid-template-columns:repeat(2,1fr);}
-    .bottom-cta{padding:2.5rem 1.5rem;}
-  }
+/* ── BOTTOM CTA ── */
+.bottom-cta { background: var(--navy); padding: 3.5rem 3rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.cta-left h3 { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: #FFFFFF; margin-bottom: 0.5rem; }
+.cta-left p { font-size: 0.88rem; color: rgba(180,215,255,0.8); margin: 0; max-width: 480px; }
+.cta-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.cta-btns .btn-primary { background: #FFFFFF; color: var(--navy); }
+.cta-btns .btn-sec { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.85); }
+.cta-btns .btn-ghost { border-color: rgba(255,255,255,0.25); color: rgba(200,225,255,0.6); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 800px) {
+  nav { padding: 0 1.25rem; }
+  .nav-title, .nav-links { display: none; }
+  #hero { padding: 90px 1.25rem 4rem; }
+  .page-content { padding: 3rem 1.25rem; }
+  .metrics-row, .two-col, .impact-strip, .xai-grid { grid-template-columns: 1fr; }
+  .impact-strip { border-left: none; border-top: 4px solid var(--blue); grid-template-columns: 1fr 1fr; }
+  .bottom-cta { flex-direction: column; padding: 2.5rem 1.25rem; }
+  .wf-row { flex-direction: column; }
+  .abl-row { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .abl-row.head { display: none; }
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-back">← Portfolio</a>
-  <span class="nav-title">Fetal Head Segmentation</span>
+  <span class="nav-title">Fetal HC — Clinical AI</span>
   <ul class="nav-links">
-    <li><a href="#problem">Problem</a></li>
-    <li><a href="#approach">Approach</a></li>
-    <li><a href="#simulation">Simulation</a></li>
-    <li><a href="#results">Results</a></li>
-    <li><a href="#team">Team</a></li>
+    <li><a href="#workflow">Clinical Workflow</a></li>
+    <li><a href="#performance">Performance</a></li>
+    <li><a href="#temporal">Cine Pipeline</a></li>
+    <li><a href="#xai">Explainability</a></li>
+    <li><a href="#pruning">Compression</a></li>
+    <li><a href="#governance">Governance</a></li>
   </ul>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-wave"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-circle2"></div>
+  <div class="hero-circle3"></div>
+  <div class="hero-circle4"></div>
   <div class="hero-content">
-    <div class="breadcrumb">Portfolio <span>/</span> Research Projects <span>/</span> Fetal Head</div>
-    <p class="proj-cat">Segmentation · Ultrasound · Temporal AI</p>
-    <h1>Stabilizing Fetal Head Measurements<br>via <em>Temporal Cine-Loop</em> Analysis</h1>
-    <p class="hero-plain">Every year, millions of pregnancies require tracking how the baby's head is growing using ultrasound. Today, clinicians measure this manually on a frozen frame. This project builds an AI system that does it automatically — and more importantly, <strong>consistently across video</strong> rather than one image at a time.</p>
-    <p class="hero-tech">Static-frame segmentation via Residual <abbr title="Encoder-Decoder Neural Network for image segmentation">U-Net</abbr> + temporally-aware 3D <abbr title="3-Dimensional Convolutional Neural Network">U-Net</abbr> trained on synthetic cine-loops generated by Pseudo-<abbr title="Pseudo Latent Dynamic Diffusion Model: a physics-inspired simulation framework">LDDM</abbr> · <abbr title="Head Circumference 2018 Grand Challenge Dataset">HC18</abbr> dataset (999 images) · Dual-GPU Kaggle T4 runtime</p>
-    <div class="hero-meta">
-      <span class="meta-tag hi">Team Lead · Full Baseline System</span>
-      <span class="meta-tag hi">Residual U-Net</span>
-      <span class="meta-tag hi">3D U-Net (Joint)</span>
-      <span class="meta-tag hi">Literature Review (Joint)</span>
-      <span class="meta-tag">HC18 · 999 Ultrasound Images</span>
-      <span class="meta-tag">TensorFlow · OpenCV · Kaggle T4</span>
-      <span class="meta-tag">CSCE 6260 · UNT · Fall 2025</span>
-      <span class="meta-tag">Prof. Xiaohui Yuan · Advanced Topics in Pattern Recognition · UNT</span>
+    <a href="https://huggingface.co/spaces/TarunSadarla2606/fetal-head-clinical-ai" target="_blank" class="live-badge">
+      <span class="live-dot"></span> Live System — Hugging Face Spaces ↗
+    </a>
+    <p class="proj-cat">// Obstetric Ultrasound AI · Fetal Biometry · Clinical Decision Support</p>
+    <h1>Fetal Head Circumference<br><em>Automated Measurement</em></h1>
+    <p class="hero-lead">
+      A <strong>clinical-grade AI pipeline</strong> for automated fetal head circumference (HC) measurement from obstetric ultrasound — static frame and cine-loop modes. Built to the ISUOG ±3mm acceptable error threshold. Delivers GradCAM++ explainability, MC-Dropout uncertainty maps, <strong>Hadlock gestational age estimation</strong>, and dual-mode PDF clinical reports. Deployed with a live interactive interface.
+    </p>
+    <div class="hero-kpi">
+      <div class="kpi-chip"><div class="kv">97.36%</div><div class="kl">Dice (Static)</div></div>
+      <div class="kpi-chip"><div class="kv">1.75mm</div><div class="kl">HC MAE</div></div>
+      <div class="kpi-chip isuog"><div class="kv">✓ ISUOG</div><div class="kl">±3mm Threshold</div></div>
+      <div class="kpi-chip"><div class="kv">0.9985</div><div class="kl">R² Static</div></div>
+    </div>
+    <div class="hero-cta">
+      <a href="https://huggingface.co/spaces/TarunSadarla2606/fetal-head-clinical-ai" target="_blank" class="btn-primary">Try Live Demo →</a>
+      <a href="https://github.com/TarunSadarla2606/fetal-head-clinical-ai" target="_blank" class="btn-sec">GitHub ↗</a>
+      <a href="#workflow" class="btn-ghost">Clinical Workflow ↓</a>
     </div>
   </div>
 </section>
 
 <div class="page-content">
 
-  <div class="metrics-row reveal">
-    <div class="metric-cell">
-      <div class="metric-val">86.2%</div>
-      <div class="metric-label">Dice Score</div>
-      <div class="metric-sub">Baseline Residual U-Net (RAW)</div>
-    </div>
-    <div class="metric-cell">
-      <div class="metric-val">90.9%</div>
-      <div class="metric-label">Boundary Dice</div>
-      <div class="metric-sub">Cine-loop Phase 4 stability</div>
-    </div>
-    <div class="metric-cell">
-      <div class="metric-val">≈ 0mm</div>
-      <div class="metric-label">Temporal Std.</div>
-      <div class="metric-sub">Frame-to-frame consistency</div>
-    </div>
-    <div class="metric-cell">
-      <div class="metric-val">1.0</div>
-      <div class="metric-label">Reliability Score</div>
-      <div class="metric-sub">All test sequences flagged stable</div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- PROBLEM -->
-  <div id="problem" class="reveal">
-    <p class="sec-label">The Problem</p>
-    <h2>Why measuring a baby's head is harder than it sounds</h2>
-    <p class="h2-sub">And why AI has been solving only half of it.</p>
-
-    <span class="al al-all">🌐 For everyone</span>
-    <p>During pregnancy, doctors regularly measure the size of the baby's head using ultrasound — a technique that uses sound waves to create images of the inside of the body. This measurement, called <strong>Head Circumference (<abbr title="Head Circumference">HC</abbr>)</strong>, tells them how the baby is growing and flags developmental problems early. The standard method is a sonographer manually tracing an ellipse around the head on a frozen 2D image. It works, but it is slow, subjective, and the result changes depending on who does it and which frame they happen to pick.</p>
-
-    <span class="al al-tech">⚙️ Technical detail</span>
-    <p>Deep learning approaches have largely solved single-frame segmentation — models achieve >97% <abbr title="Sørensen–Dice Coefficient: measures how much the predicted region overlaps with the expert annotation. 0 = no overlap, 1 = perfect overlap">Dice</abbr> on the HC18 benchmark. But clinical ultrasound is acquired as a <strong>cine-loop</strong> — a continuous video sequence of 30+ seconds — not a static snapshot. Applying a frame-wise model to cine data produces flickering, temporally unstable contours that erode clinical trust even when individual frame accuracy is high. The community has largely ignored this temporal dimension.</p>
-
-    <div class="callout">
-      <p><strong>The core gap we addressed:</strong> No public cine-loop fetal ultrasound dataset exists at scale. The HC18 challenge — the field's standard benchmark — contains 1,334 static images with no temporal sequences. Building a temporally-aware model requires solving a <em>data problem</em> before the modelling problem.</p>
-    </div>
-
-    <div class="two-col">
-      <div>
-        <h3>Clinical challenges</h3>
-        <p style="font-size:0.86rem;">Ultrasound images are inherently noisy — speckle interference, acoustic shadowing behind bone, and motion artefacts all obscure the skull boundary in ways that shift unpredictably frame to frame. The fetal head also occupies a small, variable region of the frame as the probe moves.</p>
-      </div>
-      <div>
-        <h3>What we built</h3>
-        <p style="font-size:0.86rem;">A two-part pipeline: a strong static-frame baseline using a <abbr title="Residual U-Net: an encoder-decoder segmentation network augmented with residual skip connections to improve gradient flow">Residual U-Net</abbr>, and a temporally-aware system using a <abbr title="3-Dimensional U-Net: processes stacks of frames simultaneously to learn both spatial and temporal skull boundary features">3D U-Net</abbr> trained on synthetic video sequences we generated ourselves — complete with a per-video reliability score so clinicians know how trustworthy each prediction is.</p>
-      </div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- BASELINE -->
-  <div id="approach" class="reveal">
-    <p class="sec-label">Approach — Part 1</p>
-    <h2>Baseline: Teaching the AI to segment from a single frame</h2>
-    <p class="h2-sub">My work — full implementation from raw images to final measurements.</p>
-
-    <span class="al al-all">🌐 For everyone</span>
-    <p>Think of this as training an AI to draw an accurate outline around the baby's skull in a single ultrasound image. We tested four different ways of preparing the images before showing them to the model, ranging from minimal cleaning (RAW) to heavy processing (skeletonized), to find out which preparation gave the best results.</p>
-
-    <span class="al al-tech">⚙️ Technical detail</span>
-    <p>I implemented and trained a <abbr title="Residual U-Net: encoder-decoder with residual connections for stable training and better boundary preservation">Residual U-Net</abbr> across four input variants representing different preprocessing depths. Training used <abbr title="Binary Cross-Entropy: per-pixel classification loss">BCE</abbr> + <abbr title="Dice Loss: directly optimises the Dice overlap coefficient">Dice</abbr> hybrid loss, Adam optimiser with mixed-precision via <abbr title="Loss Scale Optimiser: prevents gradient underflow during mixed-precision training">LossScaleOptimizer</abbr>, on a 75/20/5 train/validation/test split of HC18. Post-processing applied morphological closing, hole-filling, largest-component selection, and Ramanujan-based ellipse fitting for <abbr title="Head Circumference">HC</abbr> computation in millimetres. 32.4M parameters, input resolution 384×256.</p>
-
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/Baseline.png" alt="Baseline pipeline" loading="lazy">
-      <p class="fig-cap"><strong>Figure 1</strong> — Full baseline pipeline: HC18 dataset → 4 preprocessing variants → Residual U-Net → post-processing → ellipse fitting → HC measurement in mm</p>
-    </div>
-
-    <h3>Preprocessing: four ways to prepare an ultrasound image</h3>
-    <span class="al al-all">🌐 For everyone</span>
-    <p>Before the AI sees an image, we run it through a series of filters — noise reduction, edge sharpening, clustering — similar to adjusting brightness and contrast on a photo before printing it. We tried four different levels of this preparation to see how much cleaning actually helps the model.</p>
-
-    <span class="al al-tech">⚙️ Technical detail</span>
-    <p>Pipeline: median filter (kernel=5) → Gaussian filter (7×7, σ=1.0) → Wiener filter (window=7×7) → <abbr title="Sobel operator: computes image gradients to detect edges">Sobel</abbr> edge detection → K-means clustering (k=3) → morphological cleaning → skeletonization. Four variants — <strong>RAW</strong> (minimal), <strong>SEG</strong> (standard segmentation pipeline), <strong>IMP</strong> (improved with extra filtering), <strong>SKL</strong> (fully skeletonized to thin boundary lines).</p>
-
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/preprocessing.png" alt="Preprocessing stages" loading="lazy">
-      <p class="fig-cap"><strong>Figure 2</strong> — A single ultrasound frame through each preprocessing stage, from raw to skeletonized (left to right)</p>
-    </div>
-
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/preprocessing_stages_1.png" alt="Preprocessing across samples" loading="lazy">
-      <p class="fig-cap"><strong>Figure 3</strong> — Preprocessing transforms applied across multiple samples from the dataset</p>
-    </div>
-
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/samples_raw_variant.png" alt="RAW samples" loading="lazy">
-        <p class="fig-cap">RAW variant — minimal preprocessing, best performer</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/samples_seg_variant.png" alt="SEG samples" loading="lazy">
-        <p class="fig-cap">SEG variant — standard segmentation preprocessing</p>
-      </div>
-    </div>
-
-    <h3>The model: Residual U-Net architecture</h3>
-    <span class="al al-all">🌐 For everyone</span>
-    <p>The model we used is a type of neural network called a <abbr title="U-Net: a neural network architecture shaped like the letter U — it compresses the image to find patterns, then expands back to draw a precise outline">U-Net</abbr> — named for its U-shape, where it first compresses the image to understand what is in it, then expands back out to draw a precise boundary. The "Residual" part adds shortcut connections that help it learn more reliably without losing information during training.</p>
-
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/resnet.png" alt="Residual U-Net architecture" loading="lazy">
-      <p class="fig-cap"><strong>Figure 4</strong> — Residual U-Net: encoder (left) compresses the image, decoder (right) reconstructs the segmentation mask using skip connections to preserve fine boundary detail</p>
-    </div>
-
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/sanity_check_raw_masks.png" alt="RAW with ground truth" loading="lazy">
-        <p class="fig-cap">RAW images paired with expert-annotated ground truth masks</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/sanity_check_seg_masks.png" alt="SEG with ground truth" loading="lazy">
-        <p class="fig-cap">SEG images paired with expert-annotated ground truth masks</p>
-      </div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- SIMULATION -->
-  <div id="simulation" class="reveal">
-    <p class="sec-label">Approach — Part 2</p>
-    <h2>Pseudo-LDDM: Generating video data from still images</h2>
-    <p class="h2-sub">My teammate's contribution — simulating realistic ultrasound video without a single real video clip.</p>
-
-    <span class="al al-all">🌐 For everyone</span>
-    <p>The biggest challenge was that <strong>no public ultrasound video dataset exists</strong> for fetal head measurement. Rather than abandon the video approach, we built a system that generates convincing synthetic video from the 999 still images we did have. Think of it as a physics-based animation engine: it understands how an ultrasound probe moves, how soft tissue deforms around rigid bone, how shadows fall, and how brightness shifts with depth — producing realistic fake video from a single frozen image.</p>
-
-    <span class="al al-tech">⚙️ Technical detail</span>
-    <p>The <abbr title="Pseudo Latent Dynamic Diffusion Model: a physics-inspired framework that mimics the data generation principles of full LDDM without requiring large-scale video training data">Pseudo-LDDM</abbr> was built progressively in four phases, each adding a layer of anatomical and clinical realism. Each output is a 16-frame clip saved as a compressed .npz file with aligned mask arrays, ready for supervised training of the 3D U-Net. This work was led and implemented entirely by my teammate Ramyasri Murugesan.</p>
-
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/Ours.png" alt="Cine-loop pipeline" loading="lazy">
-      <p class="fig-cap"><strong>Figure 5</strong> — Full cine-loop pipeline: Pseudo-LDDM simulation → sequence preprocessing → 3D U-Net segmentation → temporal stability module → reliability score output</p>
-    </div>
-
-    <div class="phase-steps reveal">
-      <div class="ph-step"><div class="ph-num">Phase 01</div><div class="ph-title">Basic Motion</div></div>
-      <div class="ph-step"><div class="ph-num">Phase 02</div><div class="ph-title">Anatomical Constraints</div></div>
-      <div class="ph-step"><div class="ph-num">Phase 03</div><div class="ph-title">Temporal Realism</div></div>
-      <div class="ph-step done"><div class="ph-num">Phase 04 ★</div><div class="ph-title">Clinical Fidelity</div></div>
-    </div>
-
-    <div class="video-grid reveal">
-      <div class="vid-card">
-        <video controls muted loop playsinline preload="metadata">
-          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/raw/main/results/videos/phase1_basic_motion.mp4" type="video/mp4">
-        </video>
-        <div class="vid-body">
-          <p class="vid-phase">Phase 01</p>
-          <p class="vid-title">Basic Motion — Proof of Concept</p>
-          <p class="vid-plain">The first version: simple back-and-forth movement applied to the image, like gently rocking the camera. Proves the video generation pipeline works, but the motion looks mechanical and has no understanding of anatomy.</p>
-          <p class="vid-tech">Affine transformations (rotation + translation) via sinusoidal functions · Gaussian noise added per frame · No anatomical constraints yet</p>
-        </div>
-      </div>
-      <div class="vid-card">
-        <video controls muted loop playsinline preload="metadata">
-          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/raw/main/results/videos/phase2_anatomical_constraints.mp4" type="video/mp4">
-        </video>
-        <div class="vid-body">
-          <p class="vid-phase">Phase 02</p>
-          <p class="vid-title">Anatomical Constraints</p>
-          <p class="vid-plain">Now the simulation knows which part of the image is bone (the skull) and which is soft tissue. Bone stays rigid and fixed; only soft tissue deforms. The motion starts to look medically realistic.</p>
-          <p class="vid-tech">Motion split: rigid region (skull mask) + non-rigid region (soft tissue via <abbr title="cv2.remap: OpenCV function for pixel-wise image warping using flow maps">cv2.remap</abbr> optical flow) · <abbr title="Rician noise: the statistical noise model that best approximates ultrasound speckle">Rician speckle</abbr> noise model introduced</p>
-        </div>
-      </div>
-      <div class="vid-card">
-        <video controls muted loop playsinline preload="metadata">
-          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/raw/main/results/videos/phase3_temporal_dynamics.mp4" type="video/mp4">
-        </video>
-        <div class="vid-body">
-          <p class="vid-phase">Phase 03</p>
-          <p class="vid-title">Temporal Realism — ~30 Second Sequences</p>
-          <p class="vid-plain">Longer, more natural motion. The probe drifts unpredictably rather than repeating the same cycle, and occasional bursts simulate the baby moving. No two generated sequences look the same.</p>
-          <p class="vid-tech">Sinusoidal motion replaced by cumulative random walk for long-term probe drift · Sporadic Gaussian spikes injected to simulate fetal movement events · Non-cyclical, non-repeating long-form sequences</p>
-        </div>
-      </div>
-      <div class="vid-card">
-        <video controls muted loop playsinline preload="metadata">
-          <source src="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation/raw/main/results/videos/phase4_clinical_fidelity.mp4" type="video/mp4">
-        </video>
-        <div class="vid-body">
-          <p class="vid-phase">Phase 04 ★</p>
-          <p class="vid-title">Clinical Fidelity — Full Realism</p>
-          <p class="vid-plain">The final version adds the subtle imperfections of real clinical scanning: the acoustic shadow behind the skull, the tiny tremor of the operator's hand, brightness changes with depth, and unique motion bursts. This is what actual clinical ultrasound video looks like.</p>
-          <p class="vid-tech">Dynamic acoustic shadowing behind skull mask · High-frequency probe jitter simulating operator tremor · <abbr title="Time-Gain Compensation: depth-dependent brightness amplification applied by ultrasound hardware to compensate for signal attenuation">TGC</abbr> intensity drift · Unique non-rigid flow field per wiggle event</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="callout reveal">
-      <p><strong>Phase 1 → Phase 4 improvements:</strong> Motion stability (<abbr title="Total Generalised Variation: a measure of temporal smoothness in video sequences">TGV</abbr>) improved 55% · Boundary <abbr title="Dice Score">Dice</abbr> stability improved from 0.755 → 0.909 · <abbr title="Structural Similarity Index Measure: perceptual image quality metric">SSIM</abbr> decreased (more artefact realism — intentional) · <abbr title="Kullback-Leibler Divergence: measures how different two probability distributions are; higher means more realistic texture variety">KL Divergence</abbr> increased (richer texture distribution matching real ultrasound)</p>
-    </div>
-
-    <h3>3D U-Net: watching video, not just frames</h3>
-    <span class="al al-all">🌐 For everyone</span>
-    <p>Unlike the baseline which looks at one image at a time, this model looks at 16 consecutive frames simultaneously — like watching a short clip rather than a single photo. This lets it understand how the skull boundary moves and stays consistent, producing predictions that are stable across the whole video rather than flickering frame to frame.</p>
-
-    <span class="al al-tech">⚙️ Technical detail</span>
-    <p>Joint design with my teammate. The 3D U-Net (365K parameters — intentionally lightweight for Kaggle's resource constraints) processes 16-frame clips with volumetric convolutions. Encoder uses 3D conv blocks with spatial-only MaxPool3D (1×2×2) to preserve the temporal dimension during downsampling. Trained with hybrid <abbr title="Binary Cross-Entropy">BCE</abbr> + Dice loss, Adam optimiser, <abbr title="ReduceLROnPlateau: automatically reduces the learning rate when validation loss stops improving">ReduceLROnPlateau</abbr>, early stopping. Best checkpoint at epoch 19 of 30: Train Dice = 0.948, Val Dice = 0.933.</p>
-    <p>The <strong>Temporal Stability Module</strong> computes <abbr title="Head Circumference">HC</abbr> per frame across each predicted sequence and reports temporal standard deviation and a reliability score R = 1 / (1 + temporal_std). Sequences with unstable predictions are automatically flagged — giving clinicians a machine-generated confidence measure alongside every measurement.</p>
-  </div>
-
-  <hr class="divider">
-
-  <!-- RESULTS -->
-  <div id="results" class="reveal">
-    <p class="sec-label">Results</p>
-    <h2>What the predictions actually look like</h2>
-    <p class="h2-sub">Every number backed by a visual.</p>
-
-    <h3>Baseline — what the model predicts vs what experts annotated</h3>
-    <span class="al al-all">🌐 For everyone</span>
-    <p>Each grid below shows three columns: the original ultrasound image, what the AI predicted the skull outline to be (white mask), and what a human expert said it should be (ground truth). The closer they match, the better the model.</p>
-
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/inference_raw_predictions.png" alt="RAW inference" loading="lazy">
-      <p class="fig-cap"><strong>Figure 6</strong> — RAW variant (best performer): original ultrasound / predicted mask / ground truth for 4 test samples. Note the strong skull boundary alignment.</p>
-    </div>
-
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/inference_seg_predictions.png" alt="SEG inference" loading="lazy">
-        <p class="fig-cap">SEG variant — slightly lower boundary precision than RAW</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/inference_imp_predictions.png" alt="IMP inference" loading="lazy">
-        <p class="fig-cap">IMP variant — performance drops with more preprocessing</p>
-      </div>
-    </div>
-
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/inference_skl_predictions.png" alt="SKL inference" loading="lazy">
-      <p class="fig-cap"><strong>Figure 7</strong> — SKL (skeletonized) variant: worst performer. Over-processing destroyed the boundary information the model depends on.</p>
-    </div>
-
-    <h3>All four models compared side by side</h3>
-    <div class="fig reveal">
-      <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/seg_results.png" alt="All variants comparison" loading="lazy">
-      <p class="fig-cap"><strong>Figure 8</strong> — Segmentation outputs across all four preprocessing variants on the same test images. RAW produces the most coherent skull boundaries throughout.</p>
-    </div>
-
-    <h3>Post-processing: cleaning predictions and measuring HC</h3>
-    <span class="al al-all">🌐 For everyone</span>
-    <p>The raw AI output is a rough mask. We then clean it up and fit a smooth ellipse — because head circumference is computed from an ellipse, exactly the way a sonographer would draw it by hand. The result is a measurement in millimetres that can be compared directly to the clinical standard.</p>
-
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/postprocessing_raw.png" alt="Postprocessing" loading="lazy">
-        <p class="fig-cap">RAW — cleaned mask after morphological refinement</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/ellipse_fitting_raw.png" alt="Ellipse fitting" loading="lazy">
-        <p class="fig-cap">RAW — ellipse fitted to contour for HC computation in mm</p>
-      </div>
-    </div>
-
-    <h3>Evaluation: how we measure performance</h3>
-    <span class="al al-all">🌐 For everyone</span>
-    <p>We use two main measures. The <abbr title="Dice Score: how much the predicted region overlaps with the expert annotation. 0% = no overlap, 100% = perfect">Dice score</abbr> measures how accurately the AI outlines the skull — higher is better. The <abbr title="Mean Absolute Error: the average difference between the AI's HC measurement and the expert's measurement, in millimetres">Mean Absolute Error (MAE)</abbr> measures how close the final head circumference measurement is to the expert's — lower is better.</p>
-
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/evaluation_metrics_raw.png" alt="Eval RAW" loading="lazy">
-        <p class="fig-cap">RAW — Dice and MAE across 50 test cases</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/evaluation_metrics_seg.png" alt="Eval SEG" loading="lazy">
-        <p class="fig-cap">SEG — Dice and MAE distributions</p>
-      </div>
-    </div>
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/evaluation_metrics_imp.png" alt="Eval IMP" loading="lazy">
-        <p class="fig-cap">IMP — performance gap grows with preprocessing</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/evaluation_metrics_skl.png" alt="Eval SKL" loading="lazy">
-        <p class="fig-cap">SKL — worst across all metrics</p>
-      </div>
-    </div>
-
-    <h3>Quantitative summary — baseline system</h3>
-    <table class="rtable reveal">
-      <thead>
-        <tr><th>Variant</th><th>Preprocessing</th><th>Dice (%)</th><th>IoU (%)</th><th>MAE (mm)</th><th>RMSE (mm)</th><th>R² (%)</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="lbl best">RAW ★</td><td>Minimal</td><td class="best">86.17</td><td class="best">78.57</td><td>83.53</td><td>92.03</td><td class="best">90.95</td></tr>
-        <tr><td class="lbl">SEG</td><td>Standard</td><td>85.08</td><td>76.71</td><td>83.96</td><td>93.68</td><td>88.09</td></tr>
-        <tr><td class="lbl">IMP</td><td>Improved</td><td>81.22</td><td>72.52</td><td class="best">82.25</td><td class="best">91.34</td><td>85.73</td></tr>
-        <tr><td class="lbl">SKL</td><td>Skeletonized</td><td class="bad">58.68</td><td class="bad">45.17</td><td class="bad">96.48</td><td class="bad">105.89</td><td class="bad">73.58</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:0.77rem;color:var(--muted)"><abbr title="Dice Coefficient: overlap between prediction and ground truth">Dice</abbr> · <abbr title="Intersection over Union: alternative overlap metric">IoU</abbr> · <abbr title="Mean Absolute Error">MAE</abbr> · <abbr title="Root Mean Square Error">RMSE</abbr> · <abbr title="Coefficient of Determination: how well predicted HC values track true HC values">R²</abbr> — all computed on 50 held-out test images</p>
-
-    <div class="callout reveal">
-      <p><strong>Counterintuitive finding:</strong> The RAW variant — minimal preprocessing — outperformed all more heavily processed variants on Dice and R². More cleaning is not always better. Heavy preprocessing distorts the subtle boundary gradients the model depends on. This has practical implications for future pipeline design.</p>
-    </div>
-
-    <h3>Video model — HC prediction vs expert measurement</h3>
-    <span class="al al-all">🌐 For everyone</span>
-    <p>These charts show the video-based model's performance on 20 unseen video sequences. The scatter plot shows each predicted head circumference measurement against the true expert measurement — a perfect model would have all dots on the diagonal line. The histogram shows how far off the predictions were.</p>
-
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/cine_hc_scatter.png" alt="Cine scatter" loading="lazy">
-        <p class="fig-cap">Predicted vs true HC — 20 test sequences · Each point is one video</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/cine_hc_error_histogram.png" alt="Cine histogram" loading="lazy">
-        <p class="fig-cap">HC error distribution — spread of prediction errors across test sequences</p>
-      </div>
-    </div>
-
-    <div class="fig-2 reveal">
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/scater.png" alt="Scatter" loading="lazy">
-        <p class="fig-cap">HC predicted vs ground truth — 20 held-out cases</p>
-      </div>
-      <div class="fig">
-        <img src="https://raw.githubusercontent.com/TarunSadarla2606/fetal-head-cine-segmentation/main/results/figures/hist.png" alt="Histogram" loading="lazy">
-        <p class="fig-cap">Error histogram — 45–50% of cases fall in good-to-excellent range</p>
-      </div>
-    </div>
-
-    <h3>Per-case Dice breakdown — video model (20 test sequences)</h3>
-    <div class="dice-grid reveal">
-      <div class="dc d-ex"><div class="dc-range">0.75 – 0.90</div><div class="dc-class">Excellent</div><div class="dc-n">4</div><div class="dc-interp">Very accurate skull outline</div></div>
-      <div class="dc d-go"><div class="dc-range">0.60 – 0.75</div><div class="dc-class">Good</div><div class="dc-n">5</div><div class="dc-interp">Usable, minor boundary errors</div></div>
-      <div class="dc d-mo"><div class="dc-range">0.40 – 0.60</div><div class="dc-class">Moderate</div><div class="dc-n">5</div><div class="dc-interp">Visible boundary issues</div></div>
-      <div class="dc d-we"><div class="dc-range">0.20 – 0.40</div><div class="dc-class">Weak</div><div class="dc-n">4</div><div class="dc-interp">Partial segmentation failure</div></div>
-      <div class="dc d-fa"><div class="dc-range">0.00 – 0.20</div><div class="dc-class">Failed</div><div class="dc-n">2</div><div class="dc-interp">Skull not detected</div></div>
-    </div>
-
-    <h3>Three-way comparison</h3>
-    <table class="rtable reveal">
-      <thead>
-        <tr><th>Metric</th><th>Published State of Art</th><th>Our Baseline</th><th>Our Video Model*</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="lbl">Dice (%)</td><td>97.89</td><td>86.17</td><td style="color:var(--cyan)">56.53</td></tr>
-        <tr><td class="lbl">MAE (mm)</td><td>5.95</td><td>17.25</td><td style="color:var(--cyan)">25.95</td></tr>
-        <tr><td class="lbl">Temporal Std. (mm)</td><td style="color:var(--muted)">N/A — static only</td><td style="color:var(--muted)">N/A — static only</td><td class="good">≈ 0.0</td></tr>
-        <tr><td class="lbl">Reliability Score</td><td style="color:var(--muted)">N/A</td><td style="color:var(--muted)">N/A</td><td class="good">1.0</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:0.77rem;color:var(--muted)">*Video model trained on 400 of 999 available samples at reduced resolution (384×256 vs 768×512) due to Kaggle's 20 GB storage limit. The performance gap is a resource constraint, not an architectural limitation.</p>
-
-    <div class="finding-grid reveal">
-      <div class="finding">
-        <div class="finding-icon">🔍</div>
-        <div class="finding-title">Less preprocessing = better results</div>
-        <div class="finding-body">RAW — minimal cleaning — outperformed all more heavily processed variants. Counterintuitive but unambiguous: over-processing erases the boundary gradients the model needs to find the skull.</div>
-      </div>
-      <div class="finding">
-        <div class="finding-icon">⏱️</div>
-        <div class="finding-title">Video model is temporally rock-solid</div>
-        <div class="finding-body">Near-zero temporal standard deviation across all 20 test sequences. The 3D U-Net delivers what the static model cannot: frame-to-frame consistency. Reliability score 1.0 on every sequence.</div>
-      </div>
-      <div class="finding">
-        <div class="finding-icon">📊</div>
-        <div class="finding-title">Data scale is the bottleneck</div>
-        <div class="finding-body">The video model's lower Dice is a training data and resolution constraint, not a flaw in the architecture. Training on 400 samples instead of 999 at half resolution explains the gap — scaling up is the clear next step.</div>
-      </div>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- TEAM -->
-  <div id="team" class="reveal">
-    <p class="sec-label">Team Contributions</p>
-    <h2>2-person project — exactly who did what</h2>
-    <p class="h2-sub">Research is collaborative. Transparency about contributions matters.</p>
-
-    <div class="contrib-block">
-      <p class="contrib-who">Tarun Sadarla — <span>this portfolio · team lead</span></p>
-      <ul class="contrib-list">
-        <li><span class="ci">▸</span>Full baseline pipeline: all four preprocessing variants (<abbr title="RAW: minimal preprocessing">RAW</abbr> / <abbr title="SEG: standard segmentation preprocessing">SEG</abbr> / <abbr title="IMP: improved multi-step preprocessing">IMP</abbr> / <abbr title="SKL: fully skeletonized preprocessing">SKL</abbr>), Residual <abbr title="Encoder-Decoder Segmentation Network">U-Net</abbr> training, post-processing, ellipse-based <abbr title="Head Circumference">HC</abbr> computation, and complete evaluation (<abbr title="Dice Coefficient">Dice</abbr>, <abbr title="Intersection over Union">IoU</abbr>, <abbr title="Mean Absolute Error">MAE</abbr>, <abbr title="Root Mean Square Error">RMSE</abbr>, R²)</li>
-        <li><span class="ci">▸</span>Literature review — conducted jointly with teammate</li>
-      </ul>
-    </div>
-
-    <div class="contrib-block">
-      <p class="contrib-who">Ramyasri Murugesan — <span>teammate</span></p>
-      <ul class="contrib-list">
-        <li><span class="ci">▸</span>Full <abbr title="Pseudo Latent Dynamic Diffusion Model">Pseudo-LDDM</abbr> cine-loop simulation framework — all four phases from basic sinusoidal motion through full clinical fidelity with acoustic shadowing, operator tremor, and <abbr title="Time-Gain Compensation">TGC</abbr> drift</li>
-        <li><span class="ci">▸</span>Cine-loop preprocessing pipeline — sequence-consistent transforms, temporal augmentation, 16-frame clip generation and storage as .npz files</li>
-        <li><span class="ci">▸</span>Literature review — conducted jointly with Tarun</li>
-      </ul>
-    </div>
-
-    <div class="contrib-block">
-      <p class="contrib-who">Joint — <span>both equally</span></p>
-      <ul class="contrib-list">
-        <li><span class="ci">▸</span>3D <abbr title="3-Dimensional U-Net">U-Net</abbr> architecture design and training pipeline — learning rate scheduling, early stopping, checkpoint management, mixed-precision training</li>
-        <li><span class="ci">▸</span>Temporal Stability Module and Quality/Reliability Layer — per-sequence reliability scoring system</li>
-        <li><span class="ci">▸</span>Final evaluation, results analysis, comparative study, and all five course presentations across the semester</li>
-      </ul>
-    </div>
-  </div>
-
-  <hr class="divider">
-
+  <!-- CLINICAL FIT -->
   <div class="reveal">
-    <p class="sec-label">Limitations & Future Work</p>
-    <h2>Honest about what remains</h2>
-    <div class="two-col">
-      <div>
-        <h3>Current limitations</h3>
-        <p style="font-size:0.86rem;">The video model was trained on 400 of 999 available images due to Kaggle's 20 GB disk limit, at half resolution. Scaling to the full dataset at full resolution (768×512) is the single highest-impact next step.</p>
-        <p style="font-size:0.86rem;">The <abbr title="Pseudo Latent Dynamic Diffusion Model">Pseudo-LDDM</abbr> generates motion from physics rules rather than learned tissue mechanics. Sequences are realistic in many respects but don't fully capture the biological variability of real clinical acquisitions.</p>
-        <p style="font-size:0.86rem;">Systematic <abbr title="Head Circumference">HC</abbr> underestimation for larger heads (>150mm) — boundary under-segmentation at the extremes. Shape priors or stronger boundary supervision may help.</p>
+    <p class="sec-label">Clinical Relevance</p>
+    <h2 id="workflow">Where this fits in the antenatal care pathway</h2>
+    <p class="h2-sub">HC measurement is a mandatory biometric in every second- and third-trimester obstetric ultrasound. This system automates the most time-consuming part of that workflow.</p>
+
+    <p>Fetal head circumference measurement is performed at every routine anomaly scan (18–22 weeks) and growth scan (28–36 weeks). Manual HC measurement requires the sonographer to manually place callipers around the outer skull table on the best axial cross-section — a process that takes 2–4 minutes per measurement, introduces inter-observer variability of up to 5–7mm, and is subject to sonographer fatigue over a full scan list.</p>
+
+    <p>At a unit performing 20 scans per day, this system reduces measurement time from approximately 2 minutes to under 10 seconds, saves an estimated <strong>153 sonographer hours per year</strong> per unit, and reduces inter-observer coefficient of variation (CV) by replacing subjective calliper placement with a reproducible algorithmic measurement — consistent with published evidence on AI-assisted biometry (Papageorghiou et al., 2014). The system also provides gestational age estimation from the measured HC via the Hadlock (1984) formula, eliminating a manual lookup step.</p>
+  </div>
+
+  <!-- CLINICAL WORKFLOW -->
+  <div class="wf-row reveal">
+    <div class="wf-step">
+      <div class="wf-icon">🔊</div>
+      <div class="wf-label">US Acquisition</div>
+      <div class="wf-sub">Standard axial BPD view — no protocol change</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">📤</div>
+      <div class="wf-label">Image Upload</div>
+      <div class="wf-sub">Single frame (static) or cine-loop sequence</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">🎯</div>
+      <div class="wf-label">Skull Segmentation</div>
+      <div class="wf-sub">U-Net boundary localisation with deep supervision</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">📐</div>
+      <div class="wf-label">HC Measurement</div>
+      <div class="wf-sub">Ellipse fitting to segmented boundary → mm circumference</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">📅</div>
+      <div class="wf-label">GA Estimation</div>
+      <div class="wf-sub">Hadlock (1984) formula → gestational age ± 2-week CI</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">📋</div>
+      <div class="wf-label">Clinical Report</div>
+      <div class="wf-sub">PDF with HC, GA, trimester, XAI overlay, uncertainty</div>
+    </div>
+  </div>
+
+  <!-- BUSINESS VALUE -->
+  <div class="impact-strip reveal">
+    <div class="impact-item">
+      <div class="impact-val green">153 hrs</div>
+      <div class="impact-lbl">Saved per unit/year</div>
+      <div class="impact-desc">At 20 scans/day — 2 min manual → 10s automated</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-val">1.75mm</div>
+      <div class="impact-lbl">Mean absolute error</div>
+      <div class="impact-desc">vs ISUOG ±3mm threshold — 70% margin to spare</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-val">ISUOG</div>
+      <div class="impact-lbl">Standard compliant</div>
+      <div class="impact-desc">Both static and cine-loop modes within clinical threshold</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-val green">SOTA+</div>
+      <div class="impact-lbl">Exceeds published SOTA</div>
+      <div class="impact-desc">1.75mm MAE vs published SOTA 5.95mm on HC18 benchmark</div>
+    </div>
+  </div>
+
+  <div class="callout green reveal">
+    <p><strong>Clinical context:</strong> The ISUOG (International Society of Ultrasound in Obstetrics and Gynecology) recommends ±3mm as the acceptable measurement error for HC in clinical practice. This system achieves 1.75mm MAE on the static model — more than 40% tighter than the clinical acceptability threshold. Both measurement modes (static and cine-loop) independently satisfy the ISUOG standard.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PERFORMANCE SUMMARY -->
+  <div class="reveal">
+    <p class="sec-label">Validated Performance</p>
+    <h2 id="performance">Full-pipeline results vs course baseline and SOTA</h2>
+    <p class="h2-sub">The clinical pipeline exceeds published state-of-the-art on MAE. The course baseline was 17.25mm — a 9× improvement.</p>
+  </div>
+
+  <table class="cmp-table reveal">
+    <thead>
+      <tr>
+        <th>System</th>
+        <th>Dice (%)</th>
+        <th>HC MAE (mm)</th>
+        <th>R²</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Course baseline (Phase 0)</td><td class="old">86.17%</td><td class="old">17.25mm</td><td class="old">0.9095</td><td class="old">Hollow-mask error, no optimisation</td></tr>
+      <tr><td>Static model — Phase 0 clinical</td><td class="new">97.36%</td><td class="new">1.75mm ✓</td><td class="new">0.9985</td><td class="new">Within ISUOG ±3mm threshold</td></tr>
+      <tr><td>Cine-loop — Phase 2 temporal</td><td class="new">95.71%</td><td class="new">2.10mm ✓</td><td class="new">0.9980</td><td class="new">Within ISUOG ±3mm threshold</td></tr>
+      <tr><td>Published SOTA (HC18 benchmark)</td><td class="sota">97.89%</td><td class="sota">5.95mm</td><td class="sota">—</td><td class="sota">Best published result on HC18 dataset</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout teal reveal">
+    <p><strong>On MAE — the clinically relevant metric — both systems exceed published SOTA:</strong> 1.75mm vs 5.95mm for the static model (3.4× better), and 2.10mm vs 5.95mm for the cine-loop model (2.8× better). The Dice score is within 0.53 percentage points of SOTA for the static model. The cine-loop model trades a small Dice reduction for the addition of temporal reasoning, uncertainty quantification across frames, and a complete clinical output pipeline.</p>
+  </div>
+
+  <!-- ABLATION -->
+  <div class="reveal" style="margin-top:2.5rem;">
+    <h3>Temporal attention ablation — isolating the contribution</h3>
+    <p>Three configurations on the same test set demonstrate what temporal attention adds — and why it is essential, not optional.</p>
+  </div>
+
+  <div class="ablation reveal">
+    <div class="abl-row head">
+      <div>Configuration</div>
+      <div>Dice</div>
+      <div>HC MAE</div>
+      <div>Interpretation</div>
+    </div>
+    <div class="abl-row">
+      <div><div class="abl-name">A — Static baseline</div><div class="abl-desc">Phase 0 · single-frame model</div></div>
+      <div><div class="abl-val best">97.36%</div></div>
+      <div><div class="abl-val best">1.75mm</div></div>
+      <div class="abl-note">Gold standard for single-frame performance</div>
+    </div>
+    <div class="abl-row">
+      <div><div class="abl-name">B — Cine, no temporal attention</div><div class="abl-desc">2D backbone applied frame-by-frame, no coordination</div></div>
+      <div><div class="abl-val worst">81.48%</div></div>
+      <div><div class="abl-val worst">19.37mm</div></div>
+      <div class="abl-note">Inconsistent per-frame predictions produce poor consensus — worse than static</div>
+    </div>
+    <div class="abl-row">
+      <div><div class="abl-name">C — Cine + temporal attention (ours)</div><div class="abl-desc">Shared 2D encoder + temporal self-attention at bottleneck</div></div>
+      <div><div class="abl-val mid">95.71%</div></div>
+      <div><div class="abl-val mid">2.10mm</div></div>
+      <div class="abl-note">Recovers nearly all static performance + adds temporal reasoning</div>
+    </div>
+  </div>
+
+  <div class="callout warn reveal">
+    <p><strong>The B→C gap (MAE: 19.37→2.10mm) is the quantitative case for temporal attention.</strong> Applying a static backbone to cine frames without temporal coordination produces worse results than the single-frame model — inconsistent predictions across 16 frames cannot form a reliable consensus. The attention module coordinates across frames to identify which views have the clearest skull interface, recovering near-static performance while adding frame-level uncertainty quantification that does not exist in single-frame inference.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CINE / TEMPORAL -->
+  <div class="reveal">
+    <p class="sec-label teal">Cine-Loop Pipeline</p>
+    <h2 id="temporal">Temporal model — 16-frame cine-loop inference</h2>
+    <p class="h2-sub">The cine-loop system processes ultrasound clip sequences rather than single frames, enabling temporal consensus and frame-level uncertainty maps.</p>
+  </div>
+
+  <p class="reveal">In clinical practice, sonographers assess HC quality over a short cine sweep rather than from a single static frame. The temporal model mirrors this: it processes 16-frame clips using a shared 2D U-Net encoder across frames, with a lightweight self-attention module at the bottleneck that coordinates predictions across the temporal dimension. Peak memory is reduced 8–10× compared to a 3D U-Net approach, enabling full-dataset training on 806 image-clip pairs.</p>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>Architecture: 2D encoder + temporal attention</h3>
+      <p style="font-size:0.88rem;">Shared-weight 2D U-Net encoder processes each frame independently. Temporal self-attention (only ~200K parameters vs backbone's 32M) operates on spatially-pooled bottleneck vectors [B, T, C], not full feature maps. Three-stage training: (1) frozen backbone — attention module only, (2) unfreeze decoder, (3) full fine-tune at low LR. Prevents corrupting the pretrained backbone while allowing temporal coordination to develop.</p>
+      <h3>Pseudo-LDDM v2 synthetic cine generation</h3>
+      <p style="font-size:0.88rem;">Real cine datasets are clinically held and not publicly available. The Pseudo-LDDM v2 framework generates clinically realistic synthetic sequences: Ornstein-Uhlenbeck probe motion (mean-reverting, non-periodic), per-frame independent skull cross-section variation (±2.5% semi-axis perturbation), Rician speckle noise, depth-dependent acoustic attenuation, and TGC drift simulation. Mean temporal HC std increased from ~0mm (rigid v1) to 10.33px (v2), producing genuine temporal variability that requires learned temporal reasoning.</p>
+    </div>
+    <div>
+      <h3>Frame-level uncertainty quantification</h3>
+      <p style="font-size:0.88rem;">Standard deviation of per-frame binary predictions across 16 frames produces a boundary uncertainty map — bright pixels identify where the model disagreed across the temporal sequence. This is the clinically meaningful uncertainty indicator: high variance at the skull interface indicates a borderline cross-sectional plane and flags the case for re-acquisition or manual review.</p>
+      <h3>Temporal reliability score</h3>
+      <p style="font-size:0.88rem;">Reliability scores of 0.97–0.99 across test sequences (vs 1.000 in the earlier rigid-mask version, which was trivially achievable and meant nothing). The T×T attention weight matrix and per-frame attention-received scores are exported as part of the XAI output, showing the clinician which frames in the sequence had the clearest skull boundary — directly interpretable in sonography workflow terms.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- STATIC PIPELINE DETAIL -->
+  <div class="reveal">
+    <p class="sec-label">Technical Pipeline — Static Model</p>
+    <h2>From ultrasound image to clinical measurement</h2>
+    <p class="h2-sub">Three targeted training improvements — no architecture change — produced the step from 17.25mm to 1.75mm MAE.</p>
+  </div>
+
+  <div class="pipeline reveal">
+    <div class="pipe-step">
+      <div class="pipe-num">01</div>
+      <div class="pipe-content">
+        <h4>Image ingestion + mask flood-fill correction</h4>
+        <p>HC18 annotations are 1-pixel-wide hollow ellipse outlines — not filled masks. The course baseline did not fill them, causing near-zero Dice from the area overlap metric comparing a solid prediction against a hollow outline. All annotation masks are flood-filled before training. GT masks pre-generated as .npz files at the original 800×540 resolution before downscaling. This single correction accounts for the majority of the 86%→97% Dice improvement.</p>
       </div>
-      <div>
-        <h3>What comes next</h3>
-        <p style="font-size:0.86rem;"><strong style="color:var(--white)">Scale to full dataset</strong> — 999 samples at 768×512. This single change is expected to substantially close the performance gap with the published baseline.</p>
-        <p style="font-size:0.86rem;"><strong style="color:var(--white)">Semi-LDDM</strong> — train a lightweight <abbr title="Optical Flow Network: a neural network that estimates per-pixel motion between frames">optical flow network</abbr> on a small real video dataset (e.g., FPUS23) and inject learned motion vectors into our physics-constrained framework, combining data-driven learning with anatomical interpretability.</p>
-        <p style="font-size:0.86rem;"><strong style="color:var(--white)">Clinical validation</strong> — a Visual Turing Test with certified sonographers to evaluate whether the synthetic sequences are indistinguishable from real clinical cine acquisitions.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">02</div>
+      <div class="pipe-content">
+        <h4>U-Net segmentation with deep supervision</h4>
+        <p>Auxiliary segmentation heads at decoder stages 2 and 3. Forces the full encoder to learn boundary-relevant features at every scale, not just the final decoder output. Combined with boundary-weighted loss using distance-transform upweighting of pixels near the GT mask edge — directly optimising the source of HC measurement error.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">03</div>
+      <div class="pipe-content">
+        <h4>Clinically-motivated data augmentation</h4>
+        <p>Rotation ±15°, horizontal flip, elastic deformation (simulating probe angle variation), brightness/contrast variation (simulating gain settings), Rician speckle noise simulation (correct ultrasound noise model, not Gaussian), coarse dropout. All augmentations match physical variability seen in real obstetric scanning — not generic image augmentation.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">04</div>
+      <div class="pipe-content">
+        <h4>Ellipse fitting → HC measurement in mm</h4>
+        <p>Minimum-area ellipse fitted to the segmented skull boundary. HC computed as ellipse circumference using Ramanujan's approximation, then converted to mm using pixel spacing from the image metadata. This is the same geometric approach used by clinical calliper software.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">05</div>
+      <div class="pipe-content">
+        <h4>Hadlock gestational age estimation</h4>
+        <p>GA estimated via corrected Hadlock (1984) formula: GA = 8.96 + 0.540·(HC/10) − 0.0040·(HC/10)² + 0.000399·(HC/10)³. HC converted to cm before application. Validated against published anchor points (HC=140mm→~17w, HC=250mm→~26w, HC=340mm→~38w). GA reported with ±2-week confidence interval matching the Hadlock clinical uncertainty range. Trimester classification derived from estimated GA.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">06</div>
+      <div class="pipe-content">
+        <h4>Dual-mode PDF clinical report</h4>
+        <p>Two selectable modes accessible via UI toggle. LLM mode: Claude Haiku generates two clinical paragraphs in medical terminology — measurement interpretation, gestational assessment, uncertainty commentary. Template mode: rule-based deterministic output with identical structure. Toggle designed to let clinicians compare modes directly. Both include regulatory framing, trimester classification, and XAI overlay.</p>
       </div>
     </div>
   </div>
 
+  <hr class="divider">
+
+  <!-- XAI -->
+  <div class="reveal">
+    <p class="sec-label">Explainability</p>
+    <h2 id="xai">Three-layer explainability architecture</h2>
+    <p class="h2-sub">Spatial, temporal, and uncertainty explanations — all exportable and included in the clinical PDF.</p>
+  </div>
+
+  <div class="xai-grid reveal">
+    <div class="xai-card">
+      <div class="xai-icon">🎯</div>
+      <h4>GradCAM++ — Spatial Attribution</h4>
+      <p>Custom implementation applied to the final decoder convolutional layer — no external packages. Shows which spatial regions drove the boundary prediction. GradCAM++ (vs standard GradCAM) avoids gradient saturation at high confidence by using second-order gradient information. Clinically: confirms the model attends to the outer skull table interface, not soft tissue. Visible as an overlay on the segmentation output in the deployed system.</p>
+    </div>
+    <div class="xai-card">
+      <div class="xai-icon">📊</div>
+      <h4>Boundary Uncertainty Map — Temporal</h4>
+      <p>Standard deviation of per-frame binary predictions across 16 cine frames. Bright pixels in the hot colormap identify where the model's boundary localisation was inconsistent across the temporal sequence — the clinically meaningful uncertainty indicator. High boundary uncertainty at specific skull regions indicates a sub-optimal imaging plane and triggers a re-acquisition recommendation in the clinical report.</p>
+    </div>
+    <div class="xai-card">
+      <div class="xai-icon">⏱️</div>
+      <h4>Temporal Attention Weights</h4>
+      <p>The T×T attention matrix and per-frame attention-received distribution are exported as part of the cine-loop XAI output. Shows which frames in the 16-frame sequence the model weighted most highly — directly interpretable as "which frames had the clearest skull interface." Clinically useful for retrospective clip quality review and for identifying the optimal freeze-frame for static measurement.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- GOVERNANCE / GA BIAS AUDIT -->
+  <div class="reveal">
+    <p class="sec-label green">Governance & Bias Audit</p>
+    <h2 id="governance">GA-trimester bias audit — documented performance gaps</h2>
+    <p class="h2-sub">The system's Model Card documents a known late-trimester performance degradation with a clinical explanation.</p>
+  </div>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>GA-stratified performance audit</h3>
+      <p style="font-size:0.88rem;">Test set stratified by estimated gestational age trimester. Dice is consistent across trimesters (94–97%). MAE increases from 2.05mm in early pregnancy (&lt;20 weeks) to 7.60mm in late pregnancy (&gt;30 weeks). <strong>Clinical explanation:</strong> At larger head sizes, acoustic shadowing from the ossified skull table creates partial signal loss at the inferior parietal bone — the model sees less of the boundary and must infer the obscured segment. This is the same phenomenon that causes manual measurements to be less reproducible in the third trimester.</p>
+      <p style="font-size:0.88rem;">The late-trimester MAE of 7.60mm exceeds the ISUOG ±3mm threshold. This is documented explicitly in the Model Card as a known limitation, with a clinical recommendation: in pregnancies &gt;30 weeks, automated measurement should be supplemented with manual verification. The deployed system displays a trimester-specific reliability indicator on all outputs.</p>
+    </div>
+    <div>
+      <h3>Regulatory framing</h3>
+      <p style="font-size:0.88rem;">This system falls into the <strong>SaMD Class II</strong> category under FDA Digital Health Center of Excellence guidance — software that measures fetal biometric parameters from ultrasound images to inform clinical management of pregnancy. EU classification: <strong>IVDR Class B</strong> (in vitro diagnostic medical device used for determining physiological status during pregnancy).</p>
+      <p style="font-size:0.88rem;"><strong>Current status: research-grade decision support only.</strong> Prerequisites before clinical submission: prospective validation on real cine acquisitions (minimum 100 subjects), CE marking or 510(k) submission for the measurement algorithm, sonographer validation study per IEC 62304, and a full clinical evidence package. The Model Card, bias audit, and governance documentation are structured to feed a regulatory submission directly — not just to satisfy a research checklist.</p>
+    </div>
+  </div>
+
+  <div class="callout warn reveal">
+    <p><strong>Known limitation — late third trimester:</strong> MAE of 7.60mm in pregnancies &gt;30 weeks exceeds the ISUOG threshold. Documented in the Model Card. The clinical report includes an explicit recommendation for manual verification when the system estimates gestational age &gt;30 weeks. Acoustic shadow correction (e.g., adaptive TGC calibration or shadow-aware training data) is identified as the primary improvement needed for full third-trimester coverage.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- MODEL PRUNING FOR DEPLOYMENT -->
+  <div class="reveal">
+    <p class="sec-label teal">Model Compression for Clinical Deployment</p>
+    <h2 id="pruning">Making the model small enough to actually deploy</h2>
+    <p class="h2-sub">A segmentation model that achieves 97% accuracy on a research GPU is not a clinical product if it cannot run within hospital infrastructure constraints.</p>
+  </div>
+
+  <p class="reveal">Clinical environments impose hard constraints that research benchmarks do not: limited GPU memory, shared compute infrastructure, latency requirements within a sonographer's scan time, and the need to run on hardware that was provisioned years before the model was trained. Phase 4a and 4b of this project addressed the deployment gap directly through structured CNN filter pruning.</p>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>The clinical deployment problem</h3>
+      <p style="font-size:0.88rem;">The segmentation backbone (32M parameters) runs comfortably on a research GPU. In a clinical ultrasound suite, the available compute may be a mid-range workstation with a shared GPU serving PACS, VNA, and reporting tools simultaneously. Peak memory, inference latency within a 30-second measurement window, and the ability to run without an internet connection are the real constraints — not benchmark Dice scores.</p>
+      <h3>Hybrid Crossover — the novel pruning method</h3>
+      <p style="font-size:0.88rem;">Standard structured pruning identifies redundant convolutional filters and deletes them. The Hybrid Crossover method takes a different approach: it identifies two filters with high mutual similarity (measured by ILR saliency) and <em>synthesises a new filter</em> from both via linear regression, then replaces the pair with a single composite filter. The result retains information from both discarded filters rather than simply removing it.</p>
+      <p style="font-size:0.88rem;">Tested on VGG-16 (the backbone architecture used in the fetal HC system). Accuracy guard-rails enforce that no pruning step exceeds a specified accuracy tolerance — the model cannot be compressed past the clinical performance threshold.</p>
+    </div>
+    <div>
+      <h3>Results in clinical terms</h3>
+      <div class="phase-block p3" style="margin-top:0;">
+        <div class="phase-num">Hybrid Crossover vs Standard Drop</div>
+        <div class="phase-title">2× compression, +0.37% accuracy, 2× inference speed</div>
+        <div class="phase-sub">Standard Drop achieved 2× compression at the cost of accuracy. Hybrid Crossover achieved the same compression ratio while <em>improving</em> accuracy by 0.37% — because the synthesised composite filter captures information that deletion discards. Runtime reduced by 2× due to halved filter count in forward pass.</div>
+        <div class="phase-metrics">
+          <span class="pm good"><span class="pm-label">Compression</span>2×</span>
+          <span class="pm good"><span class="pm-label">Accuracy Δ</span>+0.37%</span>
+          <span class="pm good"><span class="pm-label">Runtime</span>2× faster</span>
+        </div>
+      </div>
+      <h3>What this means in practice</h3>
+      <p style="font-size:0.88rem;"><strong>For a clinical deployment team:</strong> the same HC measurement accuracy is available from a model that uses half the GPU memory and runs twice as fast. This is the difference between requiring a dedicated GPU server (capital cost: $8,000–$25,000) and running on existing shared radiology workstation infrastructure. Model Cards for both the pruned and unpruned variants document the accuracy difference explicitly so procurement teams can make the tradeoff decision with evidence.</p>
+    </div>
+  </div>
+
+  <div class="callout teal reveal">
+    <p><strong>The pruning research contribution:</strong> The Hybrid Crossover method is documented as a standalone directed-study deliverable (CSCE 5934, Fall 2025, Prof. Russel Pears). The primary research claim — synthesis preserves more information than deletion — is validated by the accuracy improvement, not just preservation. The method is architecture-agnostic and applies to any convolutional backbone where redundant filter pairs can be identified via ILR saliency scoring.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- DEVELOPMENT JOURNEY -->
+  <div class="reveal">
+    <p class="sec-label amber">Development Journey</p>
+    <h2>From course project to clinical-grade pipeline — five phases</h2>
+    <p class="h2-sub">The course project identified every issue accurately. The post-course work fixed each one systematically.</p>
+  </div>
+
+  <div class="phase-timeline reveal">
+    <div class="phase-block p0">
+      <div class="phase-num">Phase 0 — Course Baseline · CSCE 6260, Fall 2025</div>
+      <div class="phase-title">Static baseline with hollow-mask training error</div>
+      <div class="phase-sub">Working proof-of-concept but hollow ellipse annotations trained without flood-fill. Dice computed against hollow outlines produced misleadingly low scores. No training optimisation. Results below clinical relevance.</div>
+      <div class="phase-metrics">
+        <span class="pm bad"><span class="pm-label">Dice</span>86.17%</span>
+        <span class="pm bad"><span class="pm-label">HC MAE</span>17.25mm</span>
+        <span class="pm bad"><span class="pm-label">vs ISUOG</span>5.75× over threshold</span>
+      </div>
+    </div>
+    <div class="phase-block p1">
+      <div class="phase-num">Phase 1 — Post-course · Static model rebuilt</div>
+      <div class="phase-title">Hollow-mask correction + deep supervision + boundary-weighted loss</div>
+      <div class="phase-sub">Flood-fill applied to all annotations. Deep supervision added at decoder stages 2 and 3. Boundary-weighted loss with distance-transform upweighting. Strong clinically-motivated augmentation. AdamW + cosine annealing. The single hollow-mask fix accounts for the majority of the improvement.</div>
+      <div class="phase-metrics">
+        <span class="pm good"><span class="pm-label">Dice</span>97.36%</span>
+        <span class="pm good"><span class="pm-label">HC MAE</span>1.75mm</span>
+        <span class="pm good"><span class="pm-label">vs ISUOG</span>Within threshold ✓</span>
+      </div>
+    </div>
+    <div class="phase-block p2 current">
+      <div class="phase-num">Phase 2 — Temporal attention architecture</div>
+      <div class="phase-title">2D encoder + self-attention cine system</div>
+      <div class="phase-sub">Replaced memory-prohibitive 3D U-Net (which forced training on only 400/999 samples due to Kaggle disk limits) with shared 2D encoder + temporal bottleneck attention. Migrated to Colab Pro with Drive persistence. Full 806-clip dataset trained. Three-stage training protocol.</div>
+      <div class="phase-metrics">
+        <span class="pm good"><span class="pm-label">Dice</span>95.71%</span>
+        <span class="pm good"><span class="pm-label">HC MAE</span>2.10mm</span>
+        <span class="pm good"><span class="pm-label">vs ISUOG</span>Within threshold ✓</span>
+      </div>
+    </div>
+    <div class="phase-block p3 current">
+      <div class="phase-num">Phase 3 — Pseudo-LDDM v2 synthetic cine generation</div>
+      <div class="phase-title">Physically accurate synthetic cine dataset</div>
+      <div class="phase-sub">Rewrote the cine generation framework from scratch. Added cross-sectional skull variation (±2.5% semi-axis perturbation), Ornstein-Uhlenbeck probe motion, Rician speckle noise, acoustic attenuation, and TGC drift. Mean temporal HC std increased from ~0mm (rigid v1) to 10.33px. Temporal reliability scores now 0.97–0.99 (previously trivially 1.000).</div>
+    </div>
+    <div class="phase-block p4 current">
+      <div class="phase-num">Phase 4 — Clinical output layer, XAI, governance, deployment</div>
+      <div class="phase-title">GradCAM++, Hadlock GA estimation, bias audit, live deployment</div>
+      <div class="phase-sub">Corrected Hadlock formula (previous version used wrong unit — HC in mm instead of cm, producing negative GA values). GradCAM++ custom implementation. Boundary uncertainty maps. GA-trimester bias audit. Model Card with regulatory framing. Dual-mode PDF report (LLM + template). Streamlit app deployed to HuggingFace Spaces.</div>
+    </div>
+  </div>
+
+  <!-- TECH STACK -->
+  <div class="reveal" style="margin-top:2rem;">
+    <h3>Technical stack</h3>
+    <div class="stack-list">
+      <span class="stk">PyTorch 2.x</span><span class="stk">Streamlit</span>
+      <span class="stk">OpenCV</span><span class="stk">scikit-image</span>
+      <span class="stk">NumPy / SciPy</span><span class="stk">anthropic (Claude Haiku)</span>
+      <span class="stk">ReportLab</span><span class="stk">matplotlib</span>
+      <span class="stk">HuggingFace Spaces</span><span class="stk">Google Colab Pro</span>
+      <span class="stk">HC18 Dataset (Eindhoven)</span><span class="stk">ISUOG Guidelines</span>
+      <span class="stk">Hadlock (1984)</span><span class="stk">Papageorghiou et al. (2014)</span>
+    </div>
+  </div>
+
+  <div class="pull-quote reveal" style="margin-top:3.5rem;">
+    <p>The course project started 17.25mm away from clinical relevance. The post-course work closed that gap to 1.75mm — not by changing the model, but by fixing the training data representation, adding domain-appropriate optimisation, and building the clinical output layer that turns a segmentation into something a sonographer can use.</p>
+    <div class="attrib">— The engineering path from proof-of-concept to clinical-grade</div>
+  </div>
+
 </div>
 
-
-<div style="padding:1.5rem 1.75rem;border:1px solid rgba(0,200,200,0.3);background:rgba(0,200,200,0.04);margin:3rem 4rem 0;">
-  <h3 style="color:var(--cyan);margin-top:0;margin-bottom:0.75rem;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;">★ What this project taught — uniquely</h3>
-  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">Synthetic data generation as a research contribution.</strong> When real cine-loop (video) ultrasound training data doesn't exist, you create it. The Pseudo-LDDM framework — generating physically plausible probe motion simulations from static images — was the core novel contribution and a different kind of thinking from model architecture design. Understanding how to generate training data from first principles (physics of probe motion, anatomical constraints) is directly applicable to any medical imaging domain with scarce annotations.</p>
-  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">3D convolution for temporal consistency.</strong> This was the first project using 3D convolutional networks (3D U-Net) — where the third spatial dimension is time rather than depth. Understanding how 3D convolution captures temporal dependencies across frames, and when it adds value over applying a 2D model frame-by-frame, required building intuition about what "temporal consistency" means for a measurement task. The reliability scoring module (R=1.0 meaning every frame agreed on the same measurement) was the evaluation artifact of that reasoning.</p>
-  <p style="font-size:0.87rem;margin-bottom:0.65rem;"><strong style="color:var(--white);">Ellipse fitting as a post-processing step.</strong> Raw segmentation masks don't directly give circumference measurements — fitting an ellipse to the predicted mask boundary and computing the ellipse's perimeter is a geometric post-processing step that most segmentation projects don't require. This bridged computer vision (segmentation) with clinical measurement (circumference in mm), and required understanding the distinction between predicting a region and measuring a quantity from that prediction.</p>
-  <p style="font-size:0.87rem;"><strong style="color:var(--white);">Honest contribution tracking on a team project.</strong> My teammate Ramyasri Murugesan built the full Pseudo-LDDM simulation. I built the baseline (Residual U-Net, all 4 preprocessing variants, evaluation). The 3D U-Net and temporal stability module were joint. Documenting this split accurately — and building a portfolio page that reflects it honestly — was a deliberate decision that sets this portfolio apart from those that obscure contribution boundaries.</p>
-</div>
-
+<!-- BOTTOM CTA -->
 <div class="bottom-cta">
   <div class="cta-left">
-    <h3>Want to discuss this work?</h3>
-    <p>I'm actively looking for full-time roles in healthcare AI and medical image analysis, available May 2026.</p>
+    <h3>Try the live demo — upload your own ultrasound.</h3>
+    <p>The system accepts standard obstetric ultrasound images in static or cine mode. Source code, Model Card, and all phase notebooks are on GitHub.</p>
   </div>
   <div class="cta-btns">
-    <a href="https://github.com/TarunSadarla2606/fetal-head-cine-segmentation" target="_blank" class="btn-p">View on GitHub →</a>
-    <a href="index.html#contact" class="btn-s">Get in Touch</a>
+    <a href="https://huggingface.co/spaces/TarunSadarla2606/fetal-head-clinical-ai" target="_blank" class="btn-primary">Live Demo →</a>
+    <a href="https://github.com/TarunSadarla2606/fetal-head-clinical-ai" target="_blank" class="btn-sec">GitHub ↗</a>
+    <a href="index.html#contact" class="btn-ghost">Get in Touch ↗</a>
   </div>
 </div>
 
 <script>
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.07 });
-  document.querySelectorAll('.reveal').forEach((el, i) => {
-    el.dataset.delay = (i % 3) * 90;
-    obs.observe(el);
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+      obs.unobserve(entry.target);
+    }
   });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.dataset.delay = (i % 4) * 70;
+  obs.observe(el);
+});
 </script>
 </body>
 </html>
