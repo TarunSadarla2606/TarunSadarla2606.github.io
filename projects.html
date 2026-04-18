@@ -4,35 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projects — Tarun Sadarla</title>
+<meta name="description" content="Full project portfolio — 14 projects across medical imaging AI, edge deployment, model compression, and clinical governance. MS AI (Biomedical), UNT.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy:     #0F2D54;
-  --blue:     #1B5FA8;
-  --blue-mid: #2574C4;
-  --sky:      #3A9BD5;
-  --sky-light:#EBF4FD;
-  --sky-pale: #F4F9FF;
-  --white:    #FFFFFF;
-  --off-white:#F7FAFD;
-  --slate:    #3D5166;
-  --muted:    #6B829A;
-  --border:   #D0DFF0;
-  --border-light: #E8F0FA;
-  --text:     #253347;
-  --green:    #17836B;
-  --green-bg: #EAF7F3;
-  --amber:    #B45309;
-  --amber-bg: #FEF3C7;
-  --purple:   #6B46C1;
-  --purple-bg:rgba(107,70,193,0.07);
-  --purple-b: rgba(107,70,193,0.28);
-  --teal:     #0E7490;
-  --teal-bg:  #ECFEFF;
-  --shadow-sm:0 1px 4px rgba(15,45,84,0.07);
-  --shadow:   0 4px 16px rgba(15,45,84,0.10);
-  --shadow-md:0 8px 32px rgba(15,45,84,0.13);
+  --navy:        #0F2D54;
+  --blue:        #1B5FA8;
+  --sky:         #3A9BD5;
+  --sky-light:   #EBF4FD;
+  --sky-pale:    #F4F9FF;
+  --white:       #FFFFFF;
+  --slate:       #3D5166;
+  --muted:       #6B829A;
+  --border:      #D0DFF0;
+  --border-light:#E8F0FA;
+  --text:        #253347;
+  --green:       #17836B;
+  --green-bg:    #EAF7F3;
+  --amber:       #B45309;
+  --amber-bg:    #FEF3C7;
+  --purple:      #6B46C1;
+  --purple-bg:   rgba(107,70,193,0.07);
+  --purple-b:    rgba(107,70,193,0.28);
+  --teal:        #0E7490;
+  --teal-bg:     #ECFEFF;
+  --shadow-sm:   0 1px 4px rgba(15,45,84,0.07);
+  --shadow:      0 4px 16px rgba(15,45,84,0.10);
+  --shadow-md:   0 8px 32px rgba(15,45,84,0.13);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -55,8 +54,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .ph-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(150,205,255,0.85);margin-bottom:0.8rem;}
 .ph-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);color:#FFFFFF;letter-spacing:-0.025em;margin-bottom:1rem;line-height:1.1;}
 .ph-title em{font-style:italic;color:#7DD3FC;}
-.ph-sub{font-size:0.96rem;color:rgba(200,225,255,0.75);max-width:600px;line-height:1.8;margin-bottom:2rem;}
-/* tier nav */
+.ph-sub{font-size:0.96rem;color:rgba(200,225,255,0.75);max-width:620px;line-height:1.8;margin-bottom:2rem;}
 .tier-nav{display:flex;flex-wrap:wrap;gap:0;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);overflow:hidden;}
 .tn-item{padding:0.65rem 1.25rem;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,225,255,0.65);text-decoration:none;white-space:nowrap;transition:all 0.18s;border-right:1px solid rgba(255,255,255,0.08);}
 .tn-item:last-child{border-right:none;}
@@ -69,31 +67,33 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .sec-eyebrow.purple{color:var(--purple);}
 .sec-eyebrow.teal{color:var(--teal);}
 .sec-eyebrow.amber{color:var(--amber);}
+.sec-eyebrow.green{color:var(--green);}
 h2{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--navy);letter-spacing:-0.02em;margin-bottom:0.35rem;line-height:1.2;}
-.h2-sub{font-size:0.91rem;color:var(--muted);margin-bottom:1.5rem;max-width:600px;line-height:1.7;}
+.h2-sub{font-size:0.91rem;color:var(--muted);margin-bottom:1.5rem;max-width:640px;line-height:1.7;}
 p{color:var(--text);font-size:0.93rem;line-height:1.85;margin-bottom:0.85rem;}
 p strong{color:var(--navy);font-weight:600;}
 hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
 
-/* ── STORY INTRO STRIP ── */
-.story-strip{background:linear-gradient(90deg,var(--sky-pale),var(--white));border:1px solid var(--border);border-left:4px solid var(--blue);padding:1.5rem 2rem;margin-bottom:3rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;}
-.ss-step{position:relative;}
+/* ── STORY STRIP (2-step) ── */
+.story-strip{background:linear-gradient(90deg,var(--sky-pale),var(--white));border:1px solid var(--border);border-left:4px solid var(--blue);padding:1.5rem 2rem;margin-bottom:3rem;display:grid;grid-template-columns:1fr 3rem 1fr;gap:0;align-items:center;}
+.ss-step{padding:0.5rem 1.5rem 0.5rem 0;}
+.ss-step:last-child{padding-left:1.5rem;padding-right:0;}
 .ss-num{font-family:'Playfair Display',serif;font-size:2rem;color:rgba(27,95,168,0.12);line-height:1;margin-bottom:0.3rem;}
 .ss-title{font-size:0.9rem;font-weight:600;color:var(--navy);margin-bottom:0.2rem;}
 .ss-body{font-size:0.8rem;color:var(--slate);line-height:1.6;}
-.ss-arrow{position:absolute;right:-1.25rem;top:50%;transform:translateY(-50%);color:var(--blue);font-size:1.2rem;opacity:0.4;}
+.ss-also{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);margin-top:0.35rem;}
+.ss-arrow{display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:rgba(27,95,168,0.3);font-family:'IBM Plex Mono',monospace;}
 
-/* ── FLAGSHIP PROJECT CARD ── */
+/* ── FLAGSHIP CARD ── */
 .fp-card{border:1px solid var(--border);margin-bottom:3.5rem;background:var(--white);}
-.fp-header{padding:1.75rem 2rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;}
+.fp-header{padding:1.75rem 2rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
 .fp-badge{display:inline-flex;align-items:center;gap:0.4rem;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid;margin-bottom:0.6rem;width:fit-content;}
 .fp-badge.purple{color:var(--purple);border-color:var(--purple-b);background:var(--purple-bg);}
 .fp-badge.blue{color:var(--blue);border-color:rgba(27,95,168,0.3);background:rgba(27,95,168,0.06);}
-.fp-badge.teal{color:var(--teal);border-color:rgba(14,116,144,0.3);background:var(--teal-bg);}
 .fp-title{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.01em;margin-bottom:0.35rem;line-height:1.2;}
-.fp-meta{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0;}
-.fp-kpi-strip{display:flex;gap:0;background:var(--sky-pale);border-top:1px solid var(--border-light);margin-top:1.25rem;}
-.fk{padding:1.1rem 1.5rem;border-right:1px solid var(--border-light);flex:1;text-align:center;}
+.fp-meta{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.fp-kpi-strip{display:flex;gap:0;background:var(--sky-pale);border-top:1px solid var(--border-light);margin-top:1.25rem;flex-wrap:wrap;}
+.fk{padding:1.1rem 1.5rem;border-right:1px solid var(--border-light);flex:1;text-align:center;min-width:100px;}
 .fk:last-child{border-right:none;}
 .fk-val{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--blue);line-height:1;margin-bottom:0.15rem;}
 .fk-val.green{color:var(--green);}
@@ -104,11 +104,9 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
 .fp-clinical strong{color:var(--navy);font-weight:600;}
 .fp-clinical p{margin-bottom:0.75rem;}
 .fp-clinical p:last-child{margin-bottom:0;}
-/* What makes this different */
 .fp-diff{display:flex;flex-direction:column;gap:0.75rem;}
 .diff-item{padding:0.85rem 1rem;border-left:3px solid var(--blue);background:var(--sky-pale);}
 .diff-item.purple{border-left-color:var(--purple);background:var(--purple-bg);}
-.diff-item.teal{border-left-color:var(--teal);background:var(--teal-bg);}
 .diff-label{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem;}
 .diff-val{font-size:0.85rem;color:var(--navy);font-weight:500;line-height:1.5;}
 .fp-footer{padding:1.25rem 2rem;border-top:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--sky-pale);}
@@ -120,34 +118,58 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
 .fp-link.primary:hover{background:var(--blue);}
 .fp-link.sec{border:1px solid var(--border);color:var(--slate);}
 .fp-link.sec:hover{border-color:var(--blue);color:var(--blue);}
-/* deployed badge */
 .dep{display:inline-flex;align-items:center;gap:0.45rem;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);}
 .dep-dot{width:6px;height:6px;border-radius:50%;background:#5CE65C;box-shadow:0 0 6px #5CE65C;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
 
-/* ── BRIDGE TEXT ── */
+/* ── BRIDGE ── */
 .bridge{padding:1.5rem 2rem;border:1px solid var(--border);border-left:4px solid var(--blue);background:var(--sky-pale);margin-bottom:3.5rem;}
 .bridge p{margin:0;font-size:0.88rem;line-height:1.72;color:var(--text);}
 .bridge strong{color:var(--navy);}
 .bridge-arrow{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem;}
 
-/* ── SUPPORTING PROJECTS ── */
-.sup-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-light);border:1px solid var(--border);margin-top:1.5rem;}
-.sup-card{background:var(--white);padding:1.5rem;transition:background 0.15s;}
-.sup-card:hover{background:var(--sky-pale);}
-.sup-badge{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.55rem;border:1px solid;display:inline-block;margin-bottom:0.6rem;}
-.sub-blue{color:var(--blue);border-color:rgba(27,95,168,0.28);background:rgba(27,95,168,0.06);}
-.sub-teal{color:var(--teal);border-color:rgba(14,116,144,0.28);background:var(--teal-bg);}
-.sub-amber{color:var(--amber);border-color:rgba(180,83,9,0.25);background:var(--amber-bg);}
-.sup-title{font-size:0.95rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
-.sup-result{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--green);padding:0.22rem 0.6rem;border:1px solid rgba(23,131,107,0.25);background:var(--green-bg);display:inline-block;margin-bottom:0.5rem;}
-.sup-desc{font-size:0.84rem;color:var(--slate);line-height:1.65;margin-bottom:0.75rem;}
-.sup-links{display:flex;gap:0.5rem;flex-wrap:wrap;}
-.sup-link{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;padding:0.35rem 0.75rem;border:1px solid;transition:all 0.15s;}
-.slb{color:var(--blue);border-color:rgba(27,95,168,0.28);}
-.slb:hover{background:rgba(27,95,168,0.06);}
-.slg{color:var(--muted);border-color:var(--border);}
-.slg:hover{color:var(--navy);border-color:rgba(27,95,168,0.28);}
+/* ── RESEARCH CONTRIBUTION (CNN Pruning — elevated) ── */
+.research-card{border:1px solid var(--border);background:var(--white);margin-bottom:3.5rem;position:relative;}
+.research-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--blue));}
+.rc-header{padding:1.75rem 2rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.rc-badge{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid var(--purple-b);color:var(--purple);background:var(--purple-bg);display:inline-block;margin-bottom:0.6rem;}
+.rc-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy);letter-spacing:-0.01em;margin-bottom:0.35rem;line-height:1.2;}
+.rc-meta{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.rc-kpis{display:flex;gap:0;background:var(--purple-bg);border-top:1px solid rgba(107,70,193,0.1);margin-top:1.25rem;flex-wrap:wrap;}
+.rk{padding:1rem 1.5rem;border-right:1px solid rgba(107,70,193,0.1);flex:1;text-align:center;min-width:90px;}
+.rk:last-child{border-right:none;}
+.rk-val{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--purple);line-height:1;margin-bottom:0.15rem;}
+.rk-lbl{font-family:'IBM Plex Mono',monospace;font-size:0.57rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.rc-body{padding:1.75rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;}
+.rc-foot{padding:1.25rem 2rem;border-top:1px solid rgba(107,70,193,0.1);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--purple-bg);}
+
+/* ── CLINICAL SYSTEMS (Histopathology + WECARE — honestly tiered) ── */
+.clinical-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-light);border:1px solid var(--border);margin-top:1.5rem;}
+.cl-card{background:var(--white);padding:1.75rem;transition:background 0.15s;}
+.cl-card:hover{background:var(--sky-pale);}
+.cl-badge{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.22rem 0.55rem;border:1px solid;display:inline-block;margin-bottom:0.6rem;}
+.cl-blue{color:var(--blue);border-color:rgba(27,95,168,0.28);background:rgba(27,95,168,0.06);}
+.cl-teal{color:var(--teal);border-color:rgba(14,116,144,0.28);background:var(--teal-bg);}
+.cl-title{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;line-height:1.3;}
+.cl-result{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--green);padding:0.22rem 0.6rem;border:1px solid rgba(23,131,107,0.25);background:var(--green-bg);display:inline-block;margin-bottom:0.65rem;}
+.cl-desc{font-size:0.84rem;color:var(--slate);line-height:1.68;margin-bottom:0.75rem;}
+.cl-contrib{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.75rem;padding:0.4rem 0.6rem;background:var(--sky-pale);border-left:2px solid var(--border);}
+.cl-links{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.cll{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;padding:0.35rem 0.75rem;border:1px solid;transition:all 0.15s;}
+.cll-b{color:var(--blue);border-color:rgba(27,95,168,0.28);}
+.cll-b:hover{background:rgba(27,95,168,0.06);}
+.cll-g{color:var(--muted);border-color:var(--border);}
+.cll-g:hover{color:var(--navy);border-color:rgba(27,95,168,0.28);}
+
+/* ── TECHNICAL BREADTH (4-card compact) ── */
+.breadth-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border-light);border:1px solid var(--border);margin-top:1.5rem;}
+.br-card{background:var(--white);padding:1.25rem;transition:background 0.15s;}
+.br-card:hover{background:var(--sky-pale);}
+.br-tag{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem;}
+.br-title{font-size:0.88rem;font-weight:600;color:var(--navy);margin-bottom:0.3rem;}
+.br-desc{font-size:0.8rem;color:var(--slate);line-height:1.6;margin-bottom:0.55rem;}
+.br-link{font-family:'IBM Plex Mono',monospace;font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);text-decoration:none;}
+.br-link:hover{text-decoration:underline;}
 
 /* ── COURSE COLLECTIONS ── */
 .coll-list{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border);margin-top:1.5rem;}
@@ -157,6 +179,7 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
 .coll-label{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.15rem;}
 .coll-name{font-size:0.88rem;font-weight:600;color:var(--navy);}
 .coll-desc{font-size:0.78rem;color:var(--slate);margin-top:0.1rem;}
+.coll-note{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--blue);margin-top:0.2rem;}
 .coll-link{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;padding:0.3rem 0.65rem;border:1px solid var(--border);color:var(--muted);transition:all 0.15s;white-space:nowrap;}
 .coll-link:hover{color:var(--blue);border-color:rgba(27,95,168,0.28);}
 
@@ -164,16 +187,16 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
 .reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
-@media(max-width:800px){
+@media(max-width:900px){
   nav{padding:0 1.25rem;}
   .nav-title,.nav-links{display:none;}
   #page-header{padding:80px 1.25rem 3rem;}
   .page-body{padding:3rem 1.25rem;}
   .story-strip{grid-template-columns:1fr;}
-  .fp-body{grid-template-columns:1fr;}
-  .fp-kpi-strip{flex-wrap:wrap;}
-  .fk{min-width:100px;}
-  .sup-grid{grid-template-columns:1fr;}
+  .ss-arrow{display:none;}
+  .fp-body,.rc-body{grid-template-columns:1fr;}
+  .clinical-grid{grid-template-columns:1fr;}
+  .breadth-grid{grid-template-columns:1fr 1fr;}
   .coll-row{grid-template-columns:1fr;}
 }
 </style>
@@ -186,7 +209,8 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
   <span class="nav-title">All Projects — Tarun Sadarla</span>
   <ul class="nav-links">
     <li><a href="#flagship">Flagship</a></li>
-    <li><a href="#supporting">Supporting</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#clinical">Clinical Systems</a></li>
     <li><a href="#collections">Collections</a></li>
   </ul>
 </nav>
@@ -197,10 +221,12 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
   <div class="ph-inner">
     <p class="ph-eyebrow">Complete Project Portfolio</p>
     <h1 class="ph-title">A deliberate progression toward<br><em>production clinical AI.</em></h1>
-    <p class="ph-sub">Fourteen projects. Three flagship systems deployed to clinical-grade standards. A story that runs from a B.Tech capstone in 2023 to a complete medical imaging AI stack in 2026 — each project building something the next one needed.</p>
+    <p class="ph-sub">Fourteen projects. Two deployed clinical AI systems that pass real clinical thresholds. One novel research contribution in model compression. A body of work that runs from a B.Tech capstone in 2023 to a complete medical imaging AI stack in 2026 — each project building something the next one needed.</p>
     <div class="tier-nav">
       <a href="#flagship" class="tn-item active">Flagship Systems</a>
-      <a href="#supporting" class="tn-item">Supporting Projects</a>
+      <a href="#research" class="tn-item">Research Contribution</a>
+      <a href="#clinical" class="tn-item">Clinical Systems</a>
+      <a href="#breadth" class="tn-item">Technical Breadth</a>
       <a href="#collections" class="tn-item">Course Collections</a>
     </div>
   </div>
@@ -208,40 +234,37 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
 
 <div class="page-body">
 
-  <!-- THE ARC -->
+  <!-- ARC INTRO -->
   <div class="reveal" id="flagship">
     <p class="sec-eyebrow">The Clinical AI Arc</p>
-    <h2>Three projects. One coherent clinical capability.</h2>
-    <p class="h2-sub">Read these as a sequence, not a list. Each solved a different clinical problem and transferred a different capability to the next.</p>
+    <h2>Two flagship systems. One coherent clinical capability.</h2>
+    <p class="h2-sub">Read these as a sequence, not a list. Each solved a different clinical problem and transferred a different capability to what came next.</p>
   </div>
 
+  <!-- 2-step story strip -->
   <div class="story-strip reveal">
     <div class="ss-step">
       <div class="ss-num">01</div>
-      <div class="ss-title">ASD Detection</div>
-      <div class="ss-body">Clinical classification from structural MRI. Learned: multi-site validation, NIfTI pipelines, the limit of a model without explainability.</div>
-      <div class="ss-arrow">→</div>
+      <div class="ss-title">ASD Detection from Structural MRI</div>
+      <div class="ss-body">Clinical classification from NIfTI brain volumes. Learned: multi-site validation, quality gating, dual XAI, the limit of a high-AUC model with no explainability or uncertainty.</div>
+      <div class="ss-also">Also: established the 8-stage clinical inference pipeline used in all subsequent systems.</div>
     </div>
-    <div class="ss-step">
+    <div class="ss-arrow">→</div>
+    <div class="ss-step" style="padding-left:1.5rem;">
       <div class="ss-num">02</div>
-      <div class="ss-title">Fetal Head + Pruning</div>
-      <div class="ss-body">Clinical measurement from ultrasound. Learned: segmentation, temporal reasoning, model compression for deployment, gestational age estimation.</div>
-      <div class="ss-arrow">→</div>
-    </div>
-    <div class="ss-step">
-      <div class="ss-num">03</div>
-      <div class="ss-title">Histopathology + Stack</div>
-      <div class="ss-body">Cancer screening from pathology slides. Learned: full-stack deployment, data scaling behaviour, REST API + React clinical interface.</div>
+      <div class="ss-title">Fetal Head Circumference Measurement</div>
+      <div class="ss-body">Clinical measurement from ultrasound. Learned: segmentation, temporal cine reasoning, Hadlock GA estimation, clinical threshold validation. Exposed the deployment gap → led directly to CNN pruning research.</div>
+      <div class="ss-also">Also: Hybrid Crossover pruning (see Research section) runs in parallel, motivated by this system.</div>
     </div>
   </div>
 
-  <!-- ===== ASD ===== -->
+  <!-- ═══ FLAGSHIP 1 — ASD ═══ -->
   <div class="fp-card reveal">
     <div class="fp-header">
       <div>
-        <span class="fp-badge purple">★ Origin Project · B.Tech 2023 + MS 2026 Rebuild</span>
+        <span class="fp-badge purple">★ Origin Project · B.Tech 2023 + MS 2026 Rebuild · Neuroimaging AI</span>
         <div class="fp-title">ASD Detection from Structural Brain MRI</div>
-        <div class="fp-meta">Neuroimaging · Clinical Decision Support · 1,067 subjects · 17 sites</div>
+        <div class="fp-meta">1,067 subjects · 17 acquisition sites · ABIDE-I · NIfTI volumes</div>
       </div>
       <div class="dep"><span class="dep-dot"></span> Live on HuggingFace</div>
     </div>
@@ -254,27 +277,27 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
     </div>
     <div class="fp-body">
       <div class="fp-clinical">
-        <p><strong>The clinical problem:</strong> ASD diagnosis typically takes 18–24 months from referral to confirmed diagnosis — limited by the availability of specialist behavioural assessment time. Structural MRI is already routinely acquired in paediatric neurodevelopment referrals. This system analyses that existing data algorithmically, flagging high-probability cases for expedited specialist review.</p>
-        <p><strong>In clinical terms:</strong> 95.6% sensitivity means the system correctly identifies 956 out of every 1,000 children who have ASD. 97.2% specificity means it raises a false alarm in only 28 out of every 1,000 children who do not. The probability estimate is well-calibrated — when the model says 85% likely, it is genuinely correct about 85% of the time, which is what makes the uncertainty flag meaningful.</p>
-        <p><strong>Site variance is the critical finding:</strong> Performance spans 88.5% to 98.5% sensitivity depending on the scanner used — a 10-point gap. In a production deployment, site-specific calibration would be required. The system displays a site-specific reliability badge on every output and documents this in the Model Card.</p>
-        <p><strong>What was rebuilt post-course:</strong> The 2023 B.Tech baseline had no explainability, no uncertainty, and no clinical output. The 2026 rebuild added GradCAM + LIME dual spatial explanation, MC-Dropout uncertainty (30 stochastic passes), PDF clinical report with LLM narrative, site reliability indicators, and a Model Card with FDA SaMD Class II framing.</p>
+        <p><strong>The clinical problem:</strong> ASD diagnosis typically takes 18–24 months from referral to confirmed diagnosis — limited by specialist availability. Structural MRI is already routinely acquired. This system analyses that existing data algorithmically, flagging high-probability cases for expedited review.</p>
+        <p><strong>In clinical terms:</strong> 95.6% sensitivity means 956 of every 1,000 children with ASD are correctly identified. 97.2% specificity means only 28 false alarms per 1,000 non-ASD children. The Brier score of 0.027 means stated confidence levels are genuinely calibrated — when the system says 85% probable, 85% is what it means.</p>
+        <p><strong>Site variance is the critical deployment finding:</strong> Sensitivity spans 88.5% (PITT) to 98.5% (UM_1) — a 10 percentage-point gap driven by scanner heterogeneity. Site-specific calibration or ComBat harmonisation would be required before production deployment. This is documented in the Model Card with explicit implications.</p>
+        <p><strong>The 2023→2026 rebuild:</strong> B.Tech baseline had no explainability, no uncertainty, no quality gating, no clinical output. The 2026 system added GradCAM + LIME dual explanation, MC-Dropout (30 stochastic passes), 4-metric quality gate, LLM clinical report, site reliability indicators, and FDA SaMD Class II governance documentation.</p>
       </div>
       <div class="fp-diff">
         <div class="diff-item purple">
-          <div class="diff-label">Clinical impact</div>
-          <div class="diff-val">Pre-assessment triage layer — identifies high-probability cases for expedited specialist review, targeting the 18–24 month diagnostic delay</div>
+          <div class="diff-label">Clinical proposition</div>
+          <div class="diff-val">Pre-assessment triage layer targeting the 18–24 month diagnostic delay — surfaces high-probability cases for expedited specialist review</div>
         </div>
         <div class="diff-item purple">
           <div class="diff-label">What a clinician receives</div>
-          <div class="diff-val">P(ASD) probability with confidence interval, spatial heatmap of brain regions driving the inference, uncertainty flag, site reliability indicator, PDF clinical report</div>
+          <div class="diff-val">P(ASD) with CI, GradCAM + LIME spatial heatmaps, MC-Dropout uncertainty σ, site reliability badge, LLM-generated PDF report with regulatory framing</div>
+        </div>
+        <div class="diff-item purple">
+          <div class="diff-label">Documented failure mode</div>
+          <div class="diff-val">Confident false positives (σ ≈ 0.005) — the dangerous mode where the model is wrong and certain. Human override protocol required. Documented explicitly in Model Card.</div>
         </div>
         <div class="diff-item purple">
           <div class="diff-label">Regulatory status</div>
-          <div class="diff-val">Research-grade decision support only. FDA SaMD Class II / De Novo pathway documented. Known failure modes in Model Card.</div>
-        </div>
-        <div class="diff-item purple">
-          <div class="diff-label">What the 2023→2026 gap taught</div>
-          <div class="diff-val">A classifier with 99.4% AUC that provides no explanation and no uncertainty estimate is not a clinical tool. That gap became the architecture of everything built after.</div>
+          <div class="diff-val">Research-grade decision support only. FDA SaMD Class II / De Novo pathway, sex and site bias audits, and known failure modes documented in full Model Card.</div>
         </div>
       </div>
     </div>
@@ -290,58 +313,58 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
     </div>
   </div>
 
-  <!-- BRIDGE 1→2 -->
+  <!-- BRIDGE -->
   <div class="bridge reveal">
-    <div class="bridge-arrow">→ What the ASD project couldn't do</div>
-    <p>The ASD system classified from whole-brain structural MRI, but it measured nothing. Clinical practice often needs a precise numerical measurement — not just a binary prediction. The fetal head project moved from <em>classification</em> to <em>clinical measurement</em>, adding a temporal dimension (cine-loop sequences) and a deployment constraint (the model needs to run in a busy ultrasound suite, not a research server). The CNN pruning work runs in parallel, directly motivated by the question: <strong>how do you get the segmentation model small enough to actually deploy?</strong></p>
+    <div class="bridge-arrow">→ What the ASD project couldn't do — and what came next</div>
+    <p>The ASD system classified from whole-brain structural MRI but measured nothing. Clinical practice often needs a precise numerical output — not just a probability. The fetal head project moved from <em>classification</em> to <em>clinical measurement</em>, adding temporal reasoning (cine-loop sequences) and a hard deployment constraint: the model needs to run in a busy ultrasound suite on shared hardware, not a research server. That deployment constraint was what motivated the CNN pruning work running in parallel. <strong>The question "how do we make this small enough to actually deploy?" became its own research thread.</strong></p>
   </div>
 
-  <!-- ===== FETAL HEAD ===== -->
+  <!-- ═══ FLAGSHIP 2 — FETAL HC ═══ -->
   <div class="fp-card reveal">
     <div class="fp-header">
       <div>
-        <span class="fp-badge blue">★ Capstone System · Obstetric AI + Model Compression · Deployed</span>
-        <div class="fp-title">Fetal Head Circumference Measurement + Model Pruning</div>
-        <div class="fp-meta">Obstetric Ultrasound · Segmentation · Temporal AI · Model Compression · HC18 Dataset</div>
+        <span class="fp-badge blue">★ Capstone System · Obstetric AI · Deployed · CSCE 6260 + Post-course rebuild</span>
+        <div class="fp-title">Fetal Head Circumference Measurement</div>
+        <div class="fp-meta">HC18 dataset · Static + cine-loop · ISUOG ±3mm threshold · Hadlock 1984 GA estimation</div>
       </div>
       <div class="dep"><span class="dep-dot"></span> Live on HuggingFace</div>
     </div>
     <div class="fp-kpi-strip">
       <div class="fk"><div class="fk-val green">1.75mm</div><div class="fk-lbl">HC Error (ISUOG ≤3mm)</div></div>
       <div class="fk"><div class="fk-val">97.36%</div><div class="fk-lbl">Dice (Static)</div></div>
-      <div class="fk"><div class="fk-val">95.71%</div><div class="fk-lbl">Dice (Cine-loop)</div></div>
-      <div class="fk"><div class="fk-val green">2×</div><div class="fk-lbl">Model Compression</div></div>
+      <div class="fk"><div class="fk-val">2.10mm</div><div class="fk-lbl">HC Error (Cine-loop)</div></div>
+      <div class="fk"><div class="fk-val green">3.4×</div><div class="fk-lbl">Better than SOTA</div></div>
       <div class="fk"><div class="fk-val green">153 hrs</div><div class="fk-lbl">Saved / unit / year</div></div>
     </div>
     <div class="fp-body">
       <div class="fp-clinical">
-        <p><strong>The clinical problem:</strong> HC measurement is mandatory at every routine antenatal scan (18–22 weeks, 28–36 weeks). Manual calliper placement takes 2–4 minutes, introduces up to 7mm inter-observer variation, and accumulates to approximately 153 sonographer hours per year at a unit performing 20 scans per day. This system replaces that manual step with a measurement that is reproducible to 1.75mm — more than 40% inside the ISUOG clinical acceptability threshold of ±3mm.</p>
-        <p><strong>In clinical terms — what 97.36% Dice means:</strong> The AI draws the skull boundary on an ultrasound image. 97.36% Dice means that, on average, 97.36% of the area the AI labels as "skull" genuinely is skull, and 97.36% of the actual skull area is correctly identified. At 1.75mm HC error, the measurement is within the range of normal day-to-day variability between experienced sonographers.</p>
-        <p><strong>The cine-loop system:</strong> A sonographer doesn't assess HC from a single frozen frame — they sweep the probe and select the clearest cross-section from a short clip. The temporal model processes 16-frame sequences, identifying which frames had the clearest skull interface and producing a consensus measurement with a frame-level uncertainty map showing where the boundary was ambiguous. Measurement error: 2.10mm — still within the ISUOG threshold.</p>
-        <p><strong>The pruning connection:</strong> A segmentation model that achieves 97% Dice on a research GPU is not clinically useful if it cannot run on hospital hardware within workflow timing constraints. The CNN pruning work (Hybrid Crossover method) delivered 2× compression with +0.37% accuracy improvement on VGG-16 — a technique directly applicable to deploying the segmentation backbone in resource-constrained clinical environments. The pruned model retains all clinical accuracy while halving memory footprint and doubling inference speed.</p>
+        <p><strong>The clinical problem:</strong> HC measurement is mandatory at every routine antenatal scan. Manual calliper placement takes 2–4 minutes, introduces up to 7mm inter-observer variation, and accumulates to ~153 sonographer hours per year at a unit doing 20 scans per day. This system replaces that step with a reproducible measurement to 1.75mm — 40% inside the ISUOG ±3mm acceptability threshold.</p>
+        <p><strong>Course baseline → clinical system:</strong> The course project achieved 17.25mm MAE — over the ISUOG threshold by 5.75×. The post-course rebuild closed that gap to 1.75mm through three targeted changes: flood-fill correction of hollow-ellipse annotations (single biggest fix), boundary-weighted loss with distance-transform upweighting, and clinically-motivated augmentation (Rician speckle, not Gaussian). No architecture change — engineering, not a better model.</p>
+        <p><strong>The cine-loop system:</strong> Sonographers assess HC over a probe sweep, not a single frozen frame. The temporal model processes 16-frame sequences via shared 2D U-Net encoder + temporal self-attention (MAE 2.10mm, ISUOG compliant). Training data synthesized via Pseudo-LDDM v2 (Ornstein-Uhlenbeck probe motion, per-frame skull variation, Rician speckle) when real cine acquisitions were clinically held.</p>
+        <p><strong>Documented limitation:</strong> Third-trimester MAE 7.60mm exceeds the ISUOG threshold. Cause: acoustic shadowing from the ossified skull. Explicitly documented in Model Card with recommendation for manual verification at &gt;30 weeks GA.</p>
       </div>
       <div class="fp-diff">
         <div class="diff-item">
-          <div class="diff-label">Clinical impact</div>
-          <div class="diff-val">153 sonographer hours saved per unit per year. Reproducible to 1.75mm — eliminates calliper-placement variability. Within ISUOG ±3mm threshold on both static and cine modes.</div>
+          <div class="diff-label">Clinical proposition</div>
+          <div class="diff-val">Replaces 2–4 min manual calliper placement with reproducible automated measurement. 153 sonographer hours saved per unit per year at 20 scans/day.</div>
         </div>
         <div class="diff-item">
           <div class="diff-label">What a clinician receives</div>
-          <div class="diff-val">HC in mm, gestational age ± 2-week CI (Hadlock 1984), trimester classification, GradCAM++ skull boundary overlay, frame-level uncertainty map, dual-mode PDF report</div>
+          <div class="diff-val">HC in mm, gestational age ± 2-week CI, trimester classification, GradCAM++ overlay, frame-level uncertainty map, dual-mode PDF report (LLM + template)</div>
         </div>
         <div class="diff-item">
-          <div class="diff-label">Pruning for deployment</div>
-          <div class="diff-val">Hybrid Crossover: synthesises a new filter from two redundant ones instead of deleting. 2× compression, +0.37% accuracy, 2× faster inference. Enables deployment on clinical hardware without accuracy penalty.</div>
+          <div class="diff-label">Deployment connection</div>
+          <div class="diff-val">Hybrid Crossover pruning (see Research section) delivers 2× compression + accuracy improvement for this backbone — enabling clinical hardware deployment without accuracy penalty</div>
         </div>
         <div class="diff-item">
-          <div class="diff-label">Known limitation</div>
-          <div class="diff-val">Third-trimester accuracy (MAE 7.60mm) exceeds ISUOG threshold — acoustic shadowing from the ossified skull is documented in Model Card with recommendation for manual verification >&gt;30 weeks GA.</div>
+          <div class="diff-label">Governance</div>
+          <div class="diff-val">GA-trimester bias audit, FDA SaMD Class II + EU IVDR Class B framing, Model Card with acoustic-shadowing limitation explanation and trimester-specific reliability indicators</div>
         </div>
       </div>
     </div>
     <div class="fp-footer">
       <div class="fp-stack">
-        <span class="stk">PyTorch</span><span class="stk">U-Net</span><span class="stk">GradCAM++</span><span class="stk">Pseudo-LDDM v2</span><span class="stk">Temporal Attention</span><span class="stk">Claude Haiku</span><span class="stk">ReportLab</span><span class="stk">HC18</span><span class="stk">Hadlock 1984</span>
+        <span class="stk">PyTorch</span><span class="stk">U-Net</span><span class="stk">GradCAM++</span><span class="stk">Temporal Attention</span><span class="stk">Pseudo-LDDM v2</span><span class="stk">Claude Haiku</span><span class="stk">ReportLab</span><span class="stk">HC18</span>
       </div>
       <div class="fp-links">
         <a href="fetal-head.html" class="fp-link primary">Full Case Study →</a>
@@ -351,145 +374,144 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
     </div>
   </div>
 
-  <!-- BRIDGE 2→3 -->
-  <div class="bridge reveal">
-    <div class="bridge-arrow">→ What the fetal head project exposed</div>
-    <p>The fetal head system demonstrated that the inference pipeline could be clinically accurate — but it was deployed to HuggingFace Spaces, not to a hospital. Real clinical deployment requires a local-first system, a production REST API, and an interface a clinician can use without a data science background. The histopathology project was where those capabilities were built: <strong>Django REST API, React frontend, and the first time a clinical AI system in this portfolio could run on a clinician's own infrastructure</strong>, independent of cloud services.</p>
+  <hr class="div">
+
+  <!-- ═══ RESEARCH CONTRIBUTION — CNN PRUNING ═══ -->
+  <div class="reveal" id="research">
+    <p class="sec-eyebrow purple">Research Contribution</p>
+    <h2>A novel compression method — motivated by clinical deployment.</h2>
+    <p class="h2-sub">A directed study with a clear research question, a novel contribution, rigorous evaluation, and an IEEE-format report. Originated from the deployment constraint in the fetal HC system.</p>
   </div>
 
-  <!-- ===== HISTOPATHOLOGY ===== -->
-  <div class="fp-card reveal">
-    <div class="fp-header">
+  <div class="research-card reveal">
+    <div class="rc-header">
       <div>
-        <span class="fp-badge teal">Digital Pathology · Full-Stack · Deployment Bridge</span>
-        <div class="fp-title">Histopathologic Cancer Detection — Full-Stack Deployment</div>
-        <div class="fp-meta">Pathology AI · PCam Dataset · Django + React · 5-person team</div>
+        <span class="rc-badge">★ Novel Method · Directed Study · CSCE 5934 · Prof. Russel Pears</span>
+        <div class="rc-title">CNN Filter Pruning — Hybrid Crossover Method</div>
+        <div class="rc-meta">VGG-16 · CelebA · CIFAR-10 · IEEE-format report · Individual contribution</div>
       </div>
-      <div class="dep"><span class="dep-dot"></span> Deployed</div>
     </div>
-    <div class="fp-kpi-strip">
-      <div class="fk"><div class="fk-val" style="color:var(--teal);">0.82</div><div class="fk-lbl">AUC-ROC</div></div>
-      <div class="fk"><div class="fk-val" style="color:var(--teal);">0.71</div><div class="fk-lbl">PR-AUC</div></div>
-      <div class="fk"><div class="fk-val">187K</div><div class="fk-lbl">Pathology Patches</div></div>
-      <div class="fk"><div class="fk-val">4</div><div class="fk-lbl">Data-Volume Conditions</div></div>
+    <div class="rc-kpis">
+      <div class="rk"><div class="rk-val">2×</div><div class="rk-lbl">Channel Compression</div></div>
+      <div class="rk"><div class="rk-val">+0.37%</div><div class="rk-lbl">Accuracy Improvement</div></div>
+      <div class="rk"><div class="rk-val">2×</div><div class="rk-lbl">Faster Runtime</div></div>
+      <div class="rk"><div class="rk-val">2.05×</div><div class="rk-lbl">Best Latency Speedup</div></div>
     </div>
-    <div class="fp-body">
+    <div class="rc-body">
       <div class="fp-clinical">
-        <p><strong>The clinical problem:</strong> Digital pathology labs are processing thousands of whole-slide images daily — far beyond the capacity of manual review alone. Automated cancer detection pipelines need to be not only accurate but deployable locally, with a clinical interface that pathologists can integrate into their existing review workflow without sending data to the cloud.</p>
-        <p><strong>In clinical terms — what AUC-ROC 0.82 means:</strong> The model correctly ranks a cancerous patch above a non-cancerous patch 82% of the time when given one of each at random. In a screening pipeline where the goal is to shortlist cases for pathologist review rather than make autonomous diagnoses, this discrimination performance is useful as a first-pass filter.</p>
-        <p><strong>The data scaling finding:</strong> The 4-stage volume study showed non-monotonic performance — adding more training data past a certain threshold initially degraded performance before recovering. This is a clinically relevant result: it means that "collect more data" is not always the right answer for a screening pipeline, and that validation at multiple data scales should be a standard part of clinical AI development.</p>
-        <p><strong>The deployment capability this project built:</strong> Django REST API with a React frontend, deployable locally without cloud infrastructure. Every clinical AI project after this one inherited the ability to produce a clinical interface that runs on hospital hardware rather than external servers.</p>
+        <p><strong>The research question:</strong> When two convolutional filters are found to be redundant, standard structured pruning discards the weaker one permanently. Is it better to delete — or to synthesise a new filter that preserves the information from both?</p>
+        <p><strong>The contribution:</strong> Hybrid Crossover replaces deletion with regression-based synthesis. Given two redundant filters A and B, a new filter is learned via least-squares regression to match the element-wise max of their activation maps — the peak activation from each parent, in a single filter. Integrated into a Global ILR scoring pipeline with hard accuracy guard rails (≤2pp overall, ≤6pp per-class on CelebA).</p>
+        <p><strong>The counterintuitive result:</strong> Hybrid Crossover achieves 2× more compression AND higher accuracy AND 2× faster runtime than standard drop under identical constraints. Faster because regression-synthesized filters satisfy guard rails on the first attempt — standard drop under aggressive compression triggers expensive rollback loops that dominate total runtime.</p>
+        <p><strong>Clinical deployment relevance:</strong> The CIFAR-10 5-CNN result (2.05× latency speedup, 1.2pp accuracy cost, 75% of B4 channels removed) demonstrates the method on a realistic inference backbone. Applied to the fetal HC segmentation backbone: same clinical accuracy, half the GPU memory, twice the inference speed — the difference between requiring a dedicated GPU server and running on existing radiology workstation infrastructure.</p>
       </div>
       <div class="fp-diff">
-        <div class="diff-item teal">
-          <div class="diff-label">Clinical impact</div>
-          <div class="diff-val">First-pass screening layer for pathology review queues — ranks patches by cancer probability to surface high-priority cases for pathologist attention first</div>
+        <div class="diff-item" style="border-left-color:var(--purple);background:var(--purple-bg);">
+          <div class="diff-label">The novel idea</div>
+          <div class="diff-val">Synthesis over deletion: create a new filter from two redundant parents rather than discarding one. Reframes compression as an information-preservation problem, not a removal problem.</div>
         </div>
-        <div class="diff-item teal">
-          <div class="diff-label">Key finding (operationally relevant)</div>
-          <div class="diff-val">Non-monotonic data scaling: more data ≠ better performance at intermediate volumes. Clinical AI validation must include multi-stage data volume testing, not just final benchmark performance.</div>
+        <div class="diff-item" style="border-left-color:var(--purple);background:var(--purple-bg);">
+          <div class="diff-label">Why it's faster AND better</div>
+          <div class="diff-val">Synthesized filters satisfy accuracy guard rails on the first attempt. Standard drop under aggressive compression repeatedly violates constraints and triggers rollbacks — those rollback loops dominate runtime.</div>
         </div>
-        <div class="diff-item teal">
-          <div class="diff-label">Deployment capability acquired</div>
-          <div class="diff-val">Local-first Django REST + React deployment. Pathologist-facing interface independent of cloud. The template for production clinical AI integration — carried into all subsequent systems.</div>
+        <div class="diff-item" style="border-left-color:var(--purple);background:var(--purple-bg);">
+          <div class="diff-label">Limitations</div>
+          <div class="diff-val">Middle layers (B2–B3) resist compression due to low filter redundancy. Evaluated on binary classification only — multi-class and medical imaging domain extension are the natural next steps.</div>
         </div>
       </div>
     </div>
-    <div class="fp-footer">
+    <div class="rc-foot">
       <div class="fp-stack">
-        <span class="stk">PyTorch</span><span class="stk">Django</span><span class="stk">React</span><span class="stk">REST API</span><span class="stk">PCam</span><span class="stk">scikit-learn</span>
+        <span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">ILR Saliency</span><span class="stk">Guard Rails</span><span class="stk">CelebA</span><span class="stk">CIFAR-10</span>
       </div>
       <div class="fp-links">
-        <a href="histopathology.html" class="fp-link primary">Full Case Study →</a>
-        <a href="https://github.com/TarunSadarla2606/histopathology-cancer-detection" target="_blank" class="fp-link sec">GitHub ↗</a>
+        <a href="cnn-pruning.html" class="fp-link primary" style="background:var(--purple);">Full Case Study →</a>
+        <a href="https://github.com/TarunSadarla2606/cnn-structured-pruning-vgg16" target="_blank" class="fp-link sec">GitHub ↗</a>
       </div>
     </div>
   </div>
 
   <hr class="div">
 
-  <!-- SUPPORTING PROJECTS -->
-  <div class="reveal" id="supporting">
-    <p class="sec-eyebrow teal">Supporting Projects</p>
-    <h2>Six projects. Each one added something the flagship work needed.</h2>
-    <p class="h2-sub">Not filler — each builds a specific capability used somewhere in the clinical systems above.</p>
+  <!-- ═══ CLINICAL SYSTEMS (WECARE + HISTOPATHOLOGY) ═══ -->
+  <div class="reveal" id="clinical">
+    <p class="sec-eyebrow teal">Clinical Systems</p>
+    <h2>Deployed systems from course and team work.</h2>
+    <p class="h2-sub">Substantial team projects with real datasets and documented clinical relevance. Individual contributions are clearly marked.</p>
   </div>
 
-  <div class="sup-grid reveal">
-    <div class="sup-card">
-      <span class="sup-badge sub-teal">Edge AI · Wearable</span>
-      <div class="sup-title">WECARE — Cardiac &amp; Fall Detection</div>
-      <div class="sup-result">ECG F1: 0.9864 · 0.033ms Inference</div>
-      <p class="sup-desc">On-device arrhythmia (MIT-BIH) and fall detection (MobiFall). 3-block 1D CNN, TorchScript, no cloud dependency. Threshold set at 0.65 — deliberately conservative to minimise missed falls in a population that can't easily call for help. Demonstrates clinical threshold reasoning: the right number is not the number that maximises accuracy, it's the number that minimises the clinically dangerous error type.</p>
-      <div class="sup-links">
-        <a href="wecare.html" class="sup-link slb">Case Study →</a>
-        <a href="https://github.com/TarunSadarla2606/wecare-cardiac-fall-detection" target="_blank" class="sup-link slg">GitHub ↗</a>
+  <div class="clinical-grid reveal">
+
+    <!-- WECARE -->
+    <div class="cl-card">
+      <span class="cl-badge cl-teal">Edge AI · Wearable · 2-person team</span>
+      <div class="cl-title">WECARE — Cardiac &amp; Fall Detection</div>
+      <div class="cl-result">ECG F1: 0.9864 · 0.033ms inference · 8 missed falls / 228</div>
+      <p class="cl-desc">On-device arrhythmia and fall detection — entirely on-device, no cloud round-trip in a cardiac emergency. ECG stream: 1D CNN on MIT-BIH, class-weighted sampling for 75% normal-beat imbalance, TorchScript export at 0.033ms — 1,200× below the 40ms real-time clinical threshold. Fall stream: MobiFall, threshold set at 0.65 (not 0.50) to deliberately minimise missed falls at the cost of more false alarms. Threshold as clinical safety policy, not hyperparameter.</p>
+      <div class="cl-contrib">Individual contribution: full ECG pipeline (bandpass filter, R-peak segmentation, 1D CNN, class weighting, evaluation) + TorchScript export. Teammate: full IMU pipeline.</div>
+      <div class="cl-links">
+        <a href="wecare.html" class="cll cll-b">Case Study →</a>
+        <a href="https://github.com/TarunSadarla2606/wecare-cardiac-fall-detection" target="_blank" class="cll cll-g">GitHub ↗</a>
       </div>
     </div>
 
-    <div class="sup-card">
-      <span class="sup-badge sub-blue">Model Compression</span>
-      <div class="sup-title">CNN Filter Pruning — Hybrid Crossover</div>
-      <div class="sup-result">2× Compression · +0.37% Accuracy · 2× Speed</div>
-      <p class="sup-desc">Novel structured pruning method: instead of discarding redundant filters, synthesises a new filter from two via regression. VGG-16 backbone. Direct motivation: the fetal head segmentation model needs to run on clinical hardware. 2× compression with accuracy improvement — not just preservation — under hard guard-rail constraints. The Hybrid Crossover method is the research contribution; Standard Drop is the comparison baseline.</p>
-      <div class="sup-links">
-        <a href="cnn-pruning.html" class="sup-link slb">Case Study →</a>
-        <a href="https://github.com/TarunSadarla2606/cnn-structured-pruning-vgg16" target="_blank" class="sup-link slg">GitHub ↗</a>
+    <!-- HISTOPATHOLOGY -->
+    <div class="cl-card">
+      <span class="cl-badge cl-blue">Digital Pathology · Full-Stack · 5-person team</span>
+      <div class="cl-title">Histopathologic Cancer Detection</div>
+      <div class="cl-result">AUC 0.921 · F1 0.819 · 187K patches · CADe compliance</div>
+      <p class="cl-desc">Binary cancer detection on PCam (Camelyon16). Key finding: 4-stage data-volume study showed non-monotonic AUC scaling — adding more data initially degraded performance before recovering. This is directly informative for clinical AI validation practice. Post-course additions: GradCAM spatial explainability (FDA CADe audit requirement), confidence-tiered decision zones (auto-clear at p&lt;0.10 removes 24.5% of patches at 2.6% miss rate), full Model Card. Full-stack Django REST API + React frontend.</p>
+      <div class="cl-contrib">Individual contribution: one of two model developers in team of five. Led CNN architecture, training, hyperparameter tuning, and post-course GradCAM + governance additions.</div>
+      <div class="cl-links">
+        <a href="histopathology.html" class="cll cll-b">Case Study →</a>
+        <a href="https://github.com/TarunSadarla2606/histopathology-cancer-detection" target="_blank" class="cll cll-g">GitHub ↗</a>
       </div>
     </div>
 
-    <div class="sup-card">
-      <span class="sup-badge sub-teal">Audio · Cloud Deployment</span>
-      <div class="sup-title">BirdCLEF 2022 — Audio Classification</div>
-      <div class="sup-result">107 Features · Hierarchical XGBoost · Live AWS</div>
-      <p class="sup-desc">152 Hawaiian bird species from passive acoustic monitoring. 107 acoustic features via librosa, hierarchical XGBoost (Order → Family → Species taxonomy), live AWS Streamlit deployment. Acoustic signal processing and cloud deployment pipeline — transferable to clinical audio AI (auscultation, phonocardiography, respiratory monitoring).</p>
-      <div class="sup-links">
-        <a href="birdclef.html" class="sup-link slb">Case Study →</a>
-        <a href="https://github.com/TarunSadarla2606/birdclef-2022-bird-classification" target="_blank" class="sup-link slg">GitHub ↗</a>
-      </div>
-    </div>
+  </div>
 
-    <div class="sup-card">
-      <span class="sup-badge sub-teal">Multimodal · Fusion</span>
-      <div class="sup-title">Multimodal Emotion Recognition</div>
-      <div class="sup-result">VGG-16 48.3% · MELD Dataset</div>
-      <p class="sup-desc">Led visual stream in a 4-person video + audio fusion system (MELD dataset). VGG-16 + BiLSTM + late fusion. Fusion did not outperform individual streams — diagnosing the failure (temporal misalignment between audio and video, feature-space mismatch) taught more about multi-modal architecture constraints than a success would have. Multimodal fusion patterns are directly relevant to imaging + clinical metadata pipelines.</p>
-      <div class="sup-links">
-        <a href="multimodal-emotion.html" class="sup-link slb">Case Study →</a>
-        <a href="https://github.com/TarunSadarla2606/multimodal-emotion-recognition" target="_blank" class="sup-link slg">GitHub ↗</a>
-      </div>
-    </div>
+  <hr class="div">
 
-    <div class="sup-card">
-      <span class="sup-badge sub-teal">Big Data · Cloud</span>
-      <div class="sup-title">Customer Segmentation — PySpark + AWS EMR</div>
-      <div class="sup-result">541K Transactions · RFM Pipeline · AWS EMR</div>
-      <p class="sup-desc">541,909 e-commerce transactions on AWS S3 + EMR. 60-cell PySpark EDA + RFM (Recency-Frequency-Monetary) feature engineering feeding K-Means clustering. Large-scale clinical data pipelines (EHR, claims, PACS archives) have the same infrastructure pattern — PySpark on distributed compute, not pandas on a single machine.</p>
-      <div class="sup-links">
-        <a href="big-data.html" class="sup-link slb">Case Study →</a>
-        <a href="https://github.com/TarunSadarla2606/big-data-customer-segmentation" target="_blank" class="sup-link slg">GitHub ↗</a>
-      </div>
-    </div>
+  <!-- ═══ TECHNICAL BREADTH ═══ -->
+  <div class="reveal" id="breadth">
+    <p class="sec-eyebrow amber">Technical Breadth</p>
+    <h2>Skills that transfer to clinical AI pipelines.</h2>
+    <p class="h2-sub">Each project below built a capability used somewhere in the clinical systems above. Included for breadth, not as clinical work.</p>
+  </div>
 
-    <div class="sup-card">
-      <span class="sup-badge sub-teal">Classical · MATLAB</span>
-      <div class="sup-title">Industrial Component Quality Classification</div>
-      <div class="sup-result">Gabor + Wavelet Features · mIoU</div>
-      <p class="sup-desc">Automated quality control in MATLAB. Led preprocessing pipeline: Sobel + morphological operations, component detection, Image Labeler ground truth annotation, Gabor + Wavelet feature extraction. Classical image processing foundations that pre-date deep learning and remain relevant for interpretable feature engineering in clinical contexts where training data is scarce.</p>
-      <div class="sup-links">
-        <a href="fe-project.html" class="sup-link slb">Case Study →</a>
-        <a href="https://github.com/TarunSadarla2606/industrial-component-classification" target="_blank" class="sup-link slg">GitHub ↗</a>
-      </div>
+  <div class="breadth-grid reveal">
+    <div class="br-card">
+      <div class="br-tag">Audio · Cloud</div>
+      <div class="br-title">BirdCLEF Audio Classification</div>
+      <p class="br-desc">107-feature librosa pipeline, hierarchical XGBoost (Order → Family), live AWS Streamlit deployment. Acoustic signal processing and cloud deployment skills — directly transferable to auscultation, phonocardiography, respiratory AI.</p>
+      <a href="birdclef.html" class="br-link">Case Study →</a>
+    </div>
+    <div class="br-card">
+      <div class="br-tag">Multimodal · Fusion</div>
+      <div class="br-title">Multimodal Emotion Recognition</div>
+      <p class="br-desc">VGG-16 + BiLSTM late fusion on MELD. Fusion underperformed individual streams — diagnosing why (temporal misalignment) taught more than a success would. Multimodal failure analysis is directly applicable to imaging + EHR pipelines.</p>
+      <a href="multimodal-emotion.html" class="br-link">Case Study →</a>
+    </div>
+    <div class="br-card">
+      <div class="br-tag">Big Data · Cloud</div>
+      <div class="br-title">Customer Segmentation — PySpark</div>
+      <p class="br-desc">541K transactions on AWS S3 + EMR. RFM feature engineering + K-Means / GMM. Large-scale clinical data (EHR, PACS, claims) uses the same infrastructure pattern — PySpark on distributed compute, not pandas.</p>
+      <a href="big-data.html" class="br-link">Case Study →</a>
+    </div>
+    <div class="br-card">
+      <div class="br-tag">Classical Vision · MATLAB</div>
+      <div class="br-title">Industrial Quality Classification</div>
+      <p class="br-desc">Sobel + morphological operations, Gabor + Wavelet features, mIoU evaluation in MATLAB. Classical image processing foundations remain relevant for interpretable feature engineering where training data is scarce.</p>
+      <a href="fe-project.html" class="br-link">Case Study →</a>
     </div>
   </div>
 
   <hr class="div">
 
-  <!-- COURSE COLLECTIONS -->
+  <!-- ═══ COURSE COLLECTIONS ═══ -->
   <div class="reveal" id="collections">
-    <p class="sec-eyebrow amber">Course Collections</p>
-    <h2>Foundations that connect the clinical work.</h2>
-    <p class="h2-sub">Theoretical and practical groundwork across ML, AI algorithms, visualisation, and clinical regulatory context.</p>
+    <p class="sec-eyebrow green">Course Collections</p>
+    <h2>Theoretical foundations and regulatory context.</h2>
+    <p class="h2-sub">Multi-project course pages — each covers the assignments within a single course that collectively built the groundwork for the clinical systems above.</p>
   </div>
 
   <div class="coll-list reveal">
@@ -497,7 +519,7 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
       <div>
         <div class="coll-label">Machine Learning · Fall 2024 · Prof. Russel Pears</div>
         <div class="coll-name">Machine Learning — 3 Projects</div>
-        <div class="coll-desc">Glass ID (RBF SVM), CelebA attribute recognition (VGG-16, 0.9594 acc), Bayesian network construction. Kernel methods, hyperparameter search, probabilistic inference.</div>
+        <div class="coll-desc">Glass ID (RBF SVM), CelebA attribute recognition (VGG-16, 0.9594 acc), Bayesian network construction. Kernel methods, transfer learning, probabilistic inference.</div>
       </div>
       <a href="ml-course-projects.html" class="coll-link">View →</a>
     </div>
@@ -512,8 +534,8 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
     <div class="coll-row">
       <div>
         <div class="coll-label">AI in Wearables &amp; Healthcare · Fall 2025 · Prof. Mahdi Pedram</div>
-        <div class="coll-name">Clinical AI Context — 15 Activities</div>
-        <div class="coll-desc">FDA/SaMD frameworks, Seeed XIAO nRF52840 hardware (ECG + PPG at 50Hz), YOLOv8 food detection (mAP@50 = 0.913), MIMIC-IV ICU analysis, MIT App Inventor deployment. Real clinical regulatory context.</div>
+        <div class="coll-name">Clinical AI Stack — 15 Activities</div>
+        <div class="coll-desc">FDA/SaMD frameworks, Seeed XIAO nRF52840 hardware (PPG + IMU at 50Hz), YOLOv8 food detection (mAP@50 = 0.913), MIT App Inventor mobile deployment, MIMIC-IV ICU analysis. Real hardware, real clinical regulatory context.</div>
       </div>
       <a href="aiwh-course.html" class="coll-link">View →</a>
     </div>
@@ -521,15 +543,16 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
       <div>
         <div class="coll-label">Scientific Data Visualization · Summer 2025 · Prof. Zeenat Tariq</div>
         <div class="coll-name">Data Visualization — 2 Assignments</div>
-        <div class="coll-desc">Tableau (Global Superstore), D3.js via Observable (Iris), Power BI (tech layoffs). Clinical dashboards and decision-support interfaces require the same visualisation skills.</div>
+        <div class="coll-desc">Tableau (Global Superstore), D3.js via Observable (Iris), Power BI (tech layoffs). Clinical dashboards and decision-support interfaces require these same skills.</div>
       </div>
       <a href="sdv-course.html" class="coll-link">View →</a>
     </div>
     <div class="coll-row">
       <div>
-        <div class="coll-label">Applications of AI in Health · Spring 2026 · Prof. Haihua Chen</div>
+        <div class="coll-label">Applications of AI in Health · Spring 2026 · Prof. Haihua Chen · Health Informatics Dept.</div>
         <div class="coll-name">HINF 5506 — In Progress</div>
-        <div class="coll-desc">Clinical decision support, health informatics, AI-driven healthcare workflows. In progress — available upon completion.</div>
+        <div class="coll-desc">Clinical decision support, health informatics, AI integration into care workflows, clinical necessity vs. technical feasibility. Bridges the gap between notebook model output and clinical deployment requirements.</div>
+        <div class="coll-note">Prof. Chen, Health Informatics · Completing Spring 2026</div>
       </div>
       <span class="coll-link" style="opacity:0.45;cursor:default;">In Progress</span>
     </div>
@@ -541,7 +564,7 @@ hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
 <div style="background:var(--navy);padding:3rem 3.5rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;">
   <div>
     <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#FFFFFF;margin-bottom:0.4rem;">Ready to talk about clinical AI?</div>
-    <div style="font-size:0.86rem;color:rgba(180,210,255,0.7);">MS AI (Biomedical) · UNT · Available June 2026 · Open to relocation</div>
+    <div style="font-size:0.86rem;color:rgba(180,210,255,0.7);">MS AI (Biomedical) · UNT · Available June 2026 · STEM OPT · Open to relocation</div>
   </div>
   <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
     <a href="index.html#contact" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.75rem 1.5rem;background:#FFFFFF;color:var(--navy);font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;">Get in Touch →</a>
@@ -562,7 +585,9 @@ document.querySelectorAll('.reveal').forEach((el, i) => {
   el.dataset.delay = (i % 4) * 70;
   obs.observe(el);
 });
-const sections = ['flagship','supporting','collections'];
+
+// Active tier nav on scroll
+const sections = ['flagship','research','clinical','breadth','collections'];
 window.addEventListener('scroll', () => {
   let current = sections[0];
   sections.forEach(id => {
