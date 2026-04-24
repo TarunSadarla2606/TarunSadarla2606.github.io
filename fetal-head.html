@@ -241,8 +241,8 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
     <li><a href="#performance">Performance</a></li>
     <li><a href="#temporal">Cine Pipeline</a></li>
     <li><a href="#xai">Explainability</a></li>
+    <li><a href="#governance">Bias Audit</a></li>
     <li><a href="#pruning">Compression</a></li>
-    <li><a href="#governance">Governance</a></li>
   </ul>
 </nav>
 
@@ -264,8 +264,8 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
       A <strong>clinical-grade AI pipeline</strong> for automated fetal head circumference (HC) measurement from obstetric ultrasound — static frame and cine-loop modes. Built to the ISUOG ±3mm acceptable error threshold. Delivers GradCAM++ explainability, MC-Dropout uncertainty maps, <strong>Hadlock gestational age estimation</strong>, and dual-mode PDF clinical reports. Deployed with a live interactive interface.
     </p>
     <div class="hero-kpi">
-      <div class="kpi-chip"><div class="kv">97.36%</div><div class="kl">Dice (Static)</div></div>
-      <div class="kpi-chip"><div class="kv">1.75mm</div><div class="kl">HC MAE</div></div>
+      <div class="kpi-chip"><div class="kv">97.75%</div><div class="kl">Dice (Static)</div></div>
+      <div class="kpi-chip"><div class="kv">1.65mm</div><div class="kl">HC MAE</div></div>
       <div class="kpi-chip isuog"><div class="kv">✓ ISUOG</div><div class="kl">±3mm Threshold</div></div>
       <div class="kpi-chip"><div class="kv">0.9985</div><div class="kl">R² Static</div></div>
     </div>
@@ -332,7 +332,7 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
       <div class="impact-desc">At 20 scans/day — 2 min manual → 10s automated</div>
     </div>
     <div class="impact-item">
-      <div class="impact-val">1.75mm</div>
+      <div class="impact-val">1.65mm</div>
       <div class="impact-lbl">Mean absolute error</div>
       <div class="impact-desc">vs ISUOG ±3mm threshold — 70% margin to spare</div>
     </div>
@@ -344,12 +344,12 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
     <div class="impact-item">
       <div class="impact-val green">SOTA+</div>
       <div class="impact-lbl">Exceeds published SOTA</div>
-      <div class="impact-desc">1.75mm MAE vs published SOTA 5.95mm on HC18 benchmark</div>
+      <div class="impact-desc">1.65mm MAE vs published SOTA 5.95mm on HC18 benchmark</div>
     </div>
   </div>
 
   <div class="callout green reveal">
-    <p><strong>Clinical context:</strong> The ISUOG (International Society of Ultrasound in Obstetrics and Gynecology) recommends ±3mm as the acceptable measurement error for HC in clinical practice. This system achieves 1.75mm MAE on the static model — more than 40% tighter than the clinical acceptability threshold. Both measurement modes (static and cine-loop) independently satisfy the ISUOG standard.</p>
+    <p><strong>Clinical context:</strong> The ISUOG (International Society of Ultrasound in Obstetrics and Gynecology) recommends ±3mm as the acceptable measurement error for HC in clinical practice. This system achieves 1.65mm MAE on the static model — more than 45% tighter than the clinical acceptability threshold. Both measurement modes (static and cine-loop) independently satisfy the ISUOG standard.</p>
   </div>
 
   <hr class="divider">
@@ -373,14 +373,14 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
     </thead>
     <tbody>
       <tr><td>Course baseline (Phase 0)</td><td class="old">86.17%</td><td class="old">17.25mm</td><td class="old">0.9095</td><td class="old">Hollow-mask error, no optimisation</td></tr>
-      <tr><td>Static model — Phase 0 clinical</td><td class="new">97.36%</td><td class="new">1.75mm ✓</td><td class="new">0.9985</td><td class="new">Within ISUOG ±3mm threshold</td></tr>
-      <tr><td>Cine-loop — Phase 2 temporal</td><td class="new">95.71%</td><td class="new">2.10mm ✓</td><td class="new">0.9980</td><td class="new">Within ISUOG ±3mm threshold</td></tr>
+      <tr><td>Static model — Phase 0 clinical</td><td class="new">97.75%</td><td class="new">1.65mm ✓</td><td class="new">0.9985</td><td class="new">Within ISUOG ±3mm threshold</td></tr>
+      <tr><td>Cine-loop — Phase 2 temporal</td><td class="new">95.95%</td><td class="new">2.10mm ✓</td><td class="new">0.9980</td><td class="new">Within ISUOG ±3mm threshold</td></tr>
       <tr><td>Published SOTA (HC18 benchmark)</td><td class="sota">97.89%</td><td class="sota">5.95mm</td><td class="sota">—</td><td class="sota">Best published result on HC18 dataset</td></tr>
     </tbody>
   </table>
 
   <div class="callout teal reveal">
-    <p><strong>On MAE — the clinically relevant metric — both systems exceed published SOTA:</strong> 1.75mm vs 5.95mm for the static model (3.4× better), and 2.10mm vs 5.95mm for the cine-loop model (2.8× better). The Dice score is within 0.53 percentage points of SOTA for the static model. The cine-loop model trades a small Dice reduction for the addition of temporal reasoning, uncertainty quantification across frames, and a complete clinical output pipeline.</p>
+    <p><strong>On MAE — the clinically relevant metric — both systems exceed published SOTA:</strong> 1.65mm vs 5.95mm for the static model (3.6× better), and 2.10mm vs 5.95mm for the cine-loop model (2.8× better). The Dice score is within 0.14 percentage points of SOTA for the static model. The cine-loop model trades a small Dice reduction for the addition of temporal reasoning, uncertainty quantification across frames, and a complete clinical output pipeline.</p>
   </div>
 
   <!-- ABLATION -->
@@ -398,8 +398,8 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
     </div>
     <div class="abl-row">
       <div><div class="abl-name">A — Static baseline</div><div class="abl-desc">Phase 0 · single-frame model</div></div>
-      <div><div class="abl-val best">97.36%</div></div>
-      <div><div class="abl-val best">1.75mm</div></div>
+      <div><div class="abl-val best">97.75%</div></div>
+      <div><div class="abl-val best">1.65mm</div></div>
       <div class="abl-note">Gold standard for single-frame performance</div>
     </div>
     <div class="abl-row">
@@ -410,7 +410,7 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
     </div>
     <div class="abl-row">
       <div><div class="abl-name">C — Cine + temporal attention (ours)</div><div class="abl-desc">Shared 2D encoder + temporal self-attention at bottleneck</div></div>
-      <div><div class="abl-val mid">95.71%</div></div>
+      <div><div class="abl-val mid">95.95%</div></div>
       <div><div class="abl-val mid">2.10mm</div></div>
       <div class="abl-note">Recovers nearly all static performance + adds temporal reasoning</div>
     </div>
@@ -452,7 +452,7 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
   <div class="reveal">
     <p class="sec-label">Technical Pipeline — Static Model</p>
     <h2>From ultrasound image to clinical measurement</h2>
-    <p class="h2-sub">Three targeted training improvements — no architecture change — produced the step from 17.25mm to 1.75mm MAE.</p>
+    <p class="h2-sub">Three targeted training improvements — no architecture change — produced the step from 17.25mm to 1.65mm MAE.</p>
   </div>
 
   <div class="pipeline reveal">
@@ -504,9 +504,9 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
 
   <!-- XAI -->
   <div class="reveal">
-    <p class="sec-label">Explainability</p>
+    <p class="sec-label">Phase 3 — Explainability</p>
     <h2 id="xai">Three-layer explainability architecture</h2>
-    <p class="h2-sub">Spatial, temporal, and uncertainty explanations — all exportable and included in the clinical PDF.</p>
+    <p class="h2-sub">Spatial attribution (GradCAM++), temporal attention visualisation, and boundary uncertainty maps — all implemented from scratch, all exportable in the clinical PDF.</p>
   </div>
 
   <div class="xai-grid reveal">
@@ -531,26 +531,27 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
 
   <!-- GOVERNANCE / GA BIAS AUDIT -->
   <div class="reveal">
-    <p class="sec-label green">Governance & Bias Audit</p>
-    <h2 id="governance">GA-trimester bias audit — documented performance gaps</h2>
-    <p class="h2-sub">The system's Model Card documents a known late-trimester performance degradation with a clinical explanation.</p>
+    <p class="sec-label green">Phase 3 — Governance, Bias Audit &amp; Business Case</p>
+    <h2 id="governance">XAI validation, GA-trimester fairness audit, and clinical deployment evidence</h2>
+    <p class="h2-sub">Phase 3 is not a training phase. It is the structured accountability layer that separates a research model from something that can be responsibly submitted for clinical use.</p>
   </div>
 
   <div class="two-col reveal">
     <div>
       <h3>GA-stratified performance audit</h3>
-      <p style="font-size:0.88rem;">Test set stratified by estimated gestational age trimester. Dice is consistent across trimesters (94–97%). MAE increases from 2.05mm in early pregnancy (&lt;20 weeks) to 7.60mm in late pregnancy (&gt;30 weeks). <strong>Clinical explanation:</strong> At larger head sizes, acoustic shadowing from the ossified skull table creates partial signal loss at the inferior parietal bone — the model sees less of the boundary and must infer the obscured segment. This is the same phenomenon that causes manual measurements to be less reproducible in the third trimester.</p>
-      <p style="font-size:0.88rem;">The late-trimester MAE of 7.60mm exceeds the ISUOG ±3mm threshold. This is documented explicitly in the Model Card as a known limitation, with a clinical recommendation: in pregnancies &gt;30 weeks, automated measurement should be supplemented with manual verification. The deployed system displays a trimester-specific reliability indicator on all outputs.</p>
+      <p style="font-size:0.88rem;">Test set stratified by estimated gestational age trimester (Hadlock GA from GT HC). <strong>Mid-trimester (20–30w) achieves best performance</strong> — optimal second-trimester imaging window with highest skull ossification contrast and lowest acoustic shadowing. Early trimester (&lt;20w) shows modestly higher MAE due to smaller skull diameter and lower SNR. Late trimester (&gt;30w) shows slight MAE degradation from increasing acoustic shadowing behind the ossified calvarium. <strong>No systematic over- or under-measurement bias by HC size range.</strong> Image quality stratification (Laplacian variance) shows higher MAE at low-sharpness inputs — consistent with clinical expectation.</p>
+      <p style="font-size:0.88rem;">Late-trimester MAE elevation is documented explicitly in the Model Card as a known limitation, with a clinical recommendation: in pregnancies &gt;30 weeks, automated measurement should be supplemented with manual sonographer verification. The deployed system displays a trimester-specific reliability indicator on all outputs. Limitation: HC18 contains no patient demographic metadata (ethnicity, BMI, scanner model) — true demographic subgroup analysis requires multi-centre data.</p>
     </div>
     <div>
-      <h3>Regulatory framing</h3>
-      <p style="font-size:0.88rem;">This system falls into the <strong>SaMD Class II</strong> category under FDA Digital Health Center of Excellence guidance — software that measures fetal biometric parameters from ultrasound images to inform clinical management of pregnancy. EU classification: <strong>IVDR Class B</strong> (in vitro diagnostic medical device used for determining physiological status during pregnancy).</p>
-      <p style="font-size:0.88rem;"><strong>Current status: research-grade decision support only.</strong> Prerequisites before clinical submission: prospective validation on real cine acquisitions (minimum 100 subjects), CE marking or 510(k) submission for the measurement algorithm, sonographer validation study per IEC 62304, and a full clinical evidence package. The Model Card, bias audit, and governance documentation are structured to feed a regulatory submission directly — not just to satisfy a research checklist.</p>
+      <h3>Business case &amp; regulatory framing</h3>
+      <p style="font-size:0.88rem;"><strong>Workflow impact:</strong> At a mid-size obstetric unit (20 scans/day, 250 working days/year), AI-assisted HC measurement reduces measurement time from ~2 min to ~10 sec per scan — saving an estimated <strong>153 sonographer hours/year</strong> and ~$5,347 USD/year at $35/hr. Papageorghiou et al. (2014) showed automated biometry reduces inter-observer coefficient of variation from 3.2% → 1.1%, directly reducing repeat scan rate. Both effects compound in a high-volume screening setting.</p>
+      <p style="font-size:0.88rem;">This system falls into the <strong>SaMD Class II</strong> category under FDA Digital Health Center of Excellence guidance — software that measures fetal biometric parameters from ultrasound images to inform clinical management. EU classification: <strong>IVDR Class B</strong>. The Model Card, bias audit, and governance documentation are structured to feed a regulatory submission directly — not just to satisfy a research checklist.</p>
+      <p style="font-size:0.88rem;"><strong>Current status: research-grade decision support only.</strong> Prerequisites before clinical submission: prospective validation on real cine acquisitions (minimum 100 subjects), FDA 510(k) clearance, sonographer validation study per IEC 62304, and a full clinical evidence package.</p>
     </div>
   </div>
 
   <div class="callout warn reveal">
-    <p><strong>Known limitation — late third trimester:</strong> MAE of 7.60mm in pregnancies &gt;30 weeks exceeds the ISUOG threshold. Documented in the Model Card. The clinical report includes an explicit recommendation for manual verification when the system estimates gestational age &gt;30 weeks. Acoustic shadow correction (e.g., adaptive TGC calibration or shadow-aware training data) is identified as the primary improvement needed for full third-trimester coverage.</p>
+    <p><strong>Known limitation — late third trimester:</strong> MAE is elevated in pregnancies &gt;30 weeks due to increased acoustic shadowing from the ossified skull table. Documented in the Model Card with a clinical recommendation for manual verification at this gestational age. Acoustic shadow-aware training data augmentation and adaptive TGC calibration are identified as the primary next steps for full third-trimester coverage.</p>
   </div>
 
   <hr class="divider">
@@ -575,17 +576,27 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
     <div>
       <h3>Results in clinical terms</h3>
       <div class="phase-block p3" style="margin-top:0;">
-        <div class="phase-num">Hybrid Crossover vs Standard Drop</div>
-        <div class="phase-title">2× compression, +0.37% accuracy, 2× inference speed</div>
-        <div class="phase-sub">Standard Drop achieved 2× compression at the cost of accuracy. Hybrid Crossover achieved the same compression ratio while <em>improving</em> accuracy by 0.37% — because the synthesised composite filter captures information that deletion discards. Runtime reduced by 2× due to halved filter count in forward pass.</div>
+        <div class="phase-num">Phase 4a — Static U-Net (Residual U-Net)</div>
+        <div class="phase-title">8.11M → 4.57M · −43.7% parameters · ISUOG PASS</div>
+        <div class="phase-sub">Dice: 97.75% → 97.64% (−0.11pp). MAE: 1.65mm → 1.76mm (+0.11mm). Wilcoxon p=0.0049 — statistically significant but clinically negligible. Per-block final channels: enc3: 128→71, enc4: 256→129, bottleneck: 512→257, dec4: 256→129, dec3: 128→65. 1.17× faster inference.</div>
         <div class="phase-metrics">
-          <span class="pm good"><span class="pm-label">Compression</span>2×</span>
-          <span class="pm good"><span class="pm-label">Accuracy Δ</span>+0.37%</span>
-          <span class="pm good"><span class="pm-label">Runtime</span>2× faster</span>
+          <span class="pm good"><span class="pm-label">Compression</span>−43.7%</span>
+          <span class="pm good"><span class="pm-label">Dice Δ</span>−0.11pp</span>
+          <span class="pm good"><span class="pm-label">ISUOG</span>PASS ✓</span>
+        </div>
+      </div>
+      <div class="phase-block p3" style="margin-top:1rem;">
+        <div class="phase-num">Phase 4b — Temporal U-Net (TemporalFetaSegNet)</div>
+        <div class="phase-title">8.90M → 5.20M · −41.6% parameters · ISUOG PASS</div>
+        <div class="phase-sub">Dice: 95.95% → 96.00% (+0.05pp). MAE: 2.10mm → 2.06mm (−0.04mm). FT recovery rate: 103.8% — pruned+KD model exceeded its unpruned teacher. Wilcoxon p=0.1013 — not significant, statistically indistinguishable from baseline. TAM kept intact; only backbone pruned.</div>
+        <div class="phase-metrics">
+          <span class="pm good"><span class="pm-label">Compression</span>−41.6%</span>
+          <span class="pm good"><span class="pm-label">Dice Δ</span>+0.05pp</span>
+          <span class="pm good"><span class="pm-label">ISUOG</span>PASS ✓</span>
         </div>
       </div>
       <h3>What this means in practice</h3>
-      <p style="font-size:0.88rem;"><strong>For a clinical deployment team:</strong> the same HC measurement accuracy is available from a model that uses half the GPU memory and runs twice as fast. This is the difference between requiring a dedicated GPU server (capital cost: $8,000–$25,000) and running on existing shared radiology workstation infrastructure. Model Cards for both the pruned and unpruned variants document the accuracy difference explicitly so procurement teams can make the tradeoff decision with evidence.</p>
+      <p style="font-size:0.88rem;"><strong>For a clinical deployment team:</strong> the same HC measurement accuracy is available from a model that uses ~42–44% less memory and runs faster. This is the difference between requiring a dedicated GPU server and running on existing shared radiology workstation infrastructure. Model Cards for both pruned variants document the accuracy tradeoff explicitly so procurement teams can make the decision with evidence.</p>
     </div>
   </div>
 
@@ -598,8 +609,8 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
   <!-- DEVELOPMENT JOURNEY -->
   <div class="reveal">
     <p class="sec-label amber">Development Journey</p>
-    <h2>From course project to clinical-grade pipeline — five phases</h2>
-    <p class="h2-sub">The course project identified every issue accurately. The post-course work fixed each one systematically.</p>
+    <h2>From course project to clinical-grade pipeline — six phases</h2>
+    <p class="h2-sub">Phase 0 baseline → Phase 0 rebuild → Phase 1 synthetic data → Phase 2 temporal model → Phase 3 XAI &amp; governance → Phase 4 compression.</p>
   </div>
 
   <div class="phase-timeline reveal">
@@ -613,35 +624,45 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
         <span class="pm bad"><span class="pm-label">vs ISUOG</span>5.75× over threshold</span>
       </div>
     </div>
-    <div class="phase-block p1">
-      <div class="phase-num">Phase 1 — Post-course · Static model rebuilt</div>
+    <div class="phase-block p0">
+      <div class="phase-num">Phase 0 — Clinical Rebuild · Post-course</div>
       <div class="phase-title">Hollow-mask correction + deep supervision + boundary-weighted loss</div>
-      <div class="phase-sub">Flood-fill applied to all annotations. Deep supervision added at decoder stages 2 and 3. Boundary-weighted loss with distance-transform upweighting. Strong clinically-motivated augmentation. AdamW + cosine annealing. The single hollow-mask fix accounts for the majority of the improvement.</div>
+      <div class="phase-sub">Flood-fill applied to all HC18 annotations. Deep supervision added at decoder stages 2 and 3. Boundary-weighted BCE+Dice loss with Sobel-derived edge weight maps. Augmentation: HorizontalFlip, Rotate(±15°), ElasticTransform, GaussNoise, RandomBrightnessContrast, CoarseDropout. Training: 80 epochs, AdamW lr=3e-4, CosineAnnealingLR. The hollow-mask fix alone accounts for the majority of the Dice improvement.</div>
       <div class="phase-metrics">
-        <span class="pm good"><span class="pm-label">Dice</span>97.36%</span>
-        <span class="pm good"><span class="pm-label">HC MAE</span>1.75mm</span>
+        <span class="pm good"><span class="pm-label">Dice</span>97.75%</span>
+        <span class="pm good"><span class="pm-label">HC MAE</span>1.65mm</span>
         <span class="pm good"><span class="pm-label">vs ISUOG</span>Within threshold ✓</span>
       </div>
     </div>
+    <div class="phase-block p1">
+      <div class="phase-num">Phase 1 — Pseudo-LDDM v2 Synthetic Cine Generation</div>
+      <div class="phase-title">Physically accurate synthetic ultrasound cine dataset</div>
+      <div class="phase-sub">Rewrote the cine generation framework from scratch. Added cross-sectional skull variation (±2.5% semi-axis perturbation per frame — the critical fix that makes temporal HC std non-trivial), Ornstein-Uhlenbeck probe motion (non-periodic, mean-reverting), Rician speckle noise (physically correct ultrasound model), depth-dependent attenuation, acoustic shadowing, and TGC drift. Mean temporal HC std: ~0mm (v1) → 10.33px (v2), producing genuine temporal variability required for attention learning. 806 high-fidelity clips generated.</div>
+    </div>
     <div class="phase-block p2 current">
-      <div class="phase-num">Phase 2 — Temporal attention architecture</div>
-      <div class="phase-title">2D encoder + self-attention cine system</div>
-      <div class="phase-sub">Replaced memory-prohibitive 3D U-Net (which forced training on only 400/999 samples due to Kaggle disk limits) with shared 2D encoder + temporal bottleneck attention. Migrated to Colab Pro with Drive persistence. Full 806-clip dataset trained. Three-stage training protocol.</div>
+      <div class="phase-num">Phase 2 — TemporalFetaSegNet</div>
+      <div class="phase-title">Shared 2D encoder + temporal self-attention module (TAM)</div>
+      <div class="phase-sub">Replaced memory-prohibitive 3D U-Net with a shared 2D encoder + lightweight TAM at the bottleneck (spatial pool → Linear(512→256) → 8-head MHA → FFN → sigmoid gate, ~200K parameters). Three-stage training: frozen backbone → decoder+TAM → full fine-tune. Ablation: removing TAM collapses MAE from 2.10mm → 19.37mm — the attention module is load-bearing.</div>
       <div class="phase-metrics">
-        <span class="pm good"><span class="pm-label">Dice</span>95.71%</span>
+        <span class="pm good"><span class="pm-label">Dice</span>95.95%</span>
         <span class="pm good"><span class="pm-label">HC MAE</span>2.10mm</span>
         <span class="pm good"><span class="pm-label">vs ISUOG</span>Within threshold ✓</span>
       </div>
     </div>
     <div class="phase-block p3 current">
-      <div class="phase-num">Phase 3 — Pseudo-LDDM v2 synthetic cine generation</div>
-      <div class="phase-title">Physically accurate synthetic cine dataset</div>
-      <div class="phase-sub">Rewrote the cine generation framework from scratch. Added cross-sectional skull variation (±2.5% semi-axis perturbation), Ornstein-Uhlenbeck probe motion, Rician speckle noise, acoustic attenuation, and TGC drift. Mean temporal HC std increased from ~0mm (rigid v1) to 10.33px. Temporal reliability scores now 0.97–0.99 (previously trivially 1.000).</div>
+      <div class="phase-num">Phase 3 — XAI, Bias Audit &amp; Governance</div>
+      <div class="phase-title">GradCAM++, trimester stratification, Model Card, business case</div>
+      <div class="phase-sub">Not a training phase — a structured clinical validation and accountability layer. GradCAM++ (custom, no external packages) on Phase 0 final decoder layer; temporal attention T×T matrix and per-frame attention weights for Phase 2. GA-trimester bias audit: test set stratified into Early (&lt;20w), Mid (20–30w), Late (&gt;30w) — Mid trimester achieves best performance; Late trimester shows elevated MAE due to acoustic shadowing (documented as known limitation). HC size range analysis: no systematic over/under-measurement bias. Business case: 2 min manual → 10 sec AI at 20 scans/day yields 153 sonographer hours saved per unit per year (~$5,347 USD at $35/hr), plus inter-observer CV reduction from 3.2% → 1.1% (Papageorghiou et al. 2014). Model Card (Mitchell et al. 2019 framework): intended use, evaluation results, fairness analysis, known limitations, regulatory framing. Regulatory classification: SaMD Class II (FDA 21 CFR Part 892 · 510(k) pathway) and IVDR Class B (EU).</div>
     </div>
     <div class="phase-block p4 current">
-      <div class="phase-num">Phase 4 — Clinical output layer, XAI, governance, deployment</div>
-      <div class="phase-title">GradCAM++, Hadlock GA estimation, bias audit, live deployment</div>
-      <div class="phase-sub">Corrected Hadlock formula (previous version used wrong unit — HC in mm instead of cm, producing negative GA values). GradCAM++ custom implementation. Boundary uncertainty maps. GA-trimester bias audit. Model Card with regulatory framing. Dual-mode PDF report (LLM + template). Streamlit app deployed to HuggingFace Spaces.</div>
+      <div class="phase-num">Phase 4a / 4b — Hybrid Crossover Structural Pruning</div>
+      <div class="phase-title">ILR importance scoring + filter synthesis for edge-deployable compression</div>
+      <div class="phase-sub">ILR composite importance (0.6×RMS activation + 0.4×filter L1 + 0.2×Frobenius). Hybrid Crossover merging: dropped-channel features synthesised into kept channel via 50-step Adam regression — information preservation, not discard. 3 prune-FT cycles with KD recovery (teacher = frozen baseline, α=0.5, T=4.0). Phase 4b required surgical TAM proj_in/proj_out resizing with bottleneck pruning — a structural coupling absent in classification networks, solved via concat-index weight slicing. Phase 4b FT recovery rate: 103.8% — pruned+KD model exceeded its unpruned teacher.</div>
+      <div class="phase-metrics">
+        <span class="pm good"><span class="pm-label">Static (4a)</span>4.57M · −43.7%</span>
+        <span class="pm good"><span class="pm-label">Temporal (4b)</span>5.20M · −41.6%</span>
+        <span class="pm good"><span class="pm-label">ISUOG</span>Both PASS ✓</span>
+      </div>
     </div>
   </div>
 
@@ -660,7 +681,7 @@ hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4r
   </div>
 
   <div class="pull-quote reveal" style="margin-top:3.5rem;">
-    <p>The course project started 17.25mm away from clinical relevance. The post-course work closed that gap to 1.75mm — not by changing the model, but by fixing the training data representation, adding domain-appropriate optimisation, and building the clinical output layer that turns a segmentation into something a sonographer can use.</p>
+    <p>The course project started 17.25mm away from clinical relevance. The post-course work closed that gap to 1.65mm — not by changing the model, but by fixing the training data representation, adding domain-appropriate optimisation, and building the clinical output layer that turns a segmentation into something a sonographer can use.</p>
     <div class="attrib">— The engineering path from proof-of-concept to clinical-grade</div>
   </div>
 
